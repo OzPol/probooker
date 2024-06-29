@@ -33,6 +33,6 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         echo $HEROKU_API_KEY | heroku auth:token
-        heroku git:remote -a servicelink-app
-        git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/servicelink-app.git HEAD:main
+        heroku git:remote -a probooker-app
+        git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
         
