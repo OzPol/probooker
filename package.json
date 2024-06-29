@@ -1,0 +1,16 @@
+{
+  "name": "servicelink",
+  "version": "1.0.0",
+  "description": "A basic Node.js app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
