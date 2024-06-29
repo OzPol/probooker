@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - OzPol*
+      - dev*
   workflow_dispatch:
 
 jobs:
@@ -30,3 +31,4 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/probooker:latest
+        
