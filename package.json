@@ -1,16 +1,16 @@
 {
-  "name": "servicelink",
+  "name": "probooker",
   "version": "1.0.0",
-  "description": "A basic Node.js app",
+  "description": "A dynamic booking system connecting customers with local service providers seamlessly.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"No tests specified\""
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.19.2"
   },
   "engines": {
-    "node": "14.x"
+    "node": "20.x"
   }
 }
