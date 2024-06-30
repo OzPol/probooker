@@ -22,6 +22,9 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Build Next.js app
+      run: npm run build
+
     - name: Run tests
       run: npm test
 
@@ -39,6 +42,9 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+    
+    - name: Build Next.js app
+      run: npm run build
 
     - name: Run tests
       run: npm test
@@ -57,6 +63,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
+    - name: Build Next.js app
+      run: npm run build
+      
     - name: Run tests
       run: npm test

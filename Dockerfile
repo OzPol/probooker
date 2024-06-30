@@ -1,5 +1,5 @@
 # Use the official Node.js image.
-FROM node:14
+FROM node:20
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -8,10 +8,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install production dependencies.
-RUN npm install --only=production
+# RUN npm install --only=production
+RUN npm install
 
 # Copy local code to the container image.
 COPY . .
+
+# Build the Next.js app
+RUN npm run build
 
 # Run the web service on container startup.
 CMD [ "npm", "start" ]

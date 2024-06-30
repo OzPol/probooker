@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - OzPol*     # Deploy any branch starting with 'OzPol'
+      - dev*
   workflow_dispatch:
 
 jobs:
