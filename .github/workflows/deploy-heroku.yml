@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-      - OzPol*     # Deploy any branch starting with 'OzPol'
+      - OzPol* # Deploy any branch starting with 'OzPol'
+      - dev*
   workflow_dispatch:
 
 jobs:
@@ -12,27 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0  # Unshallow the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Unshallow the repository
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install Heroku CLI
-      run: curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
 
-    - name: Deploy to Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        echo $HEROKU_API_KEY | heroku auth:token
-        heroku git:remote -a probooker-app
-        git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
-        
+      - name: Authenticate with Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku auth:token
+
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku git:remote -a probooker-app
+          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
