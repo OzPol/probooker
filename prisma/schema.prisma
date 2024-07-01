@@ -15,11 +15,14 @@ datasource db {
 
 // Represents both service providers and customers
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String
-  userType  String   // 'provider' or 'customer'
-  services  Service[] // Relation to services offered by the provider
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  password     String
+  userType     String    // 'provider' or 'customer'
+  services     Service[] // Relation to services offered by the provider
+  name         String?   // Optional name field
+  email        String?   @unique // Optional email field
+  profilePicture String? // Optional profile picture field
 }
 
 // Represents the services offered by providers
@@ -31,3 +34,4 @@ model Service {
   provider    User     @relation(fields: [providerId], references: [id])
   providerId  Int
 }
+
