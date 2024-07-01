@@ -1,5 +1,6 @@
 // pages/api/auth/register.ts
-// handles both service providers and customers. The userType field distinguishes them.
+// Handles both service providers and customers.
+// The userType field distinguishes them.
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
@@ -7,22 +8,24 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { username, password, userType } = req.body;
+const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { username, password, userType } = req.body;
 
-    try {
+  try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-        data: {
+      data: {
         username,
         password: hashedPassword,
         userType, // 'provider' or 'customer'
-        },
+      },
     });
 
     res.status(201).json({ message: 'User registered successfully', user });
-    } catch (error) {
+  } catch (error) {
     res.status(500).json({ message: 'Internal server error', error });
-    }
+  }
 };
+
+export default registerHandler;

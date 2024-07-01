@@ -4,6 +4,12 @@
 // pages/api/custom.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-    res.status(200).json({ message: 'This is a custom API endpoint' });
+const customHandler = (req: NextApiRequest, res: NextApiResponse) => {
+  res.status(200).json({ message: 'This is a custom API endpoint' });
 };
+
+export default customHandler;
+
+// The arrow function handling the request is assigned to the customHandler variable.
+// The customHandler variable is then exported as the default export of the module.
+// http://localhost:3000/api/custom

@@ -2,69 +2,69 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   ubuntu-build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build Next.js app
-      run: npm run build
+      - name: Build Next.js app
+        run: npm run build
 
-    - name: Run tests
-      run: npm test
+      - name: Run tests
+        run: npm test
 
   windows-build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
 
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Build Next.js app
-      run: npm run build
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run tests
-      run: npm test
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
 
   macos-build:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
 
-    - name: Install dependencies
-      run: npm install
-    - name: Build Next.js app
-      run: npm run build
-      
-    - name: Run tests
-      run: npm test
+      - name: Install dependencies
+        run: npm install
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Run tests
+        run: npm test

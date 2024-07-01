@@ -9,8 +9,8 @@ async function main() {
   await prisma.user.create({
     data: {
       username: 'provider1',
-      password: 'hashedpassword', // TODO: Hashing passwords functionality 
-      userType: 'provider', // or 'customer' 
+      password: 'hashedpassword', // TODO: Hashing passwords functionality
+      userType: 'provider', // or 'customer'
     },
   });
 }
