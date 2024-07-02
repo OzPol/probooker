@@ -1,7 +1,11 @@
 // pages/index.tsx
 // This will serve as the homepage for the application
+// It will display a greeting message and today's date
+// It will also display a button that will navigate to the calendar page
+// The page uses React hooks to manage state and perform side effects
+// The page is exported as a default component to be used in the application
+// The page can be accessed at the / route
 
-// pages/index.tsx
 import React, { useState, useEffect } from 'react';
 import FormattedDate from '../components/FormattedDate';
 import Greeting from '../components/Greeting';
