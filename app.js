@@ -12,11 +12,11 @@ app.use('/api', userRoutes);
 
 // Default route
 app.get('/', (req, res) => {
-    res.send('Welcome to ProBooker');
+  res.send('Welcome to ProBooker');
 });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
