@@ -1,5 +1,4 @@
 // components/FormattedDate.tsx
-// components/FormattedDate.tsx
 import React from 'react';
 
 interface FormattedDateProps {
