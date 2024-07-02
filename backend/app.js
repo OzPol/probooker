@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
+const userController = require('./controllers/userController');
 
 const app = express();
 
@@ -8,15 +9,15 @@ const app = express();
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api', userRoutes);
+app.post('/api/login', userController.login);
 
-// Default route
+// Default route for testing
 app.get('/', (req, res) => {
-  res.send('Welcome to ProBooker');
+    res.send('Welcome to ProBooker Backend');
 });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
