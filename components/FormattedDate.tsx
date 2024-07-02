@@ -1,9 +1,13 @@
 // components/FormattedDate.tsx
+// components/FormattedDate.tsx
 import React from 'react';
-import { formatDate } from '../utils/formatDate';
 
-const FormattedDate: React.FC<{ date: Date }> = ({ date }) => {
-  return <span>{formatDate(date)}</span>;
+interface FormattedDateProps {
+  date: Date;
+}
+
+const FormattedDate: React.FC<FormattedDateProps> = ({ date }) => {
+  return <span>{date.toDateString()}</span>;
 };
 
 export default FormattedDate;

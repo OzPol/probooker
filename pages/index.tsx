@@ -1,13 +1,18 @@
 // pages/index.tsx
 // This will serve as the homepage for the application
 
-import React from 'react';
+// pages/index.tsx
+import React, { useState, useEffect } from 'react';
 import FormattedDate from '../components/FormattedDate';
 import Greeting from '../components/Greeting';
 import Button from '../components/Button';
 
 const HomePage: React.FC = () => {
-  const today = new Date();
+  const [today, setToday] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setToday(new Date());
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -17,7 +22,8 @@ const HomePage: React.FC = () => {
           Welcome to ProBooker
         </h1>
         <p className="mb-4 text-center">
-          Today&apos;s date is: <FormattedDate date={today} />
+          Today&apos;s date is:{' '}
+          {today ? <FormattedDate date={today} /> : 'Loading...'}
         </p>
         <Button />
       </div>
