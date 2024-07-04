@@ -9,6 +9,7 @@
     "test": "echo \"No tests specified\""
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.4",
     "@prisma/client": "^5.16.1",
     "@types/nodemailer": "^6.4.15",
     "axios": "^1.7.2",
