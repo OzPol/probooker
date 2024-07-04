@@ -6,6 +6,9 @@ on:
       - main
       - OzPol* # Deploy any branch starting with 'OzPol'
       - dev*
+      - buppgard*
+      - shawnW*
+      - vejay*
   workflow_dispatch:
 
 jobs:
@@ -26,6 +29,7 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}" >> $GITHUB_ENV
           echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" >> $GITHUB_ENV
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
 
@@ -39,6 +43,11 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku auth:token
+
+      - name: Update remote branch
+        run: |
+          git fetch origin main
+          git rebase origin/main
 
       - name: Deploy to Heroku
         env:
