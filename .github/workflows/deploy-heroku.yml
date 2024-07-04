@@ -54,4 +54,5 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           heroku git:remote -a probooker-app
-          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
+          git pull heroku main --rebase
+          git push heroku HEAD:main
