@@ -6,7 +6,9 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "test": "echo \"No tests specified\""
+    "test": "echo \"No tests specified\"",
+    "prettier:write": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,json,md}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",

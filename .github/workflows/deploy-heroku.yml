@@ -32,17 +32,31 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build the project
+        run: npm run build
+
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
 
       - name: Authenticate with Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku auth:token
+        run: echo $HEROKU_API_KEY | heroku auth:token
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "probookerdb@gmail.com"
+          git config --global user.name "OzPol"
+
+      - name: Pull latest changes and rebase
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku git:remote -a probooker-app
+          git pull https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git main --rebase || git rebase --abort
 
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          heroku git:remote -a probooker-app
-          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
+          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main --force

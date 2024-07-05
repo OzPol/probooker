@@ -6,6 +6,9 @@ on:
       - main
       - OzPol*
       - dev*
+      - buppgard*
+      - shawnW*
+      - vejay*
   workflow_dispatch:
 
 jobs:
