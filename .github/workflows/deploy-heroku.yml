@@ -6,9 +6,6 @@ on:
       - main
       - OzPol* # Deploy any branch starting with 'OzPol'
       - dev*
-      - buppgard*
-      - shawnW*
-      - vejay*
   workflow_dispatch:
 
 jobs:
@@ -29,7 +26,6 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-          echo "HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}" >> $GITHUB_ENV
           echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" >> $GITHUB_ENV
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
 
@@ -45,12 +41,11 @@ jobs:
       - name: Authenticate with Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: echo $HEROKU_API_KEY | heroku auth:token
+        run: heroku auth:token
 
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           heroku git:remote -a probooker-app
-          git pull https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git main --rebase
-          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main --force
+          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main
