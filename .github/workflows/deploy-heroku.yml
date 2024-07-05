@@ -45,17 +45,12 @@ jobs:
       - name: Authenticate with Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku auth:token
-
-      - name: Update remote branch
-        run: |
-          git fetch origin main
-          git rebase origin/main
+        run: echo $HEROKU_API_KEY | heroku auth:token
 
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           heroku git:remote -a probooker-app
-          git pull heroku main --rebase
-          git push heroku HEAD:main --force
+          git pull https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git main --rebase
+          git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main --force
