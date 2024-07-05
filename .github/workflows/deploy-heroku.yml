@@ -58,4 +58,4 @@ jobs:
         run: |
           heroku git:remote -a probooker-app
           git pull heroku main --rebase
-          git push heroku HEAD:main
+          git push heroku HEAD:main --force
