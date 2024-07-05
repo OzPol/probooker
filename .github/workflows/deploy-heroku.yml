@@ -28,12 +28,8 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
           echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" >> $GITHUB_ENV
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
-
       - name: Install dependencies
         run: npm install
-
-      - name: Build the project
-        run: npm run build
 
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
