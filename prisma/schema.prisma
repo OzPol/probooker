@@ -15,14 +15,18 @@ datasource db {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
-  username        String    @unique
-  password        String
-  userType        String    // 'provider' or 'customer'
-  services        Service[] // Relation to services offered by the provider
-  name            String?   // Optional name field
-  email           String?   @unique // Optional email field
-  profilePicture  String?   // Optional profile picture field
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
+  password       String
+  email          String    @unique
+  name           String?
+  profilePicture String?
+  userType       UserType
+  services       Service[] // Relation to services offered by the provider
+  bookings       Booking[] // Relation to bookings made by the user
+  reviews        Review[]  // Relation to reviews made by the user
+  messagesSent   Message[] @relation("SentMessages")
+  messagesReceived Message[] @relation("ReceivedMessages")
 }
 
 model Service {
@@ -38,5 +42,64 @@ model Service {
   country     String?
   category    String?
   rating      Float?
+  availability Availability[]
+  bookings    Booking[]
+}
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  provider    User     @relation(fields: [providerId], references: [id])
+  providerId  Int
+  zipcode     String?
+  city        String?
+  state       String?
+  country     String?
+  category    String?
+  rating      Float?
+  unavailability UnAvailability[]
+  bookings    Booking[]
+}
+model Booking {
+  id         Int      @id @default(autoincrement())
+  consumer   User     @relation(fields: [consumerId], references: [id])
+  consumerId Int
+  service    Service  @relation(fields: [serviceId], references: [id])
+  serviceId  Int
+  date       DateTime
+  status     BookingStatus
+}
+model Review {
+  id          Int      @id @default(autoincrement())
+  rating      Int
+  comment     String
+  consumer    User     @relation(fields: [consumerId], references: [id])
+  consumerId  Int
+  service     Service  @relation(fields: [serviceId], references: [id])
+  serviceId   Int
+  createdAt   DateTime @default(now())
+}
+model UnAvailability {
+  //date or time that service is not available
+  id         Int       @id @default(autoincrement())
+  service    Service   @relation(fields: [serviceId], references: [id])
+  serviceId  Int
+  dayOfWeek  Int
+  startTime  DateTime
+  endTime    DateTime
+}
+
+enum UserType {
+  ADMIN
+  CONSUMER
+  SERVICE_PROVIDER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
 }
 

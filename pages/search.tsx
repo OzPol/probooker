@@ -1,47 +1,61 @@
-// pages/search.tsx
-
-// Create a search page to display search results.
-// This page will show services based on search criteria.
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import AvailabilityCalendar from '../components/AvailabilityCalendar'; // Import the component
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-const SearchPage: React.FC = () => {
-  const [services, setServices] = useState<{ id: string; name: string }[]>([]);
-  const [query, setQuery] = useState('');
+interface Service {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  provider: {
+    username: string;
+  };
+}
+
+const SearchPage = () => {
+  const [term, setTerm] = useState('');
+  const [results, setResults] = useState<Service[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
     try {
-      const { data } = await axios.get(`/api/services/search?query=${query}`);
-      setServices(data);
+      setError(null);
+      const response = await axios.get(`/api/search`, { params: { term } });
+      setResults(response.data);
     } catch (error) {
-      console.error('Error searching services:', error);
+      setError('Failed to fetch results');
     }
   };
 
   return (
     <div>
-      <h1>Search Services</h1>
+      <Header />
+      <h1>Search for Services</h1>
       <input
         type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by location, category, or rating"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+        placeholder="Enter service provider, category, or keyword"
       />
       <button onClick={handleSearch}>Search</button>
+      {error && <p>{error}</p>}
       <ul>
-        {services.map((service) => (
-          <li key={service.id}>{service.name}</li>
+        {results.map((service) => (
+          <li key={service.id}>
+            <h2>{service.title}</h2>
+            <p>{service.description}</p>
+            <p>Category: {service.category}</p>
+            <p>Provider: {service.provider.username}</p>
+          </li>
         ))}
       </ul>
+
+      <AvailabilityCalendar /> {/* Include the AvailabilityCalendar component */}
+      <Footer />
     </div>
   );
 };
 
 export default SearchPage;
-// This page allows users to search for services based on a query string.
-// The search results are displayed in a list format.
-// The page uses React hooks to manage state and perform the search operation.
-// The search query is sent to the server using an HTTP GET request.
-// The search results are displayed in a list format using the map function.
-// The page is exported as a default component to be used in the application.
-// The page can be accessed at the /search route.
