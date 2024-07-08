@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add your custom global styles below this line */
+
+body {
+  @apply bg-white text-gray-900;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+a {
+  @apply text-blue-500 no-underline;
+}
+
+a:hover {
+  @apply underline;
+}
