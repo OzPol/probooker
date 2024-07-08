@@ -1,9 +1,16 @@
-// jest.config.js
+require('./module-alias');
+
 module.exports = {
-  testEnvironment: 'node',
+  // other Jest configurations
+  verbose: true,
+  testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleDirectories: ['node_modules', '<rootDir>/'],
+  moduleNameMapper: {
+    '^@app/(.*)$': '<rootDir>/app/$1',
+    '^@services/(.*)$': '<rootDir>/services/$1',
+    '^@tests/(.*)$': '<rootDir>/tests/$1',
+  },
   transform: {
-    '^.+\\.jsx?$': 'babel-jest', // If using ES modules and Babel
+    '^.+\\.jsx?$': 'babel-jest',
   },
 };

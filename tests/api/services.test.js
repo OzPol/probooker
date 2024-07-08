@@ -1,22 +1,37 @@
-import request from 'supertest';
-import handler from '../../app/pages/api/services';
+import handler from '@app/pages/api/services';
+import { createService } from '@services/dbOperations';
+
+jest.mock('@services/dbOperations', () => ({
+  createService: jest.fn(),
+}));
 
 describe('API Route: /api/services', () => {
   it('should create a new service', async () => {
-    const res = await request(handler).post('/api/services').send({
-      providerId: 'provider_id_example',
-      serviceName: 'Test Service',
-      serviceDescription: 'Service Description',
-      price: 100.0,
-    });
+    const service = { id: '1', providerId: '1', serviceName: 'Test Service', serviceDescription: 'Service Description', price: 100.0 };
+    createService.mockResolvedValue(service);
 
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('$id');
-    expect(res.body.serviceName).toBe('Test Service');
+    const req = { method: 'POST', body: { providerId: '1', serviceName: 'Test Service', serviceDescription: 'Service Description', price: 100.0 } };
+    const res = {
+      json: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+    };
+
+    await handler(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(service);
   });
 
   it('should return 405 for unsupported method', async () => {
-    const res = await request(handler).get('/api/services');
-    expect(res.statusCode).toBe(405);
+    const req = { method: 'GET' };
+    const res = {
+      json: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+    };
+
+    await handler(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(405);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Method Not Allowed' });
   });
 });

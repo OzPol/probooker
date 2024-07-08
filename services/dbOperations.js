@@ -1,16 +1,12 @@
-// app/services/dbOperations.js
-//CRUD operations using appwrite
-import { databases } from '../lib/appwrite';
+// services/dbOperations.js
+import { Query } from 'appwrite';
+import { databases } from '../app/lib/appwrite';
 
-//These ID's come from appwrite website. 
-
-//Database
-const databaseId = 'probooker_appwrite_DB'; 
-
-//Collections
-const usersCollectionId = '668b918b002a7ea7d8ee'; 
-const servicesCollectionId = '668b919300130fc78440'; 
-const bookingsCollectionId = '668b919f002ca1810a67'; 
+// These IDs come from Appwrite
+const databaseId = 'probooker_appwrite_DB';
+const usersCollectionId = '668b918b002a7ea7d8ee';
+const servicesCollectionId = '668b919300130fc78440';
+const bookingsCollectionId = '668b919f002ca1810a67';
 
 // Create a new user
 async function createUser(username, email, password, isServiceProvider) {
