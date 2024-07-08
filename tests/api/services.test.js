@@ -1,4 +1,4 @@
-import handler from '@app/pages/api/services';
+import handler from '@pages/api/services';
 import { createService } from '@services/dbOperations';
 
 jest.mock('@services/dbOperations', () => ({

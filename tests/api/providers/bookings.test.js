@@ -1,4 +1,4 @@
-import handler from '@app/pages/api/providers/bookings';
+import handler from '@pages/api/providers/bookings';
 import { getBookingsForProvider } from '@services/dbOperations';
 
 jest.mock('@services/dbOperations', () => ({
