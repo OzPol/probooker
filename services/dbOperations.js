@@ -4,6 +4,7 @@ import { databases } from '../app/lib/appwrite';
 
 // These IDs come from Appwrite
 const databaseId = 'probooker_appwrite_DB';
+
 const usersCollectionId = '668b918b002a7ea7d8ee';
 const servicesCollectionId = '668b919300130fc78440';
 const bookingsCollectionId = '668b919f002ca1810a67';
