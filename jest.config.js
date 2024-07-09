@@ -13,7 +13,9 @@ module.exports = {
     '^@tests/(.*)$': '<rootDir>/tests/$1',
   },
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(t|j)sx?$': ['@swc/jest'],
   },
+  transformIgnorePatterns: [
+    '/node_modules/',
+  ],
 };
