@@ -1,6 +1,6 @@
-// pages/index.tsx
 import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
@@ -20,11 +20,17 @@ export default function Home() {
 
       <header className="flex justify-between items-center bg-blue-500 p-4">
         <h1 className="text-xl font-bold text-white">ProBooker</h1>
-        <a href="/login">
-          <button className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">
-            Service Provider Log In
-          </button>
-        </a>
+        <nav className="flex space-x-4">
+          <Link href="/" legacyBehavior>
+            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Home</a>
+          </Link>
+          <Link href="/services" legacyBehavior>
+            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">View Services</a>
+          </Link>
+          <Link href="/login" legacyBehavior>
+            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Service Provider Log In</a>
+          </Link>
+        </nav>
       </header>
 
       <main className="flex flex-col justify-center items-center py-8 w-full flex-1">

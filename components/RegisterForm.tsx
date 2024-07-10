@@ -45,7 +45,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
       <input
         type="password"
         name="confirmPassword"
-        placeholder="Choose a Passowrd"
+        placeholder="Choose a Password"
         className="w-full p-2 mb-4 border border-gray-300 rounded"
         value={formData.confirmPassword}
         onChange={handleChange}
