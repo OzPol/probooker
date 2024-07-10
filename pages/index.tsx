@@ -1,6 +1,15 @@
+// pages/index.tsx
+import { useState } from 'react';
 import Head from 'next/head';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 export default function Home() {
+  const [showRegister, setShowRegister] = useState(false);
+
+  const switchToRegister = () => setShowRegister(true);
+  const switchToLogin = () => setShowRegister(false);
+
   return (
     <div className="min-h-screen bg-white">
       <Head>
@@ -23,18 +32,11 @@ export default function Home() {
         <h2 className="text-2xl mb-6">Connect with the pros, book with confidence</h2>
 
         <div className="w-full max-w-sm">
-          <input 
-            type="email" 
-            placeholder="Email" 
-            className="w-full p-2 mb-4 border border-gray-300 rounded"
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            className="w-full p-2 mb-4 border border-gray-300 rounded"
-          />
-          <button className="w-full bg-blue-500 text-white py-2 rounded mb-4">Log In</button>
-          <a href="/register" className="text-blue-500 underline text-center block">Register</a>
+          {showRegister ? (
+            <RegisterForm onSwitchToLogin={switchToLogin} />
+          ) : (
+            <LoginForm onSwitchToRegister={switchToRegister} />
+          )}
         </div>
       </main>
     </div>
