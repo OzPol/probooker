@@ -27,7 +27,7 @@ export default function Home() {
           <Link href="/services" legacyBehavior>
             <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">View Services</a>
           </Link>
-          <Link href="/login" legacyBehavior>
+          <Link href="/providerlogin" legacyBehavior>
             <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Service Provider Log In</a>
           </Link>
         </nav>
