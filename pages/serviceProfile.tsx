@@ -2,9 +2,9 @@
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
 import { useState } from 'react';
 import ServiceProfileOverview from '../components/ServiceProfileOverview';
-import CustomerViewBookings from '../components/CustomerViewBookings';
-import CustomerAccountDetails from '../components/CustomerAccountDetails';
-import CustomerSearchServices from '../components/CustomerSearchServices';
+import ServiceViewBookings from '../components/ServiceViewBookings';
+import ServiceAccountDetails from '../components/ServiceAccountDetails';
+import ServiceServices from '../components/ServiceServices';
 
 const CustomerProfile = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -14,11 +14,11 @@ const CustomerProfile = () => {
       case 'overview':
         return <ServiceProfileOverview />;
       case 'bookings':
-        return <CustomerViewBookings />;
+        return <ServiceViewBookings />;
       case 'account':
-        return <CustomerAccountDetails />;
-      case 'search':
-        return <CustomerSearchServices />;
+        return <ServiceAccountDetails />;
+      case 'service':
+        return <ServiceServices />;
       default:
         return <ServiceProfileOverview />;
     }
@@ -56,10 +56,10 @@ const CustomerProfile = () => {
             </li>
             <li>
               <button
-                onClick={() => setActiveTab('search')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'search' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                onClick={() => setActiveTab('service')}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
-                Search Services
+                My Services
               </button>
             </li>
           </ul>
