@@ -7,7 +7,7 @@ module.exports = {
   moduleNameMapper: {
     '^@app/(.*)$': '<rootDir>/app/$1',
     '^@components/(.*)$': '<rootDir>/app/components/$1',
-    '^@lib/(.*)$': '<rootDir>/app/lib/$1',
+    '^@lib/(.*)$': '<rootDir>/lib/$1',
     '^@pages/(.*)$': '<rootDir>/pages/$1',
     '^@services/(.*)$': '<rootDir>/services/$1',
     '^@tests/(.*)$': '<rootDir>/tests/$1',

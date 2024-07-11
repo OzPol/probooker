@@ -28,7 +28,7 @@
         "services/*"
       ],
       "@lib/*": [
-        "app/lib/*"
+        "lib/*"
       ],
       "@tests/*": [
         "tests/*"
