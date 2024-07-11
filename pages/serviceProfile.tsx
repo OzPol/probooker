@@ -1,7 +1,7 @@
-// This is the Customer Profile View Page 
+// This is the Service User Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
 import { useState } from 'react';
-import CustomerProfileOverview from '../components/CustomerProfileOverview';
+import ServiceProfileOverview from '../components/ServiceProfileOverview';
 import CustomerViewBookings from '../components/CustomerViewBookings';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerSearchServices from '../components/CustomerSearchServices';
@@ -12,7 +12,7 @@ const CustomerProfile = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <CustomerProfileOverview />;
+        return <ServiceProfileOverview />;
       case 'bookings':
         return <CustomerViewBookings />;
       case 'account':
@@ -20,14 +20,14 @@ const CustomerProfile = () => {
       case 'search':
         return <CustomerSearchServices />;
       default:
-        return <CustomerProfileOverview />;
+        return <ServiceProfileOverview />;
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       <aside className="w-1/4 bg-white shadow-md p-4">
-        <h2 className="text-xl font-bold mb-6">Customer Dashboard</h2>
+        <h2 className="text-xl font-bold mb-6">Service Provider Dashboard</h2>
         <nav>
           <ul>
             <li>
