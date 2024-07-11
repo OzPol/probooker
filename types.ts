@@ -5,4 +5,5 @@ export interface Service {
     description: string;
     price: number;
     providerId: string;
+    providerName: string;
 }
