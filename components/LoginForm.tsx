@@ -1,23 +1,33 @@
-'use client'
+'use client';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-
+import { account } from '../lib/appwrite.config'; 
 interface LoginFormProps {
   onSwitchToRegister: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [message, setMessage] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle login logic
-    console.log('Login Form Data:', formData);
+    setMessage(''); // Clear previous message
+
+    try {
+      // Logging in with Appwrite
+      const session = await account.createEmailPasswordSession(formData.email, formData.password);
+      console.log('Login successful:', session);
+      setMessage('Login successful');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setMessage('Error logging in. Please check your credentials and try again.');
+    }
   };
 
   return (
@@ -45,6 +55,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
       <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
         Log In
       </button>
+      {message && <p className="mt-2 text-red-500">{message}</p>}
       <button
         type="button"
         className="w-full mt-2 text-blue-500 underline"

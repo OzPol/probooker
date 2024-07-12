@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import * as sdk from 'node-appwrite';
+import { DATABASE_ID,CONSUMER_COLLECTION_ID, users, databases } from '../lib/appwrite.config';
 
-const client = new sdk.Client();
-
-client
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('Project_ID')//change to real one
-    .setKey('API_KEY');//change to real one
-  
-const users = new sdk.Users(client);
-const databases = new sdk.Databases(client);
 
 const CreateUserPage: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -36,8 +27,8 @@ const CreateUserPage: React.FC = () => {
 
       // Creating a new consumer document in Appwrite
       const consumer = await databases.createDocument(
-        'DBID', //change to real one
-        'COLLECTIONID', //change to real one
+        'DATABASE_ID',
+        'CONSUMER_COLLECTION_ID',
         'unique()', 
         {
           userId: newUser.$id,
