@@ -1,6 +1,6 @@
 // services/dbOperations.js
 import { Query } from 'appwrite';
-import { databases } from '../app/lib/appwrite';
+import { databases } from '../lib/appwrite';
 
 // These IDs come from Appwrite
 const databaseId = 'probooker_appwrite_DB';
