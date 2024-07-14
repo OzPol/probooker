@@ -1,6 +1,7 @@
 {
   "name": "pro-booker",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,11 +15,11 @@
     "appwrite": "^15.0.0",
     "clsx": "^2.1.1",
     "module-alias": "^2.2.3",
-    "next": "14.2.4",
+    "next": "^14.2.4",
     "node-appwrite": "^13.0.0",
     "pg": "^8.12.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
