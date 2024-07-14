@@ -30,11 +30,11 @@ export const mockServices: Service[] = [
     },
 
     {
-        $id: '3',
-        name: 'Service 3',
-        description: 'Description for Service 3',
+        $id: '4',
+        name: 'Service 4',
+        description: 'Description for Service 4',
         price: 350,
-        providerId: 'provider3',
+        providerId: 'provider4',
         providerName: 'Vejay\'s Services',
     },
 ];

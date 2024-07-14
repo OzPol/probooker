@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { databases, DATABASE_ID,SERVICEPROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
+import { databases, DATABASE_ID,CONSUMER_COLLECTION_ID} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
-const ServiceProfileOverview: React.FC = () => {
+const ProfileDisplay: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const [message, setMessage] = useState('');
 
@@ -17,10 +17,10 @@ const ServiceProfileOverview: React.FC = () => {
           return;
         }
 
-        // Fetch provider profile from provider collection
+        // Fetch user profile from user collection
         const response = await databases.listDocuments(
-            'DATABASE_ID', //DBID
-            'SERVICEPROVIDER_COLLECTION_ID', //Collection ID
+            'DATABASE_ID', 
+            'CONSUMER_COLLECTION_ID', 
           [ 
             sdk.Query.equal('userId', session.userId)
           ]
@@ -42,7 +42,7 @@ const ServiceProfileOverview: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Profiel Overview</h2>
+      <h2 className="text-2xl font-bold mb-4">Profile Overview</h2>
       {message && <p>{message}</p>}
       {profile ? (
         <div>
@@ -70,4 +70,4 @@ const ServiceProfileOverview: React.FC = () => {
   );
 };
 
-export default ServiceProfileOverview;
+export default ProfileDisplay;
