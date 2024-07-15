@@ -1,4 +1,4 @@
-require('./module-alias');
+require('./module-alias.cjs');
 
 module.exports = {
   verbose: true,
