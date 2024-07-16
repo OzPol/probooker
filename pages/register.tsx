@@ -50,7 +50,7 @@ const CreateUserPage: React.FC = () => {
         }
       );
 
-      setMessage(`User ${newUser.name} created successfully with consumer data`);
+      setMessage(`User ${newUser.name} created successfully as a Consumer`);
       setIsUserCreated(true);
     } catch (error:any) {
       console.error('Error creating user or consumer:', error);
@@ -64,122 +64,135 @@ const CreateUserPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Create New User Account</h1>
-      <form onSubmit={handleSubmit}>
-        {/* <div>
-          <label htmlFor="userId">UserName <span style={{ color: 'red' }}>*</span>:</label>
-          <input
-            type="text"
-            id="userId"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            required
-          />
-        </div> */}
-        <div>
-          <label htmlFor="email"><span style={{ color: 'red' }}>*</span>Email :</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="flex items-center justify-center min-h-screen bg-gray-100" style={{ backgroundImage: "url('https://www.blurb.com/blog/wp-content/uploads/2023/06/How-to-Design-a-Book-Cover_1.jpg')" }}>
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">Create User</h1>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="flex flex-col">
+            <label htmlFor="email" className="font-semibold">
+              <span className="text-red-500">*</span> Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="password" className="font-semibold">
+              <span className="text-red-500">*</span> Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="phone" className="font-semibold">
+              <span className="text-red-500">*</span> Phone:
+            </label>
+            <input
+              type="text"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="name" className="font-semibold">
+              <span className="text-red-500">*</span> Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="address" className="font-semibold">Address:</label>
+            <input
+              type="text"
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="city" className="font-semibold">City:</label>
+            <input
+              type="text"
+              id="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="state" className="font-semibold">State:</label>
+            <input
+              type="text"
+              id="state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="zipcode" className="font-semibold">Zipcode:</label>
+            <input
+              type="text"
+              id="zipcode"
+              value={zipcode}
+              onChange={(e) => setZipcode(e.target.value)}
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="profileImg" className="font-semibold">Profile Image URL:</label>
+            <input
+              type="url"
+              id="profileImg"
+              value={profileImg}
+              onChange={(e) => setProfileImg(e.target.value)}
+              className="border border-gray-300 rounded p-1 mt-1"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="userType" className="font-semibold">User Type:</label>
+            <select
+              id="userType"
+              value={userType}
+              onChange={(e) => setUserType(e.target.value as 'Consumer')}
+              required
+              className="border border-gray-300 rounded p-1 mt-1"
+            >
+              <option value="Consumer">Consumer</option>
+              {/* <option value="Provider">Provider</option>
+              <option value="Admin">Admin</option> */}
+            </select>
+          </div>
+          <div className="flex justify-center">
+            {!isUserCreated && <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" type="submit">Create User</button>}
+          </div>
+        </form>
+        {message && <p className="mt-4 text-center text-green-500">{message}</p>}
+        <div className="flex justify-center mt-1">
+          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={handleGoBack}>Back to Login</button>
         </div>
-        <div>
-          <label htmlFor="password"><span style={{ color: 'red' }}>*</span>Password :</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="phone"><span style={{ color: 'red' }}>*</span>Phone :</label>
-          <input
-            type="text"
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="name"><span style={{ color: 'red' }}>*</span>Name :</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="address">Address :</label>
-          <input
-            type="text"
-            id="address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="city">City :</label>
-          <input
-            type="text"
-            id="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="state">State :</label>
-          <input
-            type="text"
-            id="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="zipcode">Zipcode :</label>
-          <input
-            type="text"
-            id="zipcode"
-            value={zipcode}
-            onChange={(e) => setZipcode(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="profileImg">Profile Image URL :</label>
-          <input
-            type="url"
-            id="profileImg"
-            value={profileImg}
-            onChange={(e) => setProfileImg(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="userType">User Type :</label>
-          <select
-            id="userType"
-            value={userType}
-            onChange={(e) => setUserType(e.target.value as 'Consumer')}
-            required
-          >
-            <option value="Consumer">Consumer</option>
-            {/* <option value="Provider">Provider</option>
-            <option value="Admin">Admin</option> */}
-          </select>
-        </div>
-
-        {!isUserCreated && <button className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600" type="submit">Create User</button>}
-      </form>
-      {message && <p>{message}</p>}
-      <button className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600" onClick={handleGoBack}>Go Back to Login Page</button>
+      </div>
     </div>
   );
 };

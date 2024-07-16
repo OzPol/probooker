@@ -42,7 +42,7 @@ const CustomerProfileOverview: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Profiel Overview</h2>
+      <h2 className="text-2xl font-bold mb-4">Profile Overview</h2>
       {message && <p>{message}</p>}
       {profile ? (
         <div>

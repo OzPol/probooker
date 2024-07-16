@@ -1,5 +1,6 @@
-import { databases } from '../lib/appwrite.config'; // Adjust the import according to your setup
-import { Service } from '../types'; // Ensure the path is correct
+import { databases } from '../lib/appwrite.config';
+import { Service } from '../types/appwrite.type';
+
 
 export const fetchAndFilterServices = async (): Promise<Service[]> => {
   const session = localStorage.getItem('appwriteSession');
@@ -7,7 +8,7 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
 
   if (session) {
     const sessionData = JSON.parse(session);
-    const userId = sessionData.userId; // Assuming the session data contains the userId
+    const userId = sessionData.userId;
 
     try {
       // Fetch documents from Appwrite collection
@@ -19,11 +20,11 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
         .filter((doc: any) => doc.providerId === userId)
         .map((doc: any) => ({
           $id: doc.$id,
-          name: doc.title, // Assuming the document has a field called 'title' that corresponds to 'name'
+          name: doc.title,
           description: doc.description,
           price: doc.price,
           providerId: doc.providerId,
-          providerName: doc.serviceProvider, // Assuming 'serviceProvider' is the field name
+          providerName: doc.serviceProvider,
         }));
     } catch (error) {
       console.error('Error fetching services:', error);

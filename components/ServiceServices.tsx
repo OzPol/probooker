@@ -33,7 +33,7 @@ const ServiceServices: React.FC = () => {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">My Services</h2>
-      <p>This is a placeholder for the service providers to see their services.</p>
+      {/* <p>This is a placeholder for the service providers to see their services.</p> */}
       <input
         type="text"
         placeholder="🔍Filter services"
