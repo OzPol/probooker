@@ -8,42 +8,38 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
-  const router = useRouter();
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [message, setMessage] = useState('');
+    const router = useRouter();
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [message, setMessage] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+    };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMessage(''); // Clear previous message
 
     try {
-      //delete existing session
-      const currentSession = localStorage.getItem('appwriteSession');
-      //console.log(currentSession);
-      if (currentSession) {
-        //console.log('true');
-        const session = JSON.parse(currentSession);
-        //await account.deleteSession(session.$id);
-        localStorage.removeItem('appwriteSession');
-      }
-      // Logging in
-      const session = await account.createEmailPasswordSession(formData.email, formData.password);
-      //console.log('Login successful:', session);
-      setMessage('Login successful');
-      localStorage.setItem('appwriteSession', JSON.stringify(session));
-      //window.location.href = '/customerProfile';
-      router.push('/customerProfile');
-    } catch (error:any) {
-      console.error('Error logging in:', error);
-      console.log(error.code+":"+error.type);
-      setMessage('Error logging in. Please check your credentials and try again.');
-    }
-  };
+        const currentSession = localStorage.getItem('appwriteSession');
+        if (currentSession) {
+          const session = JSON.parse(currentSession);
+          await account.deleteSession(session.$id);
+          localStorage.removeItem('appwriteSession');
+        }
+        // Logging in
+        const session = await account.createEmailPasswordSession(formData.email, formData.password);
+        console.log('Login successful:', session);
+        setMessage('Login successful');
+        localStorage.setItem('appwriteSession', JSON.stringify(session));
+        router.push('/serviceProfile');
+        } catch (error:any) {
+        console.error('Error logging in:', error);
+        console.log(error.code+":"+error.type);
+        setMessage('Error logging in. Please check your credentials and try again.');
+        }
+    };
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm">

@@ -1,19 +1,8 @@
-// const ServiceAccountDetails = () => {
-//     return (
-//       <div>
-//         <h2 className="text-2xl font-bold mb-4">Account Details</h2>
-//         <p>This is a placeholder for the service provider account details section.</p>
-//       </div>
-//     );
-//   };
-  
-//   export default ServiceAccountDetails;
-
 import { useEffect, useState } from 'react';
-import { databases, DATABASE_ID,SERVICEPROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
+import { databases, DATABASE_ID,CONSUMER_COLLECTION_ID} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
-const ServiceAccountDetails: React.FC = () => {
+const ProfileDisplay: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const [message, setMessage] = useState('');
 
@@ -28,10 +17,10 @@ const ServiceAccountDetails: React.FC = () => {
           return;
         }
 
-        // Fetch provider profile from provider collection
+        // Fetch user profile from user collection
         const response = await databases.listDocuments(
-          process.env.DATABASE_ID!, //DBID
-          process.env.SERVICEPROVIDER_COLLECTION_ID!, //Collection ID
+            'DATABASE_ID', 
+            'CONSUMER_COLLECTION_ID', 
           [ 
             sdk.Query.equal('userId', session.userId)
           ]
@@ -53,7 +42,7 @@ const ServiceAccountDetails: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Profiel Overview</h2>
+      <h2 className="text-2xl font-bold mb-4">Profile Overview</h2>
       {message && <p>{message}</p>}
       {profile ? (
         <div>
@@ -62,13 +51,13 @@ const ServiceAccountDetails: React.FC = () => {
           <p>User ID: {profile.userId}</p>
           <p>Email: {profile.email}</p>
           <p>Phone: {profile.phone}</p>
-          <p>Address: {profile.address}</p>
+          {/* <p>Address: {profile.address}</p>
           <p>City: {profile.city}</p>
           <p>State: {profile.state}</p>
           <p>Zipcode: {profile.zipcode}</p>
-          <p>Create On: {profile.createon}</p>
+          <p>Create On: {profile.createon}</p> */}
           <p>User Type: {profile.userType}</p>
-          <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p>
+          {/* <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p> */}
           <p>Bookings: {profile.bookings.join(', ')}</p>
 
           {/* Add other profile fields as needed */}
@@ -81,4 +70,4 @@ const ServiceAccountDetails: React.FC = () => {
   );
 };
 
-export default ServiceAccountDetails;
+export default ProfileDisplay;

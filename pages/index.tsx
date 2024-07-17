@@ -15,7 +15,7 @@ export default function Home() {
       <Head>
         <title>ProBooker</title>
         <meta name="description" content="ProBooker Service Marketplace" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="../../app/favicon.ico" />
       </Head>
 
       <header className="flex justify-between items-center bg-blue-500 p-4">
