@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { DATABASE_ID, CONSUMER_COLLECTION_ID, users, databases } from '../lib/appwrite.config';
+import { users, databases } from '../lib/appwrite.config';
 
 const CreateUserPage: React.FC = () => {
   const router = useRouter();
@@ -31,8 +31,8 @@ const CreateUserPage: React.FC = () => {
 
       // Creating new consumer document in Appwrite
       const consumer = await databases.createDocument(
-        'DATABASE_ID',//DBID
-        'CONSUMER_COLLECTION_ID',//Collection ID
+        process.env.DATABASE_ID!,//DBID
+        process.env.CONSUMER_COLLECTION_ID!,//Collection ID
         'unique()', 
         {
           userId: newUser.$id,

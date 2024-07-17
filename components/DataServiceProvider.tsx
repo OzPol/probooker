@@ -12,7 +12,10 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
 
     try {
       // Fetch documents from Appwrite collection
-      const response = await databases.listDocuments('DBID', 'SERVICE_COLLECTION_ID');//DB  Coll
+      const response = await databases.listDocuments(
+        process.env.DATABASE_ID!, 
+        process.env.SERVICE_COLLECTION_ID!
+      );//DB  Coll
       const allServices = response.documents;
 
       // Filter services based on providerId

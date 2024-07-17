@@ -32,8 +32,8 @@ useEffect(() => {
 
       // Fetch user profile from the collection
       const response = await databases.listDocuments(
-          'DATABASE_ID', 
-          'CONSUMER_COLLECTION_ID', 
+          process.env.DATABASE_ID!,
+          process.env.CONSUMER_COLLECTION_ID!, 
         [ 
           sdk.Query.equal('userId', session.userId)
         ]

@@ -18,8 +18,8 @@ const client = new sdk.Client();
 
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject(PROJECT_ID!)//change to real one
-    .setKey(API_KEY!);//change to real one
+    .setProject(process.env.PROJECT_ID!)//change to real one
+    .setKey(process.env.API_KEY!);//change to real one
   
     // .setEndpoint(ENDPOINT!)
     // .setProject(PROJECT_ID!)

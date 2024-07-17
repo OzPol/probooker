@@ -30,8 +30,8 @@ const ServiceAccountDetails: React.FC = () => {
 
         // Fetch provider profile from provider collection
         const response = await databases.listDocuments(
-            'DATABASE_ID', //DBID
-            'SERVICEPROVIDER_COLLECTION_ID', //Collection ID
+          process.env.DATABASE_ID!, //DBID
+          process.env.SERVICEPROVIDER_COLLECTION_ID!, //Collection ID
           [ 
             sdk.Query.equal('userId', session.userId)
           ]

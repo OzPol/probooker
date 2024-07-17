@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { DATABASE_ID, SERVICEPROVIDER_COLLECTION_ID, users, databases } from '../lib/appwrite.config';
+import { users, databases } from '../lib/appwrite.config';
 
 const ProviderRegisterForm: React.FC = () => {
   const router = useRouter();
@@ -34,8 +34,8 @@ const ProviderRegisterForm: React.FC = () => {
 
       // Creating new provider document in Appwrite
       const provider = await databases.createDocument(
-        'DATABASE_ID',
-        'SERVICEPROVIDER_COLLECTION_ID',
+        process.env.DATABASE_ID!,
+        process.env.SERVICEPROVIDER_COLLECTION_ID!,
         'unique()',
         {
           userId: newUser.$id,
@@ -70,7 +70,7 @@ const ProviderRegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 bg-cover bg-center" >
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 bg-cover bg-center" /*style={{backgroundImage: "url('https://m.media-amazon.com/images/G/01/sell/images/Appstore-SPN_poster.jpg')"}}*/>
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center">Create New Provider Account</h1>
         <form onSubmit={handleSubmit} className="space-y-3">
