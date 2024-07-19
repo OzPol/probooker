@@ -31,8 +31,8 @@ const CreateServiceForm: React.FC = () => {
     try {
       // Creating new service document in Appwrite
       const newService = await databases.createDocument(
-        'DATABASE_ID',
-        'SERVICE_COLLECTION_ID',
+        process.env.DATABASE_ID!,
+        process.env.SERVICE_COLLECTION_ID!,
         'unique()',
         {
           title,
