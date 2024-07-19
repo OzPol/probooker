@@ -6,7 +6,7 @@ import ServiceViewBookings from '../components/ServiceViewBookings';
 import ServiceAccountDetails from '../components/ServiceAccountDetails';
 import ServiceServices from '../components/ServiceServices';
 
-const CustomerProfile = () => {
+const ProviderProfile = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const renderContent = () => {
@@ -33,7 +33,9 @@ const CustomerProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 Profile Overview
               </button>
@@ -41,7 +43,9 @@ const CustomerProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('bookings')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 View Bookings
               </button>
@@ -49,7 +53,9 @@ const CustomerProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('account')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 Account Details
               </button>
@@ -57,7 +63,9 @@ const CustomerProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('service')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 My Services
               </button>
@@ -65,11 +73,9 @@ const CustomerProfile = () => {
           </ul>
         </nav>
       </aside>
-      <main className="w-3/4 p-8">
-        {renderContent()}
-      </main>
+      <main className="w-3/4 p-8">{renderContent()}</main>
     </div>
   );
 };
 
-export default CustomerProfile;
+export default ProviderProfile;

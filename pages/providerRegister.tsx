@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { users, databases } from '../lib/appwrite.config';
+
 
 const ProviderRegisterForm: React.FC = () => {
   const router = useRouter();
@@ -35,7 +38,7 @@ const ProviderRegisterForm: React.FC = () => {
       // Creating new provider document in Appwrite
       const provider = await databases.createDocument(
         process.env.DATABASE_ID!,
-        process.env.SERVICEPROVIDER_COLLECTION_ID!,
+        process.env.SERVICE_PROVIDER_COLLECTION_ID!,
         'unique()',
         {
           userId: newUser.$id,
