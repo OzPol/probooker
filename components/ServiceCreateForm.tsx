@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { DATABASE_ID, SERVICE_COLLECTION_ID, databases } from '../lib/appwrite.config';
+import { databases } from '../lib/appwrite.config';
 
 const CreateServiceForm: React.FC = () => {
   const [sessionData, setSessionData] = useState<any>(null);
@@ -9,7 +9,7 @@ const CreateServiceForm: React.FC = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [serviceProvider, setServiceProvider] = useState('');
-  const [Category, setCategory] = useState('');
+  const [category, setCategory] = useState('');
   const [ratings] = useState<number[]>([]);
   const [jobsCompleted] = useState<number>(0);
   const [reviews] = useState<string[]>([]);
@@ -39,7 +39,7 @@ const CreateServiceForm: React.FC = () => {
           description,
           price,
           serviceProvider,
-          Category,
+          category,
           ratings,
           jobsCompleted,
           reviews,
@@ -120,7 +120,7 @@ const CreateServiceForm: React.FC = () => {
           <input
             type="text"
             id="category"
-            value={Category}
+            value={category}
             onChange={(e) => setCategory(e.target.value)}
             required
             className="border border-gray-300 rounded p-2 mt-1"
