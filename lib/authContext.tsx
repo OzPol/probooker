@@ -3,6 +3,8 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { account } from './appwrite.config';
+import { useRouter } from 'next/router';
+import { users, databases } from '../lib/appwrite.config';
 
 interface AuthContextType {
   isLoggedIn: boolean;

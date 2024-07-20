@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { users, databases } from '../lib/appwrite.config';
 

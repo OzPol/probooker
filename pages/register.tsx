@@ -31,8 +31,8 @@ const CreateUserPage: React.FC = () => {
 
       // Creating new consumer document in Appwrite
       const consumer = await databases.createDocument(
-        process.env.DATABASE_ID!,//DBID
-        process.env.CONSUMER_COLLECTION_ID!,//Collection ID
+        process.env.DATABASE_ID!, //DBID
+        process.env.CONSUMER_COLLECTION_ID!, //Collection ID
         'unique()', 
         {
           userId: newUser.$id,

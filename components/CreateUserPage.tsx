@@ -1,4 +1,5 @@
 // Moving from Shawn's register.tsx page to CreateUserPage.tsx component as intended
+'use client'
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { users, databases } from '../lib/appwrite.config';
