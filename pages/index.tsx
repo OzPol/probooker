@@ -9,7 +9,7 @@ export default function Home() {
       <Head>
         <title>ProBooker</title>
         <meta name="description" content="ProBooker Service Marketplace" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="../public/favicon.ico" />
       </Head>
 
       <main className="flex flex-col justify-center items-center py-8 w-full flex-1">
