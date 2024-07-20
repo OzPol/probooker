@@ -7,15 +7,19 @@
 
 // pages/_app.tsx
 import '../styles/globals.css';
-import { AppProps } from 'next/app';
-import Header from '../components/Header';
+import { AuthProvider } from '../lib/authContext';
+import { ReactNode, ComponentType } from 'react';
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface MyAppProps {
+  Component: ComponentType<any>;
+  pageProps: any;
+}
+
+function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    <>
-      <Header />
+    <AuthProvider>
       <Component {...pageProps} />
-    </>
+    </AuthProvider>
   );
 }
 

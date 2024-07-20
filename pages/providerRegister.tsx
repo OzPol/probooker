@@ -38,7 +38,7 @@ const ProviderRegisterForm: React.FC = () => {
       // Creating new provider document in Appwrite
       const provider = await databases.createDocument(
         process.env.DATABASE_ID!,
-        process.env.SERVICE_PROVIDER_COLLECTION_ID!,
+        process.env.SERVICEPROVIDER_COLLECTION_ID!,
         'unique()',
         {
           userId: newUser.$id,

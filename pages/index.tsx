@@ -1,7 +1,7 @@
 // pages/index.tsx
-
 import Head from 'next/head';
 import Link from 'next/link';
+import Header from '../components/Header';
 
 export default function Home() {
   return (
@@ -9,8 +9,10 @@ export default function Home() {
       <Head>
         <title>ProBooker</title>
         <meta name="description" content="ProBooker Service Marketplace" />
-        <link rel="icon" href="../public/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Header />
 
       <main className="flex flex-col justify-center items-center py-8 w-full flex-1">
         <h1 className="text-4xl font-bold mb-2">ProBooker</h1>

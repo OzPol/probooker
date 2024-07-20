@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { databases, DATABASE_ID, SERVICE_PROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
+import { databases, DATABASE_ID, SERVICEPROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
 const ServiceProfileOverview: React.FC = () => {
@@ -20,7 +20,7 @@ const ServiceProfileOverview: React.FC = () => {
         // Fetch provider profile from provider collection
         const response = await databases.listDocuments(
           process.env.DATABASE_ID!, //DBID
-          process.env.SERVICE_PROVIDER_COLLECTION_ID!, //Collection ID
+          process.env.SERVICEPROVIDER_COLLECTION_ID!, //Collection ID
           [ 
             sdk.Query.equal('userId', session.userId)
           ]

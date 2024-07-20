@@ -1,7 +1,9 @@
 // components/Header.tsx
 
+'use client';
+
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { account } from '../lib/appwrite.config';
 
@@ -42,10 +44,10 @@ const Header: React.FC = () => {
         </Link>
         {!isLoggedIn && (
           <>
-            <Link href="/providerlogin" legacyBehavior>
+            <Link href="/provider-login" legacyBehavior>
               <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Service Provider Log In</a>
             </Link>
-            <Link href="/customerlogin" legacyBehavior>
+            <Link href="/customer-login" legacyBehavior>
               <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Customer Log In</a>
             </Link>
           </>

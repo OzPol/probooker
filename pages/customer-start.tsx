@@ -1,15 +1,14 @@
-// provider-start.tsx pages to guide users to either register or log in.
-
+// pages/customer-start.tsx to guide users to either register or log in.
 
 import Head from 'next/head';
 import Link from 'next/link';
 
-export default function ProviderStart() {
+export default function CustomerStart() {
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center">
       <Head>
-        <title>Join as a Pro</title>
-        <meta name="description" content="Provider start page for ProBooker" />
+        <title>Get Started as a Customer</title>
+        <meta name="description" content="Customer start page for ProBooker" />
       </Head>
 
       <header className="flex justify-between items-center bg-blue-500 p-4 w-full">
@@ -28,16 +27,16 @@ export default function ProviderStart() {
       </header>
 
       <main className="flex flex-col justify-center items-center py-8 w-full flex-1">
-        <h1 className="text-4xl font-bold mb-2">Join as a Pro</h1>
-        <h2 className="text-2xl mb-6">Become a provider and offer your services</h2>
+        <h1 className="text-4xl font-bold mb-2">Get Started as a Customer</h1>
+        <h2 className="text-2xl mb-6">Join us and book services easily</h2>
 
         <div className="w-full max-w-md flex flex-col items-center space-y-4">
-          <Link href="/provider-register" legacyBehavior>
+          <Link href="/customer-register" legacyBehavior>
             <a className="w-full bg-green-500 text-white py-3 px-6 rounded-lg text-center hover:bg-green-600">
               Register
             </a>
           </Link>
-          <Link href="/provider-login" legacyBehavior>
+          <Link href="/customer-login" legacyBehavior>
             <a className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg text-center hover:bg-blue-600">
               Log In
             </a>

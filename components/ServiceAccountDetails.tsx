@@ -10,7 +10,7 @@
 //   export default ServiceAccountDetails;
 
 import { useEffect, useState } from 'react';
-import { databases, DATABASE_ID,SERVICE_PROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
+import { databases, DATABASE_ID, SERVICEPROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
 const ServiceAccountDetails: React.FC = () => {
