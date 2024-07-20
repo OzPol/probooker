@@ -30,12 +30,12 @@ const ProviderRegisterForm: React.FC = () => {
     try {
       // Creating new user auth on Appwrite
       console.log('Creating user with email:', email);
-      const newUser = await users.create('unique()', email, password, name);
+      const newUser = await users.create('unique()', email, phone, password, name);
       console.log('User created:', newUser);
 
-      console.log('Updating user phone:', phone);
-      await users.updatePhone(newUser.$id, phone);
-      console.log('Phone updated for user:', newUser.$id);
+      // console.log('Updating user phone:', phone);
+      // await users.updatePhone(newUser.$id, phone);
+      // console.log('Phone updated for user:', newUser.$id);
 
       console.log('Updating user labels:', [userType]);
       await users.updateLabels(newUser.$id, [userType]);
