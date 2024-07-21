@@ -1,13 +1,24 @@
+// pages/serviceProfile.tsx
+
 // This is the Service User Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
-import { useState } from 'react';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import ServiceProfileOverview from '../components/ServiceProfileOverview';
 import ServiceViewBookings from '../components/ServiceViewBookings';
 import ServiceAccountDetails from '../components/ServiceAccountDetails';
 import ServiceServices from '../components/ServiceServices';
+import { logout } from '../lib/authUtils';
 
 const ProviderProfile = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -33,9 +44,7 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${
-                  activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-                }`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Profile Overview
               </button>
@@ -43,9 +52,7 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('bookings')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${
-                  activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-                }`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 View Bookings
               </button>
@@ -53,9 +60,7 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('account')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${
-                  activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-                }`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Account Details
               </button>
@@ -63,19 +68,29 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('service')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${
-                  activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-                }`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 My Services
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left py-2 px-4 mb-2 rounded bg-red-500 text-white"
+              >
+                Logout
               </button>
             </li>
           </ul>
         </nav>
       </aside>
-      <main className="w-3/4 p-8">{renderContent()}</main>
+      <main className="w-3/4 p-8">
+        {renderContent()}
+      </main>
     </div>
   );
 };
 
 export default ProviderProfile;
+
+

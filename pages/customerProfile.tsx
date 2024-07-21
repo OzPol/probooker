@@ -1,13 +1,24 @@
+// pages/customerProfile.tsx
+
 // This is the Customer Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
-import { useState } from 'react';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import CustomerProfileOverview from '../components/CustomerProfileOverview';
 import CustomerViewBookings from '../components/CustomerViewBookings';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerSearchServices from '../components/CustomerSearchServices';
+import { logout } from '../lib/authUtils';
 
 const CustomerProfile = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -60,6 +71,14 @@ const CustomerProfile = () => {
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'search' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Search Services
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left py-2 px-4 mb-2 rounded bg-red-500 text-white"
+              >
+                Logout
               </button>
             </li>
           </ul>
