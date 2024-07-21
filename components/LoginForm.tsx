@@ -1,8 +1,11 @@
+// components/LoginForm.tsx
+
 'use client';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { account } from '../lib/appwrite.config'; 
+import { account } from '../lib/appwrite.config';
 import { useRouter } from 'next/router';
+
 interface LoginFormProps {
   onSwitchToRegister: () => void;
 }
@@ -11,6 +14,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,29 +23,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setMessage(''); // Clear previous message
+    setMessage('');
+    setMessageType('');
 
     try {
-      //delete existing session
       const currentSession = localStorage.getItem('appwriteSession');
-      //console.log(currentSession);
       if (currentSession) {
-        //console.log('true');
-        const session = JSON.parse(currentSession);
-        //await account.deleteSession(session.$id);
         localStorage.removeItem('appwriteSession');
       }
       // Logging in
       const session = await account.createEmailPasswordSession(formData.email, formData.password);
-      //console.log('Login successful:', session);
-      setMessage('Login successful');
       localStorage.setItem('appwriteSession', JSON.stringify(session));
-      //window.location.href = '/customerProfile';
+      localStorage.setItem('userType', 'Customer'); // Store user type
+      setMessage('Login successful');
+      setMessageType('success');
       router.push('/customerProfile');
-    } catch (error:any) {
+    } catch (error: any) {
       console.error('Error logging in:', error);
-      console.log(error.code+":"+error.type);
       setMessage('Error logging in. Please check your credentials and try again.');
+      setMessageType('error');
     }
   };
 
@@ -70,7 +70,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
       <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
         Log In
       </button>
-      {message && <p className="mt-2 text-red-500">{message}</p>}
+      {message && (
+        <p className={`mt-2 ${messageType === 'error' ? 'text-red-500' : 'text-green-500'}`}>
+          {message}
+        </p>
+      )}
       <button
         type="button"
         className="w-full mt-2 text-blue-500 underline"

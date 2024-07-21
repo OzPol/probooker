@@ -2,8 +2,11 @@
 
 // This is the Service User Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
+// This page is only accessible to logged in users.
 
-import React, { useState } from 'react';
+'use client'
+
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import ServiceProfileOverview from '../components/ServiceProfileOverview';
 import ServiceViewBookings from '../components/ServiceViewBookings';
@@ -14,11 +17,26 @@ import { logout } from '../lib/authUtils';
 const ProviderProfile = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const session = localStorage.getItem('appwriteSession');
+    const userType = localStorage.getItem('userType');
+    if (session && userType === 'Provider') {
+      setIsAuthenticated(true);
+    } else {
+      router.push('/provider-login');
+    }
+  }, [router]);
 
   const handleLogout = async () => {
     await logout();
-    router.push('/');
+    router.push('/provider-login');
   };
+
+  if (!isAuthenticated) {
+    return null; // Render nothing until authentication status is determined
+  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -44,7 +62,9 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 Profile Overview
               </button>
@@ -52,7 +72,9 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('bookings')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 View Bookings
               </button>
@@ -60,7 +82,9 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('account')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 Account Details
               </button>
@@ -68,7 +92,9 @@ const ProviderProfile = () => {
             <li>
               <button
                 onClick={() => setActiveTab('service')}
-                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${
+                  activeTab === 'service' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+                }`}
               >
                 My Services
               </button>
@@ -92,5 +118,3 @@ const ProviderProfile = () => {
 };
 
 export default ProviderProfile;
-
-

@@ -2,8 +2,10 @@
 
 // This is the Customer Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
+// This page is only accessible to logged in users.
+'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import CustomerProfileOverview from '../components/CustomerProfileOverview';
 import CustomerViewBookings from '../components/CustomerViewBookings';
@@ -14,11 +16,26 @@ import { logout } from '../lib/authUtils';
 const CustomerProfile = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const session = localStorage.getItem('appwriteSession');
+    const userType = localStorage.getItem('userType');
+    if (session && userType === 'Customer') {
+      setIsAuthenticated(true);
+    } else {
+      router.push('/customer-login');
+    }
+  }, [router]);
 
   const handleLogout = async () => {
     await logout();
-    router.push('/');
+    router.push('/customer-login');
   };
+
+  if (!isAuthenticated) {
+    return null; // Render nothing until authentication status is determined
+  }
 
   const renderContent = () => {
     switch (activeTab) {
