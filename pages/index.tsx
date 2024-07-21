@@ -18,21 +18,6 @@ export default function Home() {
         <link rel="icon" href="../../app/favicon.ico" />
       </Head>
 
-      <header className="flex justify-between items-center bg-blue-500 p-4">
-        <h1 className="text-xl font-bold text-white">ProBooker</h1>
-        <nav className="flex space-x-4">
-          <Link href="/" legacyBehavior>
-            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Home</a>
-          </Link>
-          <Link href="/services" legacyBehavior>
-            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">View Services</a>
-          </Link>
-          <Link href="/providerlogin" legacyBehavior>
-            <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Service Provider Log In</a>
-          </Link>
-        </nav>
-      </header>
-
       <main className="flex flex-col justify-center items-center py-8 w-full flex-1">
         <h1 className="text-4xl font-bold mb-2">ProBooker</h1>
         <h2 className="text-2xl mb-6">Connect with the pros, book with confidence</h2>
