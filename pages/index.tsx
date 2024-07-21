@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center items-center">
+    <div className="min-h-screen flex flex-col justify-center items-center homepage-background">
       <Head>
         <title>ProBooker</title>
         <meta name="description" content="ProBooker Service Marketplace" />
@@ -14,11 +14,10 @@ export default function Home() {
 
       <Header />
 
-      <main className="flex flex-col justify-center items-center py-8 w-full flex-1">
-        <h1 className="text-4xl font-bold mb-2">ProBooker</h1>
-        <h2 className="text-2xl mb-6">Connect with the pros, book with confidence</h2>
-
-        <div className="w-full max-w-md flex flex-col items-center space-y-4">
+      <main className="relative z-10 flex flex-col md:flex-row justify-center items-center py-8 w-full flex-1">
+        <div className="flex flex-col items-center space-y-4 p-8 bg-white bg-opacity-80 rounded-md shadow-lg md:w-1/2">
+          <h1 className="text-4xl font-bold mb-2">ProBooker</h1>
+          <h2 className="text-2xl mb-6">Connect with the pros, book with confidence</h2>
           <Link href="/customer-start" legacyBehavior>
             <a className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg text-center hover:bg-blue-600">
               Get Started as a Customer

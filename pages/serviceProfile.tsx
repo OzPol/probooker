@@ -54,7 +54,7 @@ const ProviderProfile = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen provider-background">
       <aside className="w-1/4 bg-white shadow-md p-4">
         <h2 className="text-xl font-bold mb-6">Service Provider Dashboard</h2>
         <nav>
@@ -110,7 +110,7 @@ const ProviderProfile = () => {
           </ul>
         </nav>
       </aside>
-      <main className="w-3/4 p-8">
+      <main className="w-3/4 p-8 content-background">
         {renderContent()}
       </main>
     </div>
@@ -118,3 +118,4 @@ const ProviderProfile = () => {
 };
 
 export default ProviderProfile;
+

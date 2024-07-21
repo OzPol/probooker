@@ -3,6 +3,7 @@
 // This is the Customer Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
 // This page is only accessible to logged in users.
+
 'use client'
 
 import React, { useState, useEffect } from 'react';
@@ -53,7 +54,7 @@ const CustomerProfile = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen customer-background">
       <aside className="w-1/4 bg-white shadow-md p-4">
         <h2 className="text-xl font-bold mb-6">Customer Dashboard</h2>
         <nav>
@@ -101,7 +102,7 @@ const CustomerProfile = () => {
           </ul>
         </nav>
       </aside>
-      <main className="w-3/4 p-8">
+      <main className="w-3/4 p-8 content-background">
         {renderContent()}
       </main>
     </div>

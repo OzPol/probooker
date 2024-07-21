@@ -17,3 +17,61 @@ a {
 a:hover {
   @apply underline;
 }
+
+
+/* Custom background styles for different pages */
+.homepage-background {
+  @apply bg-cover bg-center bg-no-repeat;
+  background-image: url('/assets/HomePageL.jpg');
+  background-opacity: 0.9; /* Adjust the transparency */
+  
+}
+
+.custom-background {
+  background-image: url('/assets/HomePage.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.bg-opacity-100 {
+  opacity: 0.1;
+}
+
+.customer-background {
+  background-image: url('/assets/CustomerBackground.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.provider-background {
+  background-image: url('/assets/ProviderBackground.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+/* Main content background */
+.content-background {
+  position: relative;
+  z-index: 10;
+}
+
+.content-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.8); /* Adjust opacity as needed */
+  z-index: -1;
+}
+
+/*
+.content-background {
+  @apply bg-white bg-opacity-10;
+}
+  */
