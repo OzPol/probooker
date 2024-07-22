@@ -39,15 +39,43 @@ a:hover {
   opacity: 0.1;
 }
 
-.customer-background {
+.customer-background-profile {
   background-image: url('/assets/CustomerBackground.jpg');
   background-size: cover;
   background-position: right;
   background-repeat: no-repeat;
 }
 
-.provider-background {
+.customer-background-login{
+  background-image: url('/assets/turqoXL.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.customer-background-register{
+  background-image: url('/assets/turqoXL.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.provider-background-profile {
   background-image: url('/assets/ProviderBackground.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.provider-background-login{
+  background-image: url('/assets/turqoXL.jpg');
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.provider-background-login{
+  background-image: url('/assets/turqoXL.jpg');
   background-size: cover;
   background-position: right;
   background-repeat: no-repeat;

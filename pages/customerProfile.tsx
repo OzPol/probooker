@@ -56,7 +56,7 @@ const CustomerProfile = () => {
   };
 
   return (
-    <div className="flex min-h-screen customer-background">
+    <div className="flex min-h-screen customer-background-profile">
       <aside className="w-1/4 bg-white shadow-md p-4">
         <h2 className="text-xl font-bold mb-6">Customer Dashboard</h2>
         <nav>
