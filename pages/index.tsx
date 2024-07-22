@@ -15,7 +15,7 @@ export default function Home() {
       <Header />
 
       <main className="relative z-10 flex flex-col md:flex-row justify-center items-center py-8 w-full flex-1">
-        <div className="flex flex-col items-center space-y-4 p-8 bg-white bg-opacity-80 rounded-md shadow-lg md:w-1/2">
+        <div className="flex flex-col items-center space-y-4 p-8 bg-white bg-opacity-80 rounded-md shadow-lg md:w-3/2">
           <h1 className="text-4xl font-bold mb-2">ProBooker</h1>
           <h2 className="text-2xl mb-6">Connect with the pros, book with confidence</h2>
           <Link href="/customer-start" legacyBehavior>
