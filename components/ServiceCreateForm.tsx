@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { databases } from '../lib/appwrite.config';
+import * as sdk from 'node-appwrite';
 
 const CreateServiceForm: React.FC = () => {
   const [sessionData, setSessionData] = useState<any>(null);
@@ -13,6 +14,7 @@ const CreateServiceForm: React.FC = () => {
   const [ratings] = useState<number[]>([]);
   const [jobsCompleted] = useState<number>(0);
   const [reviews] = useState<string[]>([]);
+  const [address, setAddress] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
 
@@ -21,9 +23,32 @@ const CreateServiceForm: React.FC = () => {
     if (session) {
       const sessionData = JSON.parse(session);
       setSessionData(sessionData);
-      setProviderId(sessionData.userId); // Assuming the session data contains the userId
+      setProviderId(sessionData.userId);
+
+      // Fetch provider address
+      fetchProviderAddress(sessionData.userId);
     }
   }, []);
+
+  const fetchProviderAddress = async (providerId: string) => {
+    try {
+      const response = await databases.listDocuments(
+        process.env.DATABASE_ID!,
+        process.env.SERVICEPROVIDER_COLLECTION_ID!,
+        [sdk.Query.equal('userId', providerId)]
+      );
+
+      if (response.documents.length > 0) {
+        const provider = response.documents[0];
+        setAddress(provider.address + ', ' + provider.city+', '+provider.state+', '+provider.zipcode); 
+      } else {
+        setMessage('Provider address not found.');
+      }
+    } catch (error) {
+      console.error('Error fetching provider address:', error);
+      setMessage('Error fetching provider address. Please try again.');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +69,7 @@ const CreateServiceForm: React.FC = () => {
           jobsCompleted,
           reviews,
           providerId,
+          address,
         }
       );
 

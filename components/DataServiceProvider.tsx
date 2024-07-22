@@ -28,6 +28,8 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
           price: doc.price,
           providerId: doc.providerId,
           providerName: doc.serviceProvider,
+          category: doc.category,
+          address: doc.address
         }));
     } catch (error) {
       console.error('Error fetching services:', error);
