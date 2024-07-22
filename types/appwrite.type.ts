@@ -21,6 +21,8 @@ export interface Service {
   price: number;
   providerId: string;
   providerName: string;
+  category: string;
+  address: string;
 }
 export interface Provider extends Models.Document {
   userId: string;
