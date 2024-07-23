@@ -6,6 +6,7 @@ export const logout = async () => {
     //    await account.deleteSession('current');
         localStorage.removeItem('appwriteSession');
         localStorage.removeItem('userType');
+        localStorage.setItem('isLoggedIn', 'false'); // Added to refresh the header on login/logout
     } catch (error) {
         console.error('Error logging out:', error);
     }
