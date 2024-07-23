@@ -9,6 +9,7 @@
 import '../styles/globals.css';
 import { AuthProvider } from '../lib/authContext';
 import { ReactNode, ComponentType } from 'react';
+import Layout from '../components/Layout'
 
 interface MyAppProps {
   Component: ComponentType<any>;
@@ -18,7 +19,9 @@ interface MyAppProps {
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
     <AuthProvider>
+      <Layout>
       <Component {...pageProps} />
+      </Layout>
     </AuthProvider>
   );
 }
