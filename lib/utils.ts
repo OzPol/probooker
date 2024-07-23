@@ -68,10 +68,13 @@ export const formatDateTime = (dateString: Date | string) => {
   };
 };
 
+
+// Encrypt a passkey using base64 encoding
 export function encryptKey(passkey: string) {
   return btoa(passkey);
 }
 
+// Decrypt a base64 encoded passkey
 export function decryptKey(passkey: string) {
   return atob(passkey);
 }

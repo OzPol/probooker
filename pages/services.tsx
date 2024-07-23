@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
-import { mockServices } from '../mockData';
-import { Service } from '../types';
+import { useRouter } from 'next/router'; // Import useRouter for navigation
+import { Service } from '../types/appwrite.type';
 import ServiceCard from '../components/ServiceCard';
+import { fetchAllServices } from '../components/DataServiceConsumer';
 
-// This is the page where services are listed and displayed. 
+// This is the page where services are listed and displayed.
 
 const Services = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [filter, setFilter] = useState('');
+  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     const fetchServices = async () => {
-      setServices(mockServices);
+      const fetchedServices = await fetchAllServices();
+      setServices(fetchedServices);
     };
 
     fetchServices();
@@ -25,24 +28,36 @@ const Services = () => {
     service.name.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const handleServiceClick = (service: Service) => {
+    // Handle the click event for the service card here
+    console.log(`Service clicked: ${service.name}`);
+  };
+
+  const handleViewProfile = (providerId: string) => {
+    // Navigate to the provider profile page
+    router.push(`/providerProfile/${providerId}`);
+  };
+
   return (
-    <div className="p-4">
+    <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Services</h1>
       <input
         type="text"
         placeholder="Filter services"
         value={filter}
         onChange={handleFilterChange}
-        className="mb-4 p-2 border rounded"
+        className="mb-4 p-2 border rounded w-full md:w-1/3"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredServices.map(service => (
           <ServiceCard
             key={service.$id}
             name={service.name}
             description={service.description}
             price={service.price}
-            providerName = {service.providerName}
+            providerName={service.providerName}
+            onClick={() => handleServiceClick(service)}
+            onViewProfile={() => handleViewProfile(service.providerId)} // Pass the providerId to handleViewProfile
           />
         ))}
       </div>
@@ -53,12 +68,7 @@ const Services = () => {
 export default Services;
 
 
-
-
 /*
-// pages/services.tsx
-// This is the page where services are listed and displayed. 
-// When we connect API, it will be something like this :
 
 import { useEffect, useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
