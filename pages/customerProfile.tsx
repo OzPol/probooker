@@ -15,6 +15,7 @@ import CustomerViewBookings from '../components/CustomerViewBookings';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerSearchServices from '../components/CustomerSearchServices';
 import { logout } from '../lib/authUtils';
+import EnvCheck from '../components/EnvCheck';
 
 const CustomerProfile = () => {
   const router = useRouter();
@@ -107,6 +108,10 @@ const CustomerProfile = () => {
       <main className="w-3/4 p-8 content-background">
         {renderContent()}
       </main>
+      <div>
+      <h1>Environment Variables Check</h1>
+      <EnvCheck />
+    </div>
     </div>
   );
 };

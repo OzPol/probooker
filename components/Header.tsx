@@ -11,21 +11,27 @@ import { logout } from '../lib/authUtils';
 const Header: React.FC = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   const checkAuth = async () => {
     try {
       // Retrieve session info from local storage
       const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
+      console.log('Session:', session);
       if (session && session.userId) {
         setIsLoggedIn(true);
-        console.log('Logged in.');
+        const user = await account.get();
+        setUserName(user.name);
+        console.log('Logged in. User:', user);
       } else {
         setIsLoggedIn(false);
+        setUserName(null);
         console.log('Not logged in.');
       }
     } catch (error) {
       console.error('Error checking login status', error);
       setIsLoggedIn(false);
+      setUserName(null);
     }
   };
 
@@ -45,6 +51,7 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     await logout();
     setIsLoggedIn(false);
+    setUserName(null);
     router.push('/');
   };
 
@@ -69,6 +76,7 @@ const Header: React.FC = () => {
           </>
         ) : (
           <>
+            <span className="text-white">Welcome, {userName}!</span>
             <button
               className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100"
               onClick={handleLogout}
