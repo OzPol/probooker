@@ -35,7 +35,9 @@ const LoginFormProvider: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => 
       const session = await account.createEmailPasswordSession(formData.email, formData.password);
       localStorage.setItem('appwriteSession', JSON.stringify(session));
       localStorage.setItem('userType', 'Provider'); // Store user type
+      localStorage.setItem('isLoggedIn', 'true'); // Added to refresh the header on login
       setMessage('Login successful');
+      window.dispatchEvent(new Event('storage')); // Added to refresh the header on login
       setMessageType('success');
       router.push('/serviceProfile');
     } catch (error: any) {
