@@ -31,6 +31,3 @@ export const functions = new sdk.Functions(client);
 export const users = new sdk.Users(client);
 export const messaging = new sdk.Messaging(client);
 export const account = new sdk.Account(client);
-
-
-

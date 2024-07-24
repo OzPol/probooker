@@ -1,16 +1,14 @@
 // components/Header.tsx
-
-'use client';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { account } from '../lib/appwrite.config';
+import { account } from '../lib/appwrite';
 import { logout } from '../lib/authUtils';
 
 const Header: React.FC = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   const checkAuth = async () => {
     try {
@@ -19,6 +17,8 @@ const Header: React.FC = () => {
       if (session && session.userId) {
         setIsLoggedIn(true);
         console.log('Logged in.');
+        const user = await account.get();
+        setUserName(user.name);
       } else {
         setIsLoggedIn(false);
         console.log('Not logged in.');
@@ -69,6 +69,7 @@ const Header: React.FC = () => {
           </>
         ) : (
           <>
+            <span className="text-white">Welcome, {userName}!</span>
             <button
               className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100"
               onClick={handleLogout}

@@ -3,7 +3,7 @@
 'use client';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { account } from '../lib/appwrite.config';
+import { account } from '../lib/appwrite';
 import { useRouter } from 'next/router';
 
 interface LoginFormProps {
