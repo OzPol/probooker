@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CreateServiceForm from './ServiceCreateForm';
-import ServiceCard from './ServiceCardProvider';
+import ServiceCard from './ServiceCard';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
 import AvailabilityCalendar from './AvailabilityCalendar';
@@ -63,6 +63,8 @@ const ServiceServices: React.FC = () => {
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}
+                providerID=''
+                category=''
                 onClick={() => handleServiceClick(service)}
               />
             ))}
