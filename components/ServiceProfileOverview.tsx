@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { databases, DATABASE_ID, SERVICEPROVIDER_COLLECTION_ID} from '../lib/appwrite.config';
+import { databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
 const ServiceProfileOverview: React.FC = () => {

@@ -48,15 +48,13 @@ jobs:
           git config --global user.email "probookerdb@gmail.com"
           git config --global user.name "OzPol"
 
-      - name: Pull latest changes and rebase
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Stash any unstaged changes
         run: |
-          heroku git:remote -a probooker-app
-          git pull https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git main --rebase || git rebase --abort
+          git stash --include-untracked
 
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
+          heroku git:remote -a probooker-app
           git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/probooker-app.git HEAD:main --force

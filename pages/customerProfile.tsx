@@ -14,12 +14,16 @@ import CustomerProfileOverview from '../components/CustomerProfileOverview';
 import CustomerViewBookings from '../components/CustomerViewBookings';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerSearchServices from '../components/CustomerSearchServices';
+import ServiceDetails from '../components/ServiceDetails';
+import ProviderProfileForCustomer from '../components/ProviderProfileForCustomer';
 import { logout } from '../lib/authUtils';
 
 const CustomerProfile = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedService, setSelectedService] = useState<any | null>(null); // State to track selected service
+  const [selectedProvider, setSelectedProvider] = useState<any | null>(null); // State to track selected provider
 
   useEffect(() => {
     const session = localStorage.getItem('appwriteSession');
@@ -41,6 +45,14 @@ const CustomerProfile = () => {
   }
 
   const renderContent = () => {
+    if (selectedService) {
+      return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
+    }
+
+    if (selectedProvider) {
+      return <ProviderProfileForCustomer provider={selectedProvider} onBack={() => setSelectedProvider(null)} />;
+    }
+
     switch (activeTab) {
       case 'overview':
         return <CustomerProfileOverview />;

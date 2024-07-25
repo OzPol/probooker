@@ -58,10 +58,13 @@ const ServiceServices: React.FC = () => {
             {filteredServices.map(service => (
               <ServiceCard
                 key={service.$id}
-                name={service.name}
+                title={service.name}
+                summary=''
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}
+                providerID=''
+                category=''
                 onClick={() => handleServiceClick(service)}
               />
             ))}

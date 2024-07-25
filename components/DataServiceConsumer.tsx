@@ -3,22 +3,15 @@ import { Service } from '../types/appwrite.type';
 
 
 export const fetchAllServices = async (): Promise<Service[]> => {
-  const session = localStorage.getItem('appwriteSession');
   let services: Service[] = [];
 
-  if (session) {
-    const sessionData = JSON.parse(session);
-    const userId = sessionData.userId;
-
     try {
-      // Fetch documents from Appwrite collection
       const response = await databases.listDocuments(
         process.env.DATABASE_ID!, 
         process.env.SERVICE_COLLECTION_ID!
       );//DB  Coll
       const allServices = response.documents;
 
-      // Filter services based on providerId
       services = allServices
         .map((doc: any) => ({
           $id: doc.$id,
@@ -27,10 +20,13 @@ export const fetchAllServices = async (): Promise<Service[]> => {
           price: doc.price,
           providerId: doc.providerId,
           providerName: doc.serviceProvider,
+          category: doc.category,
+          address: doc.address,
+          city:doc.city,
+          zipcode:doc.zipcode,
         }));
     } catch (error) {
       console.error('Error fetching services:', error);
-    }
   }
 
   return services;
