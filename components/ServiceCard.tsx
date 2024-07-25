@@ -4,7 +4,7 @@
 // which will be used in the services page to display services in a grid format
 
 import React from 'react';
-import { ServiceCardCustomer } from '../types/appwrite.type';
+import { ServiceCardProps } from '../types/appwrite.type';
 
 // interface ServiceCardProps {
 //   name: string;
@@ -16,7 +16,7 @@ import { ServiceCardCustomer } from '../types/appwrite.type';
 //   onProviderClick: () => void; // prop for provider click
 // }
 
-const ServiceCard: React.FC<ServiceCardCustomer> = ({ title, summary, description, price, providerName, providerID,category, onClick, onViewProfile, onProviderClick }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, price, providerName, providerID,category, onClick, onViewProfile, onProviderClick }) => {
   return (
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden m-4 p-4 flex flex-col justify-between">
       <div onClick={onClick} className="cursor-pointer flex-grow">

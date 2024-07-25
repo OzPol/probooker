@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ServiceCard from './ServiceCardCustomer';
+import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails'; 
 import ProviderProfileForCustomer from './ProviderProfileForCustomer'; // Import the ProviderProfileForCustomer component
 import { Service } from '../types/appwrite.type';
