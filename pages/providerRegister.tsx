@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { users, databases } from '../lib/appwrite.config';
+
 
 const ProviderRegisterForm: React.FC = () => {
   const router = useRouter();

@@ -7,10 +7,20 @@
 
 // pages/_app.tsx
 import '../styles/globals.css';
-import { AppProps } from 'next/app';
+import { AuthProvider } from '../lib/authContext';
+import { ReactNode, ComponentType } from 'react';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+interface MyAppProps {
+  Component: ComponentType<any>;
+  pageProps: any;
+}
+
+function MyApp({ Component, pageProps }: MyAppProps) {
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }
 
 export default MyApp;
