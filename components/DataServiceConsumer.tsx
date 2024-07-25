@@ -22,6 +22,8 @@ export const fetchAllServices = async (): Promise<Service[]> => {
           providerName: doc.serviceProvider,
           category: doc.category,
           address: doc.address,
+          city:doc.city,
+          zipcode:doc.zipcode,
         }));
     } catch (error) {
       console.error('Error fetching services:', error);

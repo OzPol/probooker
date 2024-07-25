@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CreateServiceForm from './ServiceCreateForm';
-import ServiceCard from './ServiceCard';
+import ServiceCard from './ServiceCardProvider';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
 import AvailabilityCalendar from './AvailabilityCalendar';
@@ -58,7 +58,8 @@ const ServiceServices: React.FC = () => {
             {filteredServices.map(service => (
               <ServiceCard
                 key={service.$id}
-                name={service.name}
+                title={service.name}
+                summary=''
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}

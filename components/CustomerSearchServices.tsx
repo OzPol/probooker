@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ServiceCard from './ServiceCard';
+import ServiceCard from './ServiceCardCustomer';
+import ServiceDetails from './ServiceDetails'; 
+import ProviderProfileForCustomer from './ProviderProfileForCustomer'; // Import the ProviderProfileForCustomer component
 import { Service } from '../types/appwrite.type';
 import { fetchAllServices } from './DataServiceConsumer';
 import { FaSearch } from 'react-icons/fa';
@@ -7,12 +9,18 @@ import { FaSearch } from 'react-icons/fa';
 const CustomerSearchServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<any | null>(null); // track selected provider
   const [searchBy, setSearchBy] = useState('title');
   const [filter, setFilter] = useState('');
-  const [location, setLocation] = useState('');
+  const [city, setCity] = useState('');
+  const [zip, setZip] = useState('');
   const [category, setCategory] = useState('');
   const [priceRange, setPriceRange] = useState('');
+  const [cities, setCities] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [zips, setZips] = useState<string[]>([]);
+
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -22,7 +30,11 @@ const CustomerSearchServices: React.FC = () => {
 
       // Extract unique categories
       const uniqueCategories = Array.from(new Set(fetchedServices.map(service => service.category)));
-      setCategories(uniqueCategories);
+      setCategories(uniqueCategories.sort());
+      const uniqueZips = Array.from(new Set(fetchedServices.map(service => service.zipcode)));
+      setZips(uniqueZips.sort());
+      const uniqueCites = Array.from(new Set(fetchedServices.map(service => service.city)));
+      setCities(uniqueCites.sort());
     };
 
     fetchServices();
@@ -32,14 +44,18 @@ const CustomerSearchServices: React.FC = () => {
     setFilter(e.target.value);
   };
 
-  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLocation(e.target.value);
-    filterServices({ location: e.target.value });
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCity(e.target.value);
+    filterServices({ city: e.target.value });
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
     filterServices({ category: e.target.value });
+  };
+  const handleZipChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setZip(e.target.value);
+    filterServices({ zip: e.target.value });
   };
 
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,8 +75,9 @@ const CustomerSearchServices: React.FC = () => {
     const updatedFilters = {
       searchBy,
       filter,
-      location,
+      city,
       category,
+      zip,
       priceRange,
       ...newFilters,
     };
@@ -78,21 +95,37 @@ const CustomerSearchServices: React.FC = () => {
       }
     }
 
-    if (updatedFilters.location) {
-      filtered = filtered.filter(service => service.address === updatedFilters.location);
+    if (updatedFilters.city) {
+      filtered = filtered.filter(service => service.city === updatedFilters.city);
     }
 
     if (updatedFilters.category) {
       filtered = filtered.filter(service => service.category === updatedFilters.category);
     }
 
+    if (updatedFilters.zip) {
+      filtered = filtered.filter(service => service.zipcode === updatedFilters.zipcode);
+    }
+
     if (updatedFilters.priceRange) {
       const [min, max] = updatedFilters.priceRange.split('-').map(Number);
-      filtered = filtered.filter(service => service.price >= min && service.price <= max);
+      if (max) {
+        filtered = filtered.filter(service => service.price >= min && service.price <= max);
+      } else {
+        filtered = filtered.filter(service => service.price >= min);
+      }
     }
 
     setFilteredServices(filtered);
   };
+
+  if (selectedService) {
+    return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
+  }
+
+  if (selectedProvider) {
+    return <ProviderProfileForCustomer provider={selectedProvider} onBack={() => setSelectedProvider(null)} />;
+  }
 
   return (
     <div className="container mx-auto">
@@ -102,7 +135,7 @@ const CustomerSearchServices: React.FC = () => {
           <select
             value={searchBy}
             onChange={handleSearchByChange}
-            className="p-2 border-none focus:border-none focus:outline-none rounded-l"
+            className="border-none font-bold text-sm focus:border-none focus:outline-none rounded-l"
           >
             <option value="title">By Title</option>
             <option value="provider">By Provider</option>
@@ -110,7 +143,7 @@ const CustomerSearchServices: React.FC = () => {
           <div className="relative flex items-center w-full">
             <input
               type="text"
-              placeholder="🔍 Search services"
+              placeholder="Search services"
               value={filter}
               onChange={handleFilterChange}
               className="flex p-1.5 border-none focus:border-none focus:outline-none w-full focus:ring-0"
@@ -124,13 +157,24 @@ const CustomerSearchServices: React.FC = () => {
           </div>
         </div>
         <select
-          value={location}
-          onChange={handleLocationChange}
+          value={city}
+          onChange={handleCityChange}
           className="flex items-center border rounded w-full sm:w-auto p-2"
         >
-          <option value="">Location</option>
-          <option value="Location">Location 1 temp</option>
-          {/* Add more locations as needed */}
+          <option value="">City</option>
+          {cities.map((city, index) => (
+            <option key={index} value={city}>{city}</option>
+          ))}
+        </select>
+        <select
+          value={zip}
+          onChange={handleZipChange}
+          className="p-2 border rounded w-full sm:w-auto"
+        >
+          <option value="">ZipCode</option>
+          {zips.map((cat, index) => (
+            <option key={index} value={cat}>{cat}</option>
+          ))}
         </select>
         <select
           value={category}
@@ -150,17 +194,29 @@ const CustomerSearchServices: React.FC = () => {
           <option value="">Price Range</option>
           <option value="0-50">$0 - $50</option>
           <option value="50-100">$50 - $100</option>
-          {/* Add more price ranges as needed */}
+          <option value="100-150">$100 - $150</option>
+          <option value="150-200">$150 - $200</option>
+          <option value="200-300">$200 - $300</option>
+          <option value="300-400">$300 - $400</option>
+          <option value="400-500">$400 - $500</option>
+          <option value="500-800">$500 - $800</option>
+          <option value="800-1000">$800 - $1000</option> 
+          <option value="1000-">Over $1000</option>       
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredServices.map(service => (
           <ServiceCard
             key={service.$id}
-            name={service.name}
+            title={service.name}
+            summary=''
             description={service.description}
             price={service.price}
             providerName={service.providerName}
+            providerID=''
+            category=''
+            onClick={() => setSelectedService(service)} // Set the selected service on click
+            onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />
         ))}
       </div>

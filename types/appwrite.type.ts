@@ -14,6 +14,26 @@ export interface Consumer extends Models.Document {
   userType: 'Consumer'; // Enum type required
   profileImg: string; // URL type
 }
+export interface ServiceCardCustomer {
+  title: string;
+  summary: string;
+  description: string;
+  price: number;
+  providerName: string;
+  providerID: string;
+  category: string;
+  onClick: () => void;
+  onViewProfile?: () => void; // Optional prop for viewing profile
+  onProviderClick: () => void; // prop for provider click
+}
+export interface ServiceCardProvider {
+  title: string;
+  summary: string;
+  description: string;
+  price: number;
+  providerName: string;
+  onClick: () => void;
+}
 export interface Service {
   $id: string;
   name: string;
@@ -22,7 +42,8 @@ export interface Service {
   providerId: string;
   providerName: string;
   category: string;
-  address: string;
+  city: string;
+  zipcode:string;
 }
 export interface Provider extends Models.Document {
   userId: string;
