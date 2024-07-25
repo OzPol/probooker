@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; // Import useRouter for navigation
+// import { useRouter } from 'next/router'; // Import useRouter for navigation
 import { Service } from '../types/appwrite.type';
 import ServiceCard from '../components/ServiceCard';
 import { fetchAllServices } from '../components/DataServiceConsumer';
