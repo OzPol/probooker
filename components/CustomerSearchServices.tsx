@@ -204,17 +204,20 @@ const CustomerSearchServices: React.FC = () => {
           <option value="1000-">Over $1000</option>       
         </select>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0.5">
         {filteredServices.map(service => (
           <ServiceCard
             key={service.$id}
             title={service.name}
-            summary=''
+            summary={service.summary}
             description={service.description}
             price={service.price}
             providerName={service.providerName}
             providerID=''
-            category=''
+            category={service.category}
+            city={service.city}
+            providerIcon={'../public/assets/InteriorDesignXL.jpg'}
+            rating={5}
             onClick={() => setSelectedService(service)} // Set the selected service on click
             onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />
