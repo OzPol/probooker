@@ -210,12 +210,15 @@ const Services: React.FC = () => {
           <ServiceCard
             key={service.$id}
             title={service.name}
-            summary=''
+            summary={service.summary}
             description={service.description}
             price={service.price}
             providerName={service.providerName}
             providerID=''
-            category=''
+            category={service.category}
+            city={service.city}
+            providerIcon={'../public/assets/InteriorDesignXL.jpg'}
+            rating={5}
             //onClick={() => setSelectedService(service)} // Set the selected service on click
             //onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />
