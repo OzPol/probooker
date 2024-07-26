@@ -39,7 +39,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, 
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden m-4 p-4 flex flex-col h-96 cursor-pointer">
       <div className="flex justify-between mb-2" onClick={onClick}>
         <div className="flex-grow">
-          <h2 className="text-xl font-bold line-clamp-2">{title}</h2>
+          <h2 className="text-lg font-bold line-clamp-2">{title}</h2>
         </div>
         <div className="flex items-center">
           <span className="bg-green-100 text-black py-1 px-2 rounded">{"⭐"+rating}</span>
