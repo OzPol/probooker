@@ -1,28 +1,34 @@
-// components/AdminLoginModal.js
+'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Client, Account } from 'appwrite';
+import { account } from '../lib/appwrite.config';
+interface AdminLoginModalProps {
+  show: boolean;
+  onClose: () => void;
+}
 
-const AdminLoginModal = ({ show, onClose }) => {
+const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ show, onClose }) => {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleLogin = async () => {
-    const client = new Client();
-    client.setEndpoint('https://[YOUR_APPWRITE_ENDPOINT]').setProject('[YOUR_PROJECT_ID]');
-
-    const account = new Account(client);
-
     try {
-      await account.createSession('[ADMIN_EMAIL]', password);
-      onClose();
-      router.push('/admin/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed');
-    }
-  };
+        const currentSession = localStorage.getItem('appwriteSession');
+        if (currentSession) {
+          localStorage.removeItem('appwriteSession');
+        }
+        // Logging in
+        const session = await account.createEmailPasswordSession('admin@probooker.com', password);
+        localStorage.setItem('appwriteSession', JSON.stringify(session));
+        localStorage.setItem('userType', 'Admin'); // Store user type
+        localStorage.setItem('isLoggedIn', 'true'); // Added to refresh the header on login
+        window.dispatchEvent(new Event('storage')); // Added to refresh the header on login
+        router.push('/adminDashboard');
+      } catch (error: any) {
+        console.error('Error logging in:', error);
+      }
+    };
 
   if (!show) {
     return null;

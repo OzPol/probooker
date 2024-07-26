@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
         clearTimeout(timeout); // Clear any existing timeout
         timeout = setTimeout(() => {
           setShowLink(false);
-        }, 1000); // Hide link after 1 second
+        }, 2000); // Hide link after 1 second
       }
     };
 
