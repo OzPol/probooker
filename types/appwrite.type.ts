@@ -35,34 +35,48 @@ export interface Service {
   providerName: string;
   category: string;
   city: string;
-  zipcode:string;
+  zipcode: string;
 }
 export interface Provider extends Models.Document {
   userId: string;
-  name:string;
-  email:string;
-  phone:string;
-  address:string;
-  city:string;
-  state:string;
-  zipcode:string;
-  createdAt:Date;
-  bookings:string[];
-  ratings:Int8Array;
-  userType:'Provider';
-  unavailablete:string[];
-  services:string[];
-  profileImge:string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  createdAt: Date;
+  bookings: string[];
+  ratings: Int8Array;
+  userType: 'Provider';
+  unavailableDates: string[];
+  services: string[];
+  profileImge: string;
 }
 
+export enum BookingStatus {
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  COMPLETED = 'completed',
+  CANCELED = 'canceled'
+}
 
 export interface Booking extends Models.Document {
-  consumer: Consumer;
+  $id: string;
+  consumerId: string;
+  providerId: string;
+  serviceId: string;
   schedule: Date;
-  status: Status;
-  primaryPhysician: string;
+  status: BookingStatus;
   reason: string;
   note: string;
-  userId: string;
   cancellationReason: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface BookingCardProps {
+  booking: Booking;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
