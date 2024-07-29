@@ -24,6 +24,7 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ show, onClose }) => {
         localStorage.setItem('userType', 'Admin'); // Store user type
         localStorage.setItem('isLoggedIn', 'true'); // Added to refresh the header on login
         window.dispatchEvent(new Event('storage')); // Added to refresh the header on login
+        onClose();
         router.push('/adminDashboard');
       } catch (error: any) {
         console.error('Error logging in:', error);

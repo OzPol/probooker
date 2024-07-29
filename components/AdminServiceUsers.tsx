@@ -1,13 +1,14 @@
 import React from 'react';
-const AdminServiceUsers = () => {
-  
+import ShowCollection from '../components/AdminShowCollection';
+
+const AdminCustomerUsers: React.FC = () => {
+  const collectionId = process.env.SERVICEPROVIDER_COLLECTION_ID!;
   return (
     <div>
-      <h1>Heres where youll soon be able to see all of the Service Users!</h1>
-      {/* Admin dashboard content */}
+      <h1>Customer Users</h1>
+      <ShowCollection collectionId={collectionId} />
     </div>
   );
 };
 
-
-export default AdminServiceUsers;
+export default AdminCustomerUsers;
