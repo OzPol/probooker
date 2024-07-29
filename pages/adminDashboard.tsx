@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   return (
     <div className="flex min-h-screen customer-background-profile">
       <aside className="w-1/4 bg-white shadow-md p-4">
-        <h2 className="text-xl font-bold mb-6">Customer Users</h2>
+        <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
         <nav>
           <ul>
             <li>
