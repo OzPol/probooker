@@ -1,7 +1,3 @@
-// pages/providerBooking.tsx
-
-'use client'
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import AvailabilityCalendar from '../components/AvailabilityCalendar';
@@ -25,7 +21,7 @@ const ProviderBooking = () => {
   }, [providerId]);
 
   if (!providerId || !serviceId) {
-    return <div>Loading...</div>; // Or handle the missing IDs appropriately
+    return <div>Loading...</div>;
   }
 
   return (

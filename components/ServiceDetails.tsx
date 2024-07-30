@@ -3,19 +3,23 @@
 import React from 'react';
 import { Service } from '../types/appwrite.type';
 
-const ServiceDetails = ({ service, onBack }: { service: Service, onBack: () => void }) => {
+interface ServiceDetailsProps {
+  service: Service;
+  onBack: () => void;
+}
+
+const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">{service.name}</h2>
-      <p>{service.description}</p>
-      <p>Provider: {service.providerName}</p>
-      <p>Price: ${service.price}</p>
-      <button
-        onClick={onBack}
-        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-      >
-        Back to Search
-      </button>
+      <button onClick={onBack} className="bg-blue-500 text-white py-2 px-4 rounded mb-4">Back to Search</button>
+      <div className="p-4 border rounded shadow-md">
+        <h2 className="text-2xl font-bold mb-2">{service.name}</h2>
+        <p>{service.description}</p>
+        <p>Price: ${service.price}</p>
+        <p>Provider: {service.providerName}</p>
+        <p>Category: {service.category}</p>
+        {/* You can add more fields if needed */}
+      </div>
     </div>
   );
 };

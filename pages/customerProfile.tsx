@@ -1,7 +1,9 @@
 // pages/customerProfile.tsx
+
 // This is the Customer Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
 // This page is only accessible to logged in users.
+// pages/customerProfile.tsx
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import CustomerProfileOverview from '../components/CustomerProfileOverview';
@@ -35,7 +37,11 @@ const CustomerProfile = () => {
     const handleRouteChange = (url: string) => {
       if (url.startsWith('/customerProfile')) {
         const tab = url.split('#')[1];
-        if (tab) setActiveTab(tab);
+        if (tab) {
+          setActiveTab(tab);
+          setSelectedService(null);
+          setSelectedProvider(null);
+        }
       }
     };
 
@@ -50,22 +56,12 @@ const CustomerProfile = () => {
     router.push('/customer-login');
   };
 
-  const handleServiceClick = (service: Service) => {
-    setSelectedService(service);
-    router.push('/customerProfile#details');
-  };
-
-  const handleBackToSearch = () => {
-    setSelectedService(null);
-    router.push('/customerProfile#search');
-  };
-
   const renderContent = () => {
     if (selectedService) {
       return (
         <>
-          <ServiceDetails service={selectedService} onBack={handleBackToSearch} />
-          <BookingForm service={selectedService} />
+          <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />
+          <BookingForm providerId={selectedService.providerId} serviceId={selectedService.$id} />
         </>
       );
     }
@@ -82,7 +78,7 @@ const CustomerProfile = () => {
       case 'account':
         return <CustomerAccountDetails />;
       case 'search':
-        return <CustomerSearchServices onServiceClick={handleServiceClick} />;
+        return <CustomerSearchServices onServiceClick={setSelectedService} />;
       default:
         return <CustomerProfileOverview />;
     }
@@ -150,6 +146,8 @@ const CustomerProfile = () => {
 };
 
 export default CustomerProfile;
+
+
 
 /*
 'use client'

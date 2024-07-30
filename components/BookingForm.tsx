@@ -1,37 +1,28 @@
+// components/BookingForm.tsx
 import React, { useState, useEffect } from 'react';
-import { z, ZodSchema } from 'zod';
 import { databases } from '../lib/appwrite.config';
 
-const bookingSchema = z.object({
-  date: z.string(),
-  time: z.string(),
-  customerId: z.string(),
-  providerId: z.string(),
-  serviceId: z.string(),
-});
-
 interface BookingFormProps {
-  service: {
-    $id: string;
-    providerId: string;
-    price: number;
-    name: string;
-    description: string;
-  };
+  providerId: string;
+  serviceId: string;
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ service }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [userCredits, setUserCredits] = useState(0);
-  
+
   useEffect(() => {
     const fetchUserCredits = async () => {
       const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
       const customerId = session.userId;
       
       try {
-        const user = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_CUSTOMER_COLLECTION_ID!, customerId);
+        const user = await databases.getDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_CUSTOMER_COLLECTION_ID!,
+          customerId
+        );
         setUserCredits(user.credits);
       } catch (error) {
         console.error('Error fetching user credits:', error);
@@ -47,7 +38,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ service }) => {
     const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
     const customerId = session.userId;
 
-    if (userCredits < service.price) {
+    const servicePrice = 10; // Replace this with actual service price if needed
+
+    if (userCredits < servicePrice) {
       alert('Insufficient credits');
       return;
     }
@@ -56,8 +49,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ service }) => {
       date,
       time,
       customerId,
-      providerId: service.providerId,
-      serviceId: service.$id,
+      providerId,
+      serviceId,
     };
 
     try {
@@ -71,7 +64,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ service }) => {
 
       if (response.ok) {
         console.log('Booking created successfully.');
-        const updatedCredits = userCredits - service.price;
+        const updatedCredits = userCredits - servicePrice;
         await databases.updateDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_CUSTOMER_COLLECTION_ID!,

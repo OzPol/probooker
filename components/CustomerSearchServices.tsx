@@ -53,4 +53,3 @@ const CustomerSearchServices: React.FC<{ onServiceClick: (service: Service) => v
 };
 
 export default CustomerSearchServices;
-
