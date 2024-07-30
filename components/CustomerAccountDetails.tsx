@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
+import Image from 'next/image';
 
 // const CustomerAccountDetails = () => {
 //     return (
@@ -69,7 +70,7 @@ useEffect(() => {
           <p>Zipcode: {profile.zipcode}</p>
           <p>Create On: {profile.createon}</p>
           <p>User Type: {profile.userType}</p>
-          <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p>
+          <p>Profile Image: <Image src={profile.profileImg} alt="Profile" /></p>
           <p>Bookings: {profile.bookings.join(', ')}</p>
           <p>User ID: {profile.userId}</p>
           {/* Add other profile fields as needed */}
