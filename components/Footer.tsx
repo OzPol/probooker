@@ -1,12 +1,10 @@
-import { ReactNode } from 'react';
+import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <div>
-        <footer>
-            <p>&copy; {new Date().getFullYear()} ProBooker. All rights reserved.</p>
-        </footer>
-    </div>
+    <footer className="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; {new Date().getFullYear()} ProBooker. All rights reserved.</p>
+    </footer>
   );
 };
 

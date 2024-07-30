@@ -1,5 +1,6 @@
 // The Layout component specifies common features of every page like the header and the footer
 
+import Head from 'next/head';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import Header from '../components/Header'
@@ -9,12 +10,13 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div>
-      <Header/>
-      <main>{children}</main>
-      <Footer/>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">{children}</main>
+      <Footer />
     </div>
   );
 };

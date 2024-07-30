@@ -43,9 +43,13 @@ const Header: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
-    setIsLoggedIn(false);
-    router.push('/');
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      router.push('/');
+    } catch (error) {
+      console.error('Error logging out', error);
+    }
   };
 
   return (

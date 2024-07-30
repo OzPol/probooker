@@ -12,6 +12,7 @@
 import { useEffect, useState } from 'react';
 import {databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
+import Image from 'next/image';
 
 const ServiceAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
@@ -57,7 +58,7 @@ const ServiceAccountDetails: React.FC = () => {
       {message && <p>{message}</p>}
       {profile ? (
         <div>
-       <div>
+        <div>
           <h2>{profile.name}</h2>
           <p>User ID: {profile.userId}</p>
           <p>Email: {profile.email}</p>
@@ -68,7 +69,7 @@ const ServiceAccountDetails: React.FC = () => {
           <p>Zipcode: {profile.zipcode}</p>
           <p>Create On: {profile.createon}</p>
           <p>User Type: {profile.userType}</p>
-          <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p>
+          <p>Profile Image: <Image src={profile.profileImg} alt="Profile" /></p>
           <p>Bookings: {profile.bookings.join(', ')}</p>
 
           {/* Add other profile fields as needed */}

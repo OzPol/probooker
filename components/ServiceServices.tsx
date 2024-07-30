@@ -3,19 +3,17 @@ import CreateServiceForm from './ServiceCreateForm';
 import ServiceCard from './ServiceCard';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
-import AvailabilityCalendar from './AvailabilityCalendar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const ServiceServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [filter, setFilter] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [availableDates, setAvailableDates] = useState<Date[]>([
-    // Mocked available dates
-    new Date('2024-07-25'),
-    new Date('2024-07-26'),
-    new Date('2024-07-27'),
-  ]);
+  const [availableDates, setAvailableDates] = useState<{ date: Date; times: string[] }[]>([]);
+  const [newDate, setNewDate] = useState<Date | null>(null);
+  const [newTime, setNewTime] = useState<string>('');
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -42,6 +40,19 @@ const ServiceServices: React.FC = () => {
     setSelectedService(service);
   };
 
+  const handleAddDate = () => {
+    if (newDate && newTime) {
+      const existingDate = availableDates.find(d => d.date.toDateString() === newDate.toDateString());
+      if (existingDate) {
+        existingDate.times.push(newTime);
+      } else {
+        setAvailableDates([...availableDates, { date: newDate, times: [newTime] }]);
+      }
+      setNewDate(null);
+      setNewTime('');
+    }
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Manage My Services</h2>
@@ -59,12 +70,11 @@ const ServiceServices: React.FC = () => {
               <ServiceCard
                 key={service.$id}
                 title={service.name}
-                summary=''
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}
-                providerID=''
-                category=''
+                providerID={service.providerId}
+                category={service.category}
                 onClick={() => handleServiceClick(service)}
               />
             ))}
@@ -88,7 +98,40 @@ const ServiceServices: React.FC = () => {
           <p>Provider: {selectedService.providerName}</p>
           <p>Price: ${selectedService.price}</p>
           <h3 className="text-xl font-bold mt-4">Manage Availability</h3>
-          <AvailabilityCalendar availableDates={availableDates} />
+          <div className="mb-4">
+            <DatePicker
+              selected={newDate}
+              onChange={date => setNewDate(date as Date)}
+              dateFormat="MMMM d, yyyy"
+              className="border p-2 rounded"
+            />
+            <input
+              type="time"
+              value={newTime}
+              onChange={e => setNewTime(e.target.value)}
+              className="border p-2 rounded ml-2"
+            />
+            <button
+              onClick={handleAddDate}
+              className="bg-blue-500 text-white py-2 px-4 rounded ml-2"
+            >
+              Add
+            </button>
+          </div>
+          <div className="mb-4">
+            {availableDates.length > 0 && (
+              <div>
+                <h3 className="text-xl font-bold mb-2">Selected Dates and Times:</h3>
+                <ul>
+                  {availableDates.map((d, idx) => (
+                    <li key={idx}>
+                      {d.date.toDateString()}: {d.times.join(', ')}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => setSelectedService(null)}
             className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
@@ -102,6 +145,7 @@ const ServiceServices: React.FC = () => {
 };
 
 export default ServiceServices;
+
 
 /*
 import React, { useEffect, useState } from 'react';

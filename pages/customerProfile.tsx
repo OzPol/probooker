@@ -1,13 +1,7 @@
 // pages/customerProfile.tsx
-
 // This is the Customer Profile View Page 
 // A sidebard menu with links for actions and a main content area to display Services, search etc. 
 // This page is only accessible to logged in users.
-
-// pages/customerProfile.tsx
-
-'use client'
-
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import CustomerProfileOverview from '../components/CustomerProfileOverview';
@@ -17,13 +11,15 @@ import CustomerSearchServices from '../components/CustomerSearchServices';
 import ServiceDetails from '../components/ServiceDetails';
 import ProviderProfileForCustomer from '../components/ProviderProfileForCustomer';
 import { logout } from '../lib/authUtils';
+import BookingForm from '../components/BookingForm';
+import { Service } from '../types/appwrite.type';
 
 const CustomerProfile = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [selectedService, setSelectedService] = useState<any | null>(null); // State to track selected service
-  const [selectedProvider, setSelectedProvider] = useState<any | null>(null); // State to track selected provider
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<any | null>(null);
 
   useEffect(() => {
     const session = localStorage.getItem('appwriteSession');
@@ -35,18 +31,43 @@ const CustomerProfile = () => {
     }
   }, [router]);
 
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      if (url.startsWith('/customerProfile')) {
+        const tab = url.split('#')[1];
+        if (tab) setActiveTab(tab);
+      }
+    };
+
+    router.events.on('hashChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('hashChangeComplete', handleRouteChange);
+    };
+  }, [router]);
+
   const handleLogout = async () => {
     await logout();
     router.push('/customer-login');
   };
 
-  if (!isAuthenticated) {
-    return null; // Render nothing until authentication status is determined
-  }
+  const handleServiceClick = (service: Service) => {
+    setSelectedService(service);
+    router.push('/customerProfile#details');
+  };
+
+  const handleBackToSearch = () => {
+    setSelectedService(null);
+    router.push('/customerProfile#search');
+  };
 
   const renderContent = () => {
     if (selectedService) {
-      return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
+      return (
+        <>
+          <ServiceDetails service={selectedService} onBack={handleBackToSearch} />
+          <BookingForm service={selectedService} />
+        </>
+      );
     }
 
     if (selectedProvider) {
@@ -61,10 +82,15 @@ const CustomerProfile = () => {
       case 'account':
         return <CustomerAccountDetails />;
       case 'search':
-        return <CustomerSearchServices />;
+        return <CustomerSearchServices onServiceClick={handleServiceClick} />;
       default:
         return <CustomerProfileOverview />;
     }
+  };
+
+  const navigateToTab = (tab: string) => {
+    setActiveTab(tab);
+    router.push(`/customerProfile#${tab}`);
   };
 
   return (
@@ -75,7 +101,7 @@ const CustomerProfile = () => {
           <ul>
             <li>
               <button
-                onClick={() => setActiveTab('overview')}
+                onClick={() => navigateToTab('overview')}
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'overview' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Profile Overview
@@ -83,7 +109,7 @@ const CustomerProfile = () => {
             </li>
             <li>
               <button
-                onClick={() => setActiveTab('bookings')}
+                onClick={() => navigateToTab('bookings')}
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 View Bookings
@@ -91,7 +117,7 @@ const CustomerProfile = () => {
             </li>
             <li>
               <button
-                onClick={() => setActiveTab('account')}
+                onClick={() => navigateToTab('account')}
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Account Details
@@ -99,7 +125,7 @@ const CustomerProfile = () => {
             </li>
             <li>
               <button
-                onClick={() => setActiveTab('search')}
+                onClick={() => navigateToTab('search')}
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'search' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Search Services

@@ -59,7 +59,7 @@ useEffect(() => {
       {message && <p>{message}</p>}
       {profile ? (
         <div>
-       <div>
+        <div>
           <h2>{profile.name}</h2>
           <p>Email: {profile.email}</p>
           <p>Phone: {profile.phone}</p>

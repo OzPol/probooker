@@ -1,60 +1,120 @@
-// components/BookingForm.tsx
+import React, { useState, useEffect } from 'react';
+import { z, ZodSchema } from 'zod';
+import { databases } from '../lib/appwrite.config';
 
-'use client';
+const bookingSchema = z.object({
+  date: z.string(),
+  time: z.string(),
+  customerId: z.string(),
+  providerId: z.string(),
+  serviceId: z.string(),
+});
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { z } from 'zod';
-import { getBookingSchema } from '../lib/validation';
-import CustomFormField, { FormFieldType } from './CustomFormField';
-import SubmitButton from './SubmitButton';
-import { createBooking } from '../lib/booking.actions';
+interface BookingFormProps {
+  service: {
+    $id: string;
+    providerId: string;
+    price: number;
+    name: string;
+    description: string;
+  };
+}
 
-const BookingForm = () => {
-  const router = useRouter();
-  const form = useForm<z.infer<ReturnType<typeof getBookingSchema>>>({
-    resolver: zodResolver(getBookingSchema('create')),
-    defaultValues: {
-      service: '',
-      date: new Date(),
-      time: '',
-    },
-  });
+const BookingForm: React.FC<BookingFormProps> = ({ service }) => {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [userCredits, setUserCredits] = useState(0);
+  
+  useEffect(() => {
+    const fetchUserCredits = async () => {
+      const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
+      const customerId = session.userId;
+      
+      try {
+        const user = await databases.getDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_CUSTOMER_COLLECTION_ID!, customerId);
+        setUserCredits(user.credits);
+      } catch (error) {
+        console.error('Error fetching user credits:', error);
+      }
+    };
 
-  const onSubmit = async (values: z.infer<ReturnType<typeof getBookingSchema>>) => {
+    fetchUserCredits();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
+    const customerId = session.userId;
+
+    if (userCredits < service.price) {
+      alert('Insufficient credits');
+      return;
+    }
+
+    const formData = {
+      date,
+      time,
+      customerId,
+      providerId: service.providerId,
+      serviceId: service.$id,
+    };
+
     try {
-      await createBooking(values);
-      router.push('/customerProfile'); // Redirect after booking
+      const response = await fetch('/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('Booking created successfully.');
+        const updatedCredits = userCredits - service.price;
+        await databases.updateDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_CUSTOMER_COLLECTION_ID!,
+          customerId,
+          { credits: updatedCredits }
+        );
+        setUserCredits(updatedCredits);
+      } else {
+        console.error('Failed to create booking.');
+      }
     } catch (error) {
       console.error('Error creating booking:', error);
     }
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      <CustomFormField
-        fieldType={FormFieldType.INPUT}
-        control={form.control}
-        name="service"
-        label="Service"
-        placeholder="Service"
-      />
-      <CustomFormField
-        fieldType={FormFieldType.DATE_PICKER}
-        control={form.control}
-        name="date"
-        label="Date"
-        dateFormat="MM/dd/yyyy"
-      />
-      <CustomFormField
-        fieldType={FormFieldType.INPUT}
-        control={form.control}
-        name="time"
-        label="Time"
-        placeholder="Time"
-      />
-      <SubmitButton isLoading={false}>Create Booking</SubmitButton>
+    <form onSubmit={handleSubmit} className="mt-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Date</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="mt-1 block w-1/2 sm:w-1/3 lg:w-1/4 border border-gray-300 rounded-md shadow-sm p-2"
+          required
+        />
+      </div>
+      <div className="mt-2">
+        <label className="block text-sm font-medium text-gray-700">Time</label>
+        <input
+          type="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          className="mt-1 block w-1/2 sm:w-1/3 lg:w-1/4 border border-gray-300 rounded-md shadow-sm p-2"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Book Now
+      </button>
     </form>
   );
 };

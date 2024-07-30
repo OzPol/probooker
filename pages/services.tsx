@@ -1,17 +1,18 @@
-import React,{ useEffect, useState } from 'react';
-// import { useRouter } from 'next/router'; // Import useRouter for navigation
+// pages/services.tsx
+
+import React, { useEffect, useState } from 'react';
 import { Service } from '../types/appwrite.type';
 import ServiceCard from '../components/ServiceCard';
 import { fetchAllServices } from '../components/DataServiceConsumer';
 import { FaSearch } from 'react-icons/fa';
-import ServiceDetails from '../components/ServiceDetails'; 
+import ServiceDetails from '../components/ServiceDetails';
 
 // This is the page where services are listed and displayed.
+
 const Services: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
-  //const [selectedService, setSelectedService] = useState<Service | null>(null);
-  //const [selectedProvider, setSelectedProvider] = useState<any | null>(null); // track selected provider
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [searchBy, setSearchBy] = useState('title');
   const [filter, setFilter] = useState('');
   const [city, setCity] = useState('');
@@ -21,7 +22,6 @@ const Services: React.FC = () => {
   const [cities, setCities] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [zips, setZips] = useState<string[]>([]);
-
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -54,6 +54,7 @@ const Services: React.FC = () => {
     setCategory(e.target.value);
     filterServices({ category: e.target.value });
   };
+
   const handleZipChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setZip(e.target.value);
     filterServices({ zip: e.target.value });
@@ -120,13 +121,9 @@ const Services: React.FC = () => {
     setFilteredServices(filtered);
   };
 
-  // if (selectedService) {
-  //   return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
-  // }
-
-  // if (selectedProvider) {
-  //   return <ProviderProfileForCustomer provider={selectedProvider} onBack={() => setSelectedProvider(null)} />;
-  // }
+  if (selectedService) {
+    return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
+  }
 
   return (
     <div className="container mx-auto">
@@ -210,14 +207,13 @@ const Services: React.FC = () => {
           <ServiceCard
             key={service.$id}
             title={service.name}
-            summary=''
             description={service.description}
             price={service.price}
             providerName={service.providerName}
-            providerID=''
-            category=''
-            //onClick={() => setSelectedService(service)} // Set the selected service on click
-            //onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
+            providerID={service.providerId}
+            category={service.category}
+            onClick={() => setSelectedService(service)} // Set the selected service on click
+            // onProviderClick={() => setSelectedProvider(service.providerId)} // Set the selected provider on click
           />
         ))}
       </div>
@@ -226,113 +222,3 @@ const Services: React.FC = () => {
 };
 
 export default Services;
-// const Services = () => {
-//   const [services, setServices] = useState<Service[]>([]);
-//   const [filter, setFilter] = useState('');
-//   const router = useRouter(); // Initialize useRouter
-
-//   useEffect(() => {
-//     const fetchServices = async () => {
-//       const fetchedServices = await fetchAllServices();
-//       setServices(fetchedServices);
-//     };
-
-//     fetchServices();
-//   }, []);
-
-//   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setFilter(e.target.value);
-//   };
-
-//   const filteredServices = services.filter(service =>
-//     service.name.toLowerCase().includes(filter.toLowerCase())
-//   );
-
-//   const handleServiceClick = (service: Service) => {
-//     // Handle the click event for the service card here
-//     console.log(`Service clicked: ${service.name}`);
-//   };
-
-//   const handleViewProfile = (providerId: string) => {
-//     // Navigate to the provider profile page
-//     router.push(`/providerProfile/${providerId}`);
-//   };
-
-//   return (
-//     <div className="p-8">
-//       <h1 className="text-3xl font-bold mb-4">Services</h1>
-//       <input
-//         type="text"
-//         placeholder="Filter services"
-//         value={filter}
-//         onChange={handleFilterChange}
-//         className="mb-4 p-2 border rounded w-full md:w-1/3"
-//       />
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//         {filteredServices.map(service => (
-//           <ServiceCard
-//             key={service.$id}
-//             title={service.name}
-//             summary=''
-//             description={service.description}
-//             price={service.price}
-//             providerName={service.providerName}
-//             providerID=''
-//             category=''
-//             onClick={() => handleServiceClick(service)}
-//             //onProviderClick={() => handleViewProfile(service.providerId)}
-//             //onViewProfile={() => handleViewProfile(service.providerId)} // Pass the providerId to handleViewProfile
-//           />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Services;
-
-
-/*
-
-import { useEffect, useState } from 'react';
-import ServiceCard from '../components/ServiceCard';
-import { Service } from '../types';
-
-const Services = () => {
-  const [services, setServices] = useState<Service[]>([]);
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch('/api/services');
-        const data = await response.json();
-        setServices(data);
-      } catch (error) {
-        console.error('Error fetching services:', error);
-      }
-    };
-
-    fetchServices();
-  }, []);
-
-  return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Services</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {services.map(service => (
-          <ServiceCard
-            key={service.$id}
-            name={service.name}
-            description={service.description}
-            price={service.price}
-            providerName={service.providerName}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default Services;
-
-*/

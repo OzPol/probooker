@@ -8,6 +8,9 @@ body {
   @apply bg-white text-gray-900;
   margin: 0;
   font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
@@ -18,6 +21,10 @@ a:hover {
   @apply underline;
 }
 
+/* To make sure main content area grows to fill available space. Footer was showing up in the middle of the page. */
+main {
+  flex: 1;
+}
 
 /* Custom background styles for different pages */
 .homepage-background {
@@ -102,4 +109,12 @@ a:hover {
 .content-background {
   @apply bg-white bg-opacity-10;
 }
-  */
+*/
+
+/* Sticky footer style */
+footer {
+  @apply bg-gray-800 text-white py-4 mt-8;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}

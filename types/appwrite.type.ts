@@ -75,8 +75,14 @@ export interface Booking extends Models.Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
 export interface BookingCardProps {
   booking: Booking;
   onConfirm: () => void;
   onCancel: () => void;
+}
+
+export interface BookingFormProps {
+  providerId: string;
+  serviceId: string;
 }

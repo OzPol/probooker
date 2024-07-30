@@ -1,6 +1,5 @@
 // provider-start.tsx pages to guide users to either register or log in.
 
-
 import Head from 'next/head';
 import Link from 'next/link';
 
