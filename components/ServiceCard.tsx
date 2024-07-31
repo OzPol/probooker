@@ -51,10 +51,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, 
       <div className="mb-1 flex-grow" onClick={onClick}>
         <p className="text-gray-700 line-clamp-3">{summary}</p>
       </div>
-      <div className="flex justify-between items-center mt-1"onClick={onClick}>
+      <div className="flex justify-between items-center mt-1">
         <span className="text-gray-500 text-sm">{city}</span>
-        <div className="flex items-center">
-          <p className="text-gray-600 italic text-sm cursor-pointer" onClick={onProviderClick}>By: {providerName}</p>
+        <div className="flex items-center" onClick={onProviderClick}>
+          <p className="text-gray-600 italic text-sm cursor-pointer">By: {providerName}</p>
           <img src={providerIcon} alt={providerName} className="w-8 h-8 rounded-full mr-2" />
         </div>
       </div>

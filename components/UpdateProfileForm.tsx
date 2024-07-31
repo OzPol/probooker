@@ -9,20 +9,33 @@ const UpdateProfileForm: React.FC<{ profile: any }> = ({ profile }) => {
   const [city, setCity] = useState(profile.city);
   const [state, setState] = useState(profile.state);
   const [zipcode, setZipcode] = useState(profile.zipcode);
+  const [profileImg, setProfileImg] = useState(profile.profileImg);
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await users.updatePhone(profile.userId, phone);
-      await users.updateEmail(profile.userId, email);
-      await users.updateName(profile.userId, name);
-
+      if (phone !== profile.phone) {
+        await users.updatePhone(profile.userId, phone);
+      }
+      if (email !== profile.email) {
+        await users.updateEmail(profile.userId, email);
+      }
+      if (name !== profile.name) {
+        await users.updateName(profile.userId, name);
+      }
+      var collectionID = "";
+      if(profile.userType==="Consumer"){
+        collectionID = process.env.CONSUMER_COLLECTION_ID!
+      }
+      else if(profile.userType==="Provider"){
+        collectionID = process.env.SERVICEPROVIDER_COLLECTION_ID!
+      }
       await databases.updateDocument(
         process.env.DATABASE_ID!,
-        process.env.SERVICEPROVIDER_COLLECTION_ID!,
+        collectionID,
         profile.$id,
-        { name, email, phone, address, city, state, zipcode }
+        { name, email, phone, address, city, state, zipcode, profileImg }
       );
       setMessage('Profile updated successfully');
     } catch (error) {
@@ -120,6 +133,19 @@ const UpdateProfileForm: React.FC<{ profile: any }> = ({ profile }) => {
           id="zipcode"
           value={zipcode}
           onChange={(e) => setZipcode(e.target.value)}
+          required
+          className="border border-gray-300 rounded p-1 mt-1"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="profileImg" className="font-semibold">
+          Profile Image:
+        </label>
+        <input
+          type="text"
+          id="profileImg"
+          value={profileImg}
+          onChange={(e) => setProfileImg(e.target.value)}
           required
           className="border border-gray-300 rounded p-1 mt-1"
         />

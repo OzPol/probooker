@@ -216,7 +216,7 @@ const CustomerSearchServices: React.FC = () => {
             providerID=''
             category={service.category}
             city={service.city}
-            providerIcon={'../public/assets/InteriorDesignXL.jpg'}
+            providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
             rating={5}
             onClick={() => setSelectedService(service)} // Set the selected service on click
             onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
