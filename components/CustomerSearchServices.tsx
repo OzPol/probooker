@@ -42,7 +42,7 @@ const CustomerSearchServices: React.FC<{ onServiceClick: (service: Service) => v
             description={service.description}
             price={service.price}
             providerName={service.providerName}
-            providerID={service.providerId}
+            providerId={service.providerId}
             category={service.category}
             onClick={() => onServiceClick(service)}
           />
