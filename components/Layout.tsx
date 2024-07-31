@@ -1,7 +1,5 @@
 // The Layout component specifies common features of every page like the header and the footer
 
-import Head from 'next/head';
-import Link from 'next/link';
 import { ReactNode } from 'react';
 import Header from '../components/Header'
 import Footer from '../components/Footer'

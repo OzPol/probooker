@@ -1,18 +1,6 @@
-// const ServiceAccountDetails = () => {
-//     return (
-//       <div>
-//         <h2 className="text-2xl font-bold mb-4">Account Details</h2>
-//         <p>This is a placeholder for the service provider account details section.</p>
-//       </div>
-//     );
-//   };
-  
-//   export default ServiceAccountDetails;
-
 import { useEffect, useState } from 'react';
 import {databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
-import Image from 'next/image';
 
 const ServiceAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
@@ -54,26 +42,26 @@ const ServiceAccountDetails: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Profiel Overview</h2>
+      <h2 className="text-2xl font-bold mb-4">Profile Overview</h2>
       {message && <p>{message}</p>}
       {profile ? (
-        <div>
-        <div>
-          <h2>{profile.name}</h2>
-          <p>User ID: {profile.userId}</p>
-          <p>Email: {profile.email}</p>
-          <p>Phone: {profile.phone}</p>
-          <p>Address: {profile.address}</p>
-          <p>City: {profile.city}</p>
-          <p>State: {profile.state}</p>
-          <p>Zipcode: {profile.zipcode}</p>
-          <p>Create On: {profile.createon}</p>
-          <p>User Type: {profile.userType}</p>
-          <p>Profile Image: <Image src={profile.profileImg} alt="Profile" /></p>
-          <p>Bookings: {profile.bookings.join(', ')}</p>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <div>
+            <h2>{profile.name}</h2>
+            <p>User ID: {profile.userId}</p>
+            <p>Email: {profile.email}</p>
+            <p>Phone: {profile.phone}</p>
+            <p>Address: {profile.address}</p>
+            <p>City: {profile.city}</p>
+            <p>State: {profile.state}</p>
+            <p>Zipcode: {profile.zipcode}</p>
+            <p>Create On: {profile.createon}</p>
+            <p>User Type: {profile.userType}</p>
+            <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p>
+            <p>Bookings: {profile.bookings.join(', ')}</p>
 
-          {/* Add other profile fields as needed */}
-        </div>
+            {/* Add other profile fields as needed */}
+          </div>
         </div>
       ) : (
         <p>Loading profile...</p>

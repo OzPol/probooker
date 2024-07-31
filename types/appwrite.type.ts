@@ -20,7 +20,7 @@ export interface ServiceCardProps {
   description: string;
   price: number;
   providerName: string;
-  providerID: string;
+  providerId: string;
   category: string;
   onClick?: () => void;
   onViewProfile?: () => void; // Optional prop for viewing profile
@@ -42,38 +42,33 @@ export interface Provider extends Models.Document {
   name: string;
   email: string;
   phone: string;
+  bookings: string[];
   address: string;
   city: string;
   state: string;
   zipcode: string;
   createdAt: Date;
-  bookings: string[];
   ratings: Int8Array;
   userType: 'Provider';
   unavailableDates: string[];
+  availableDates: string [] // an array of Json strings { date: string; startTime: string; endTime: string }
   services: string[];
   profileImge: string;
-}
-
-export enum BookingStatus {
-  PENDING = 'pending',
-  CONFIRMED = 'confirmed',
-  COMPLETED = 'completed',
-  CANCELED = 'canceled'
+  credits: number;
+  // availability: Availability[];
 }
 
 export interface Booking extends Models.Document {
-  $id: string;
+  bookingId: string;
   consumerId: string;
   providerId: string;
   serviceId: string;
-  schedule: Date;
-  status: BookingStatus;
-  reason: string;
-  note: string;
-  cancellationReason: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  date: Date;
+  status: string;
+  address: string;
+  city: string;
+  state: string;
+  zipcode: string;
 }
 
 export interface BookingCardProps {
@@ -85,4 +80,13 @@ export interface BookingCardProps {
 export interface BookingFormProps {
   providerId: string;
   serviceId: string;
+}
+
+export interface Availability extends Models.Document {
+  date: string; // ISO string format required
+  startTime: string; // "HH:mm" format required
+  endTime: string; // "HH:mm" format required
+  recurring: boolean; // Boolean type not required, and default False
+  providerId: string;  // String type required
+  serviceProvider: string; // String type required
 }

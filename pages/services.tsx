@@ -1,4 +1,6 @@
 // pages/services.tsx
+// This is the page where services are listed and displayed.
+// This page is accessible to all users.
 
 import React, { useEffect, useState } from 'react';
 import { Service } from '../types/appwrite.type';
@@ -210,7 +212,7 @@ const Services: React.FC = () => {
             description={service.description}
             price={service.price}
             providerName={service.providerName}
-            providerID={service.providerId}
+            providerId={service.providerId}
             category={service.category}
             onClick={() => setSelectedService(service)} // Set the selected service on click
             // onProviderClick={() => setSelectedProvider(service.providerId)} // Set the selected provider on click

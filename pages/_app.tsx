@@ -1,5 +1,4 @@
 // moving from old repo
-
 // The pages/_app.tsx file in a Next.js project is used to customize the default App component,
 // which is the top-level component that wraps all the pages in the application. 
 // This file is useful for persisting layout between page changes,
@@ -7,7 +6,6 @@
 
 // pages/_app.tsx
 import '../styles/globals.css';
-import { AuthProvider } from '../lib/authContext';
 import { ReactNode, ComponentType } from 'react';
 import Layout from '../components/Layout'
 
@@ -18,11 +16,9 @@ interface MyAppProps {
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    <AuthProvider>
       <Layout>
       <Component {...pageProps} />
       </Layout>
-    </AuthProvider>
   );
 }
 

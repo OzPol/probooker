@@ -1,3 +1,6 @@
+// ./lib/availability.actions.ts
+// This file contains functions to fetch and update provider availability in the database.
+
 import { databases } from './appwrite.config';
 import { Query } from 'node-appwrite';
 
@@ -8,7 +11,7 @@ export const fetchProviderAvailability = async (providerId: string) => {
     [Query.equal('providerId', providerId)]
   );
   if (response.documents.length > 0) {
-    return response.documents[0].availableDates; // Adjust based on your document structure
+    return response.documents[0].availableDates; 
   }
   return [];
 };

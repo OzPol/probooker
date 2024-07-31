@@ -35,3 +35,16 @@ declare interface RegisterUserParams extends CreateUserParams {
     Booking: Booking;
     type: string;
   };
+
+declare interface ServiceCardProps {
+  title: string;
+  summary: string;
+  description: string;
+  price: number;
+  providerName: string;
+  providerId: string;
+  category: string;
+  onClick?: () => void;
+  onViewProfile?: () => void;
+  onProviderClick?: () => void;
+}

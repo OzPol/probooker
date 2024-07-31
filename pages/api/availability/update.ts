@@ -1,19 +1,25 @@
 // pages/api/availability/update.ts
+// This API endpoint is used to update the availability of a provider
+// It receives the userId and availability as a request body
+// It uses the appwrite sdk to update the availability in the database
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { databases } from '../../../lib/appwrite.config';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { userId, availableDates } = req.body;
+    const { userId, availability } = req.body; // Availability is an array of objects with date, startTime, and endTime
     try {
-      const response = await databases.updateDocument(
-        process.env.NEXT_PUBLIC_DATABASE_ID!,
-        process.env.NEXT_PUBLIC_AVAILABILITY_COLLECTION_ID!,
-        userId,
-        { availableDates }
-      );
-      res.status(200).json(response);
+      const promises = availability.map(async (slot: any) => {
+        await databases.createDocument(
+          process.env.DATABASE_ID!,
+          process.env.AVAILABILITY_COLLECTION_ID!,
+          'unique()',
+          { userId, ...slot }
+        );
+      });
+      await Promise.all(promises);
+      res.status(200).json({ message: 'Availability updated successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Failed to update availability' });
     }

@@ -11,7 +11,7 @@ interface ServiceCardProps {
   description: string;
   price: number;
   providerName: string;
-  providerID: string;
+  providerId: string;
   category: string;
   imageUrl?: string;
   onClick?: () => void;
@@ -22,7 +22,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   price,
   providerName,
-  providerID,
+  providerId,
   category,
   imageUrl,
   onClick,
