@@ -7,6 +7,7 @@ const CreateServiceForm: React.FC = () => {
   const [sessionData, setSessionData] = useState<any>(null);
   const [providerId, setProviderId] = useState('');
   const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [serviceProvider, setServiceProvider] = useState('');
@@ -15,6 +16,8 @@ const CreateServiceForm: React.FC = () => {
   const [jobsCompleted] = useState<number>(0);
   const [reviews] = useState<string[]>([]);
   const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [zipcode, setZip] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
 
@@ -41,6 +44,9 @@ const CreateServiceForm: React.FC = () => {
       if (response.documents.length > 0) {
         const provider = response.documents[0];
         setAddress(provider.address + ', ' + provider.city+', '+provider.state+', '+provider.zipcode); 
+        setCity(provider.city);
+        setZip(provider.zipcode);
+        setServiceProvider(provider.name);
       } else {
         setMessage('Provider address not found.');
       }
@@ -61,6 +67,7 @@ const CreateServiceForm: React.FC = () => {
         'unique()',
         {
           title,
+          summary,
           description,
           price,
           serviceProvider,
@@ -70,6 +77,8 @@ const CreateServiceForm: React.FC = () => {
           reviews,
           providerId,
           address,
+          city,
+          zipcode
         }
       );
 
@@ -94,7 +103,7 @@ const CreateServiceForm: React.FC = () => {
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-4">Create New Service</h3>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <label htmlFor="serviceProvider" className="font-semibold">
             <span className="text-red-500">*</span> Provider Name :
           </label>
@@ -106,7 +115,7 @@ const CreateServiceForm: React.FC = () => {
             required
             className="border border-gray-300 rounded p-2 mt-1"
           />
-        </div>
+        </div> */}
         <div className="flex flex-col">
           <label htmlFor="title" className="font-semibold">
             <span className="text-red-500">*</span> Service Title :
@@ -118,6 +127,15 @@ const CreateServiceForm: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
             className="border border-gray-300 rounded p-2 mt-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="summary" className="font-semibold">Summary :</label>
+          <textarea
+            id="summary"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            className="border h-12 border-gray-300 rounded p-2 mt-1"
           />
         </div>
         <div className="flex flex-col">
