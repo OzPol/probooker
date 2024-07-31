@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
+import Image from 'next/image';
 
 const ServiceAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);

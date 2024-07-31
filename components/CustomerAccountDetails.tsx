@@ -1,19 +1,7 @@
 import { useEffect, useState } from 'react';
 import { databases} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
-
-// const CustomerAccountDetails = () => {
-//     return (
-//       <div>
-//         <h2 className="text-2xl font-bold mb-4">Account Details</h2>
-//         <p>This is a placeholder for the customer account details section.</p>
-//       </div>
-//     );
-//   };
-  
-
-
-
+import Image from 'next/image';
 
 const CustomerAccountDetails: React.FC = () => {
 const [profile, setProfile] = useState<any>(null);
