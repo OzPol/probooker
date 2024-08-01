@@ -54,7 +54,7 @@ const CustomerRegisterForm: React.FC = () => {
           zipcode: formData.zipcode,
           profileImg: formData.profileImg,
           userType:"Consumer",
-          createon:created
+          //createon:created
         }
       );
 
