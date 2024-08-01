@@ -54,17 +54,20 @@ const ServiceServices: React.FC = () => {
       />
       {!selectedService ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1">
             {filteredServices.map(service => (
               <ServiceCard
                 key={service.$id}
                 title={service.name}
-                summary=''
+                summary={service.summary}
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}
                 providerID=''
-                category=''
+                category={service.category}
+                city={service.city}
+                providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
+                rating={5}
                 onClick={() => handleServiceClick(service)}
               />
             ))}

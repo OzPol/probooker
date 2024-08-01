@@ -97,7 +97,31 @@ a:hover {
   background: rgba(255, 255, 255, 0.8); /* Adjust opacity as needed */
   z-index: -1;
 }
+.line-clamp-1 {
+  display: -webkit-box;
+  /* -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;   */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-clamp: 1;
+  box-orient: vertical;
+}
 
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-clamp: 3;
+  box-orient: vertical;
+}
+.label {
+  display: inline-block;
+  width: 85px;
+}
 /*
 .content-background {
   @apply bg-white bg-opacity-10;

@@ -22,6 +22,9 @@ export interface ServiceCardProps {
   providerName: string;
   providerID: string;
   category: string;
+  city: string;
+  providerIcon: string;
+  rating:number;
   onClick?: () => void;
   onViewProfile?: () => void; // Optional prop for viewing profile
   onProviderClick?: () => void; // prop for provider click
@@ -29,10 +32,13 @@ export interface ServiceCardProps {
 export interface Service {
   $id: string;
   name: string;
+  summary: string;
   description: string;
   price: number;
   providerId: string;
   providerName: string;
+  rating:number[];
+  reviews:string[];
   category: string;
   city: string;
   zipcode:string;
