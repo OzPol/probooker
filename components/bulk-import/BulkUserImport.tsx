@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
-import { users, databases, storage } from "../../lib/appwrite.config";
+import { users, databases } from "../../lib/appwrite.config";
 
 interface User {
   name: string;
@@ -13,12 +13,23 @@ interface User {
   zipcode: string;
 }
 
-const BulkUserImport: React.FC = () => {
+interface BulkUserImportProps {
+  userType: "Consumer" | "Provider"; // User type
+  collectionId: string; // Collection ID for Appwrite
+  defaultProfilePictureUrl: string; // URL to the default profile picture
+}
+
+const BulkUserImport: React.FC<BulkUserImportProps> = ({
+  userType,
+  collectionId,
+  defaultProfilePictureUrl,
+}) => {
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState<string>("");
   const [importing, setImporting] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const created = useState(new Date().toISOString());
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -44,6 +55,8 @@ const BulkUserImport: React.FC = () => {
       alert("Please select a CSV file to upload.");
       return;
     }
+
+    const createdDateAttribute = userType === "Consumer" ? "createon" : "createdAt";
 
     setImporting(true);
     setMessage("");
@@ -111,20 +124,25 @@ const BulkUserImport: React.FC = () => {
           }
 
           try {
-            const newUser = users.create(
+            // Create the user in Appwrite
+            const newUser = await users.create(
               "unique()",
               user.email,
               user.phone,
               user.password,
               user.name
             );
-            await users.updateLabels((await newUser).$id, ["Consumer"]);
+
+            // Update user labels
+            await users.updateLabels(newUser.$id, [userType]);
+
+            // Create user profile in database with default profile picture
             await databases.createDocument(
               process.env.DATABASE_ID!,
-              process.env.CONSUMER_COLLECTION_ID!,
+              collectionId,
               "unique()",
               {
-                userId: (await newUser).$id,
+                userId: newUser.$id,
                 email: user.email,
                 phone: user.phone,
                 name: user.name,
@@ -132,10 +150,12 @@ const BulkUserImport: React.FC = () => {
                 city: user.city,
                 state: user.state,
                 zipcode: user.zipcode,
-                profileImg: '/assets/DefaultConsumerProfile.png',
-                userType: "Consumer",
+                userType,
+                profileImg: defaultProfilePictureUrl, // Associate default profile picture URL
+                [createdDateAttribute]: new Date().toISOString(), // Use dynamic attribute name for created date
               }
             );
+
             successCount++;
           } catch (error) {
             console.error("Failed to create user:", error);
@@ -160,7 +180,7 @@ const BulkUserImport: React.FC = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4 text-center">
-        Bulk Import Users
+        Bulk Import {userType === "Consumer" ? "Consumer Users" : "Service Providers"}
       </h2>
       <input
         type="file"

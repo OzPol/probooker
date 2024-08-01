@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminCustomerUsers from '@/components/AdminCustomerUsers';
 import AdminServiceUsers from '@/components/AdminServiceUsers';
-import BulkUserImport from '@/components/bulk-import/BulkImportCustomerUsers';
+import AdminImport from '@/components/AdminImport';
 import { logout } from '../lib/authUtils';
 
 const AdminDashboard = () => {
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
       case 'serviceUsers':
         return <AdminServiceUsers />;
       case 'import':
-        return <BulkUserImport />;
+        return <AdminImport />;
     }
   };
 
