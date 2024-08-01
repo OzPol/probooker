@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminCustomerUsers from '@/components/AdminCustomerUsers';
 import AdminServiceUsers from '@/components/AdminServiceUsers';
+import BulkUserImport from '@/components/bulk-import/BulkImportCustomerUsers';
 import { logout } from '../lib/authUtils';
 
 const AdminDashboard = () => {
@@ -30,6 +31,8 @@ const AdminDashboard = () => {
         return <AdminCustomerUsers />;
       case 'serviceUsers':
         return <AdminServiceUsers />;
+      case 'import':
+        return <BulkUserImport />;
     }
   };
 
@@ -58,6 +61,14 @@ const AdminDashboard = () => {
                 className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'serviceUsers' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
               >
                 Service Users
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('import')}
+                className={`w-full text-left py-2 px-4 mb-2 rounded ${activeTab === 'import' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+              >
+                Data Import
               </button>
             </li>
             <li>

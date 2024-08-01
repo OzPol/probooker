@@ -38,6 +38,7 @@ const CustomerRegisterForm: React.FC = () => {
       const newUser = await users.create('unique()', formData.email, formData.phone, formData.password, formData.name);
       //await users.updatePhone(newUser.$id, formData.phone);
       await users.updateLabels(newUser.$id, ["Consumer"]);
+      console.log(formData.profileImg);
 
       await databases.createDocument(
         process.env.DATABASE_ID!,
