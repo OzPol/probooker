@@ -38,7 +38,7 @@ const CustomerRegisterForm: React.FC = () => {
       const newUser = await users.create('unique()', formData.email, formData.phone, formData.password, formData.name);
       //await users.updatePhone(newUser.$id, formData.phone);
       await users.updateLabels(newUser.$id, ["Consumer"]);
-
+      console.log('Creating customer document for user:', newUser.$id);
       await databases.createDocument(
         process.env.DATABASE_ID!,
         process.env.CONSUMER_COLLECTION_ID!,
@@ -54,15 +54,18 @@ const CustomerRegisterForm: React.FC = () => {
           zipcode: formData.zipcode,
           profileImg: formData.profileImg,
           userType:"Consumer",
-          createon:created
+          //createon:created
         }
       );
+      console.log('Customer document created for user:', newUser.$id);
 
       setMessage('User created successfully.');
       router.push('/customer-login');
     } catch (error: any) {
-      console.error('Error creating user:', error);
-      setMessage('Error creating user. Please try again.');
+      console.error('Error creating user or provider:', error);
+      console.log('Error code:', error.code);
+      console.log('Error type:', error.type);
+      setMessage(`Error creating user or provider: ${error.message}`);
     }
   };
 
