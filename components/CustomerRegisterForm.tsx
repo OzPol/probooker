@@ -11,7 +11,6 @@ import { users, databases } from '../lib/appwrite.config';
 
 const CustomerRegisterForm: React.FC = () => {
   const router = useRouter();
-  const created = useState(new Date().toISOString());
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -38,7 +37,6 @@ const CustomerRegisterForm: React.FC = () => {
       const newUser = await users.create('unique()', formData.email, formData.phone, formData.password, formData.name);
       //await users.updatePhone(newUser.$id, formData.phone);
       await users.updateLabels(newUser.$id, ["Consumer"]);
-      console.log(formData.profileImg);
 
       await databases.createDocument(
         process.env.DATABASE_ID!,
@@ -55,7 +53,7 @@ const CustomerRegisterForm: React.FC = () => {
           zipcode: formData.zipcode,
           profileImg: formData.profileImg,
           userType:"Consumer",
-          //createon:created
+          createon:new Date().toISOString()
         }
       );
 
