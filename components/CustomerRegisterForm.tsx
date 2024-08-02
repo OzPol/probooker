@@ -11,7 +11,6 @@ import { users, databases } from '../lib/appwrite.config';
 
 const CustomerRegisterForm: React.FC = () => {
   const router = useRouter();
-  const created = useState(new Date().toISOString());
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -54,7 +53,7 @@ const CustomerRegisterForm: React.FC = () => {
           zipcode: formData.zipcode,
           profileImg: formData.profileImg,
           userType:"Consumer",
-          createon:created
+          createon:new Date().toISOString()
         }
       );
 
