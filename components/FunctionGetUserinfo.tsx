@@ -1,3 +1,8 @@
+//this function uses USER **DOCUMENT** ID (NOT auth USER ID) to retrieve a user document 
+//parameter: userDocument ID;  userType
+
+
+
 import { databases } from '../lib/appwrite.config';
 import { Models } from 'node-appwrite';
 

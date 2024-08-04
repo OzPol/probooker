@@ -1,10 +1,9 @@
-// components/ServiceDetails.tsx
-
 import React, { useState, useEffect } from 'react';
 import BookingForm from './BookingForm';
 import AvailabilityCalendar from './AvailabilityCalendar';
-import { Service,ReviewCardProps } from '../types/appwrite.type';
+import { Service, ReviewCardProps } from '../types/appwrite.type';
 import ReviewCard from './ReviewCard';
+import ReviewForm from './ReviewForm';
 import { fetchReviewsForService } from './DataReviewConsumerView';
 
 interface ServiceDetailsProps {
@@ -20,10 +19,15 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
     new Date('2024-07-27'),
   ]);
   const [isBookingSectionVisible, setIsBookingSectionVisible] = useState(false);
+  const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
   const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
 
   const toggleBookingSection = () => {
     setIsBookingSectionVisible(!isBookingSectionVisible);
+  };
+
+  const toggleReviewForm = () => {
+    setIsReviewFormVisible(!isReviewFormVisible);
   };
 
   useEffect(() => {
@@ -43,17 +47,31 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
       <p className="text-gray-700 mb-2">{service.description}</p>
       <p className="text-blue-500 font-bold">Price: ${service.price}</p>
 
-      <button 
-        onClick={toggleBookingSection} 
-        className={`mt-4 py-2 px-4 rounded ${isBookingSectionVisible ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}>
-        {isBookingSectionVisible ? 'Hide Booking' : 'Book'}
-      </button>
+      <div className="flex space-x-4">
+        <button 
+          onClick={toggleBookingSection} 
+          className={`mt-4 py-2 px-4 rounded ${isBookingSectionVisible ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}>
+          {isBookingSectionVisible ? 'Hide Booking' : 'Book'}
+        </button>
+        <button 
+          onClick={toggleReviewForm} 
+          className="mt-4 py-2 px-4 bg-blue-500 text-white rounded">
+          {isReviewFormVisible ? 'Cancel Review' : 'Write a Review'}
+        </button>
+      </div>
 
       {isBookingSectionVisible && (
         <div className="bg-gray-100 rounded-lg p-6 mt-4">
           <h2 className="text-2xl font-bold mb-4">Booking: {service.name}</h2>
           <AvailabilityCalendar availableDates={availableDates} />
           <BookingForm />
+        </div>
+      )}
+
+      {isReviewFormVisible && (
+        <div className="bg-gray-100 rounded-lg p-6 mt-4">
+          <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
+          <ReviewForm serviceID={service.$id} providerID={service.providerId} serviceTitle={service.name}/>
         </div>
       )}
 
