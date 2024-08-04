@@ -72,3 +72,12 @@ export interface Booking extends Models.Document {
   userId: string;
   cancellationReason: string | null;
 }
+
+export interface ReviewCardProps{
+  serviceID: string;
+  consumerID: string;
+  providerID: string;
+  review_text: string;
+  review_date: Date;
+  rating:number;
+} 
