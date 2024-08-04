@@ -1,16 +1,18 @@
-// components/ServiceAccountDetails.tsx
-
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { databases } from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 import ChangePasswordForm from './UpdatePassword';
+import { ReviewCardProps } from '../types/appwrite.type';
 import UpdateProfileForm from './UpdateProfileForm';
+import ReviewCardProviderProfile from './ReviewCardProviderProfile';
+import { fetchReviewsForProvider } from './DataReviewProviderProfilePage';
 
 const ServiceAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const [message, setMessage] = useState('');
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [activeSetting, setActiveSetting] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -29,7 +31,12 @@ const ServiceAccountDetails: React.FC = () => {
         );
 
         if (response.documents.length > 0) {
-          setProfile(response.documents[0]);
+          const userProfile = response.documents[0];
+          setProfile(userProfile);
+
+          // Fetch reviews using the provider document ID
+          const fetchedReviews = await fetchReviewsForProvider(userProfile.$id);
+          setReviews(fetchedReviews);
         } else {
           setMessage('Profile not found.');
         }
@@ -91,28 +98,6 @@ const ServiceAccountDetails: React.FC = () => {
                   <UpdateProfileForm profile={profile} />
                 </div>
               )}
-              <p className="cursor-pointer my-2 font-bold" onClick={() => handleSettingClick('changeDaysUnavailable')}>Change Days Unavailable</p>
-              {activeSetting === 'changeDaysUnavailable' && (
-                <div className="mt-4">
-                  <h4 className="font-bold">Change Days Unavailable</h4>
-                  <form>
-                    {/* Days unavailable form fields */}
-                    <div>
-                      <label>Unavailable Days</label>
-                      <input type="text" className="border rounded p-2" />
-                    </div>
-                    <button type="submit" className="bg-blue-500 text-white rounded p-2 mt-2">Update Days</button>
-                  </form>
-                </div>
-              )}
-            </div>
-          )}
-          <h3 className="my-4 cursor-pointer" onClick={() => toggleSection('services')}>
-            Services
-          </h3>
-          {expandedSection === 'services' && (
-            <div className="p-4 bg-white rounded shadow">
-              <p>Services content...</p>
             </div>
           )}
           <h3 className="my-4 cursor-pointer" onClick={() => toggleSection('currentBookings')}>
@@ -127,8 +112,11 @@ const ServiceAccountDetails: React.FC = () => {
             My Reviews
           </h3>
           {expandedSection === 'myReviews' && (
-            <div className="p-4 bg-white rounded shadow">
-              <p>My reviews content...</p>
+            <div className="mt-4">
+              <h3 className="text-2xl font-bold mb-4">Reviews</h3>
+              {reviews.map((review, index) => (
+                <ReviewCardProviderProfile key={index} {...review} />
+              ))}
             </div>
           )}
         </div>
