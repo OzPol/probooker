@@ -113,6 +113,24 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ serviceID, providerID, serviceT
         }
       );
 
+      // Update the provider document with the new rating
+      const providerResponse = await databases.getDocument(
+        process.env.DATABASE_ID!,
+        process.env.SERVICEPROVIDER_COLLECTION_ID!,
+        providerDocID
+      );
+
+      const providerUpdatedRatings = [...providerResponse.ratings, rating];
+
+      await databases.updateDocument(
+        process.env.DATABASE_ID!,
+        process.env.SERVICEPROVIDER_COLLECTION_ID!,
+        providerDocID,
+        {
+          ratings: providerUpdatedRatings,
+        }
+      );
+
       setMessage('Review submitted successfully');
       clearFormFields();
     } catch (error: any) {

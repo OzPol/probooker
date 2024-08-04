@@ -119,7 +119,11 @@ const Services: React.FC = () => {
 
     setFilteredServices(filtered);
   };
-
+  const calculateAverageRating = (ratings: number[]): number => {
+    if (ratings.length === 0) return 0;
+    const sum = ratings.reduce((a, b) => a + b, 0);
+    return sum / ratings.length;
+  };
   // if (selectedService) {
   //   return <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />;
   // }
@@ -218,7 +222,7 @@ const Services: React.FC = () => {
             category={service.category}
             city={service.city}
             providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
-            rating={5}
+            rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
             //onClick={() => setSelectedService(service)} // Set the selected service on click
             //onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />

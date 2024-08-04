@@ -7,6 +7,32 @@ import UpdateProfileForm from './UpdateProfileForm';
 import ReviewCardProviderProfile from './ReviewCardProviderProfile';
 import { fetchReviewsForProvider } from './DataReviewProviderProfilePage';
 
+const renderStars = (rating: number) => {
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (rating >= i + 0.8) {
+      stars.push(
+        <img key={i} src="/assets/star-full.svg" alt="Full Star" className="w-6 h-6" />
+      );
+    } else if (rating >= i + 0.3) {
+      stars.push(
+        <img key={i} src="/assets/star-half.svg" alt="Half Star" className="w-6 h-6" />
+      );
+    } else {
+      stars.push(
+        <img key={i} src="/assets/star-null.svg" alt="Empty Star" className="w-6 h-6" />
+      );
+    }
+  }
+  return stars;
+};
+
+const calculateAverageRating = (ratings: number[]): number => {
+  if (!ratings || ratings.length === 0) return 0;
+  const sum = ratings.reduce((a, b) => a + b, 0);
+  return sum / ratings.length;
+};
+
 const ServiceAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const [message, setMessage] = useState('');
@@ -68,7 +94,10 @@ const ServiceAccountDetails: React.FC = () => {
           <div className="mx-6">
             <h2 className="font-bold text-lg">{profile?.name}</h2>
             <p>{profile?.city}, {profile?.state}</p>
-            <p>Stars (Rating): {profile?.rating}</p>
+            <p className="flex">
+              {renderStars(parseFloat(calculateAverageRating(profile?.ratings || []).toFixed(1)))} 
+              <span className='font-bold'>{parseFloat(calculateAverageRating(profile?.ratings || []).toFixed(1))}</span>, ({profile?.ratings?.length || 0} Reviews)
+            </p>
             <p>Joined On: {profile?.createdAt?.substring(0, 10)}</p>
             <p>User Type: {profile?.userType}</p>
           </div>
