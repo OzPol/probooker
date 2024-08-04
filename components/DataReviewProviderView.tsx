@@ -10,14 +10,12 @@ export const fetchAndFilterReviews = async (): Promise<ReviewCardProps[]> => {
     const userId = sessionData.userId;
 
     try {
-      // Fetch documents from Appwrite collection
       const response = await databases.listDocuments(
         process.env.DATABASE_ID!,
         process.env.REVIEW_COLLECTION_ID!
       );
       const allReviews = response.documents;
 
-      // Filter reviews based on providerId or consumerId
       reviews = allReviews
         .filter((doc: any) => doc.providerID === userId || doc.consumerID === userId)
         .map((doc: any) => ({

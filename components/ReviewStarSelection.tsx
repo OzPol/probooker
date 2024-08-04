@@ -1,5 +1,3 @@
-// components/StarRating.tsx
-
 import React, { useState } from 'react';
 
 interface StarRatingProps {

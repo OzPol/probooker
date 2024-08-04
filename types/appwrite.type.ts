@@ -37,7 +37,7 @@ export interface Service {
   price: number;
   providerId: string;
   providerName: string;
-  rating:number[];
+  ratings:number[];
   reviews:string[];
   category: string;
   city: string;
@@ -80,4 +80,5 @@ export interface ReviewCardProps{
   review_text: string;
   review_date: Date;
   rating:number;
+  service_title?: string;
 } 

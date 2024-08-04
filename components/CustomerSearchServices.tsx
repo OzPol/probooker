@@ -21,7 +21,6 @@ const CustomerSearchServices: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [zips, setZips] = useState<string[]>([]);
 
-
   useEffect(() => {
     const fetchServices = async () => {
       const fetchedServices = await fetchAllServices();
@@ -33,8 +32,8 @@ const CustomerSearchServices: React.FC = () => {
       setCategories(uniqueCategories.sort());
       const uniqueZips = Array.from(new Set(fetchedServices.map(service => service.zipcode)));
       setZips(uniqueZips.sort());
-      const uniqueCites = Array.from(new Set(fetchedServices.map(service => service.city)));
-      setCities(uniqueCites.sort());
+      const uniqueCities = Array.from(new Set(fetchedServices.map(service => service.city)));
+      setCities(uniqueCities.sort());
     };
 
     fetchServices();
@@ -53,6 +52,7 @@ const CustomerSearchServices: React.FC = () => {
     setCategory(e.target.value);
     filterServices({ category: e.target.value });
   };
+
   const handleZipChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setZip(e.target.value);
     filterServices({ zip: e.target.value });
@@ -117,6 +117,12 @@ const CustomerSearchServices: React.FC = () => {
     }
 
     setFilteredServices(filtered);
+  };
+
+  const calculateAverageRating = (ratings: number[]): number => {
+    if (ratings.length === 0) return 0;
+    const sum = ratings.reduce((a, b) => a + b, 0);
+    return sum / ratings.length;
   };
 
   if (selectedService) {
@@ -217,7 +223,7 @@ const CustomerSearchServices: React.FC = () => {
             category={service.category}
             city={service.city}
             providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
-            rating={5}
+            rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
             onClick={() => setSelectedService(service)} // Set the selected service on click
             onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />

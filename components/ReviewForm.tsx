@@ -14,6 +14,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ serviceID, providerID, serviceT
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState('');
   const [consumerDocID, setConsumerDocID] = useState<string>('');
+  const [providerDocID, setProviderDocID] = useState<string>('');
 
   useEffect(() => {
     const fetchConsumerDocID = async () => {
@@ -37,11 +38,30 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ serviceID, providerID, serviceT
           setMessage('Error fetching consumer information.');
         }
       }
-      console.log(consumerDocID);
+    };
+
+    const fetchProviderDocID = async () => {
+      try {
+        const response = await databases.listDocuments(
+          process.env.DATABASE_ID!,
+          process.env.SERVICEPROVIDER_COLLECTION_ID!,
+          [sdk.Query.equal('userId', providerID)]
+        );
+
+        if (response.documents.length > 0) {
+          setProviderDocID(response.documents[0].$id);
+        } else {
+          setMessage('Provider not found.');
+        }
+      } catch (error) {
+        console.error('Error fetching provider document ID:', error);
+        setMessage('Error fetching provider information.');
+      }
     };
 
     fetchConsumerDocID();
-  }, []);
+    fetchProviderDocID();
+  }, [providerID]);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -50,26 +70,46 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ serviceID, providerID, serviceT
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!consumerDocID) {
-      setMessage('Consumer information not available.');
+    if (!consumerDocID || !providerDocID) {
+      setMessage('Consumer or provider information not available.');
       return;
     }
 
     try {
       const reviewDate = new Date().toISOString();
 
-      await databases.createDocument(
+      const reviewResponse = await databases.createDocument(
         process.env.DATABASE_ID!,
         process.env.REVIEW_COLLECTION_ID!,
         'unique()',
         {
           consumerID: consumerDocID,
           serviceID,
+          service_title: serviceTitle,
           review_text: reviewText,
           review_date: reviewDate,
           rating,
-          providerID,
-          service_title:serviceTitle,
+          providerID: providerDocID,
+        }
+      );
+
+      // Update the service document with the new review ID and rating
+      const serviceResponse = await databases.getDocument(
+        process.env.DATABASE_ID!,
+        process.env.SERVICE_COLLECTION_ID!,
+        serviceID
+      );
+
+      const updatedReviews = [...serviceResponse.reviews, reviewResponse.$id];
+      const updatedRatings = [...serviceResponse.ratings, rating];
+
+      await databases.updateDocument(
+        process.env.DATABASE_ID!,
+        process.env.SERVICE_COLLECTION_ID!,
+        serviceID,
+        {
+          reviews: updatedReviews,
+          ratings: updatedRatings,
         }
       );
 

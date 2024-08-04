@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { ReviewCardProps } from '../types/appwrite.type';
 import { fetchUserInfo } from './FunctionGetUserinfo';
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ serviceID, consumerID, providerID, review_text, review_date, rating, service_title }) => {
-  const [reviewAuthor, setReviewAuthor] = useState<any>(null);
+const ReviewCardConsumerSelf: React.FC<ReviewCardProps> = ({ serviceID, consumerID, providerID, review_text, review_date, rating, service_title }) => {
+  const [provider, setProvider] = useState<any>(null);
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const userInfo = await fetchUserInfo(consumerID, "Consumer");
-      setReviewAuthor(userInfo);
-      //console.log(consumerID);
+      const userInfo = await fetchUserInfo(providerID, "Provider");
+      setProvider(userInfo);
     };
-
+    console.log(providerID);
     getUserInfo();
-  }, [consumerID]);
+  }, [providerID]);
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -35,17 +34,16 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ serviceID, consumerID, provider
     return stars;
   };
 
-  if (!reviewAuthor) {
+  if (!provider) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden m-2 p-4">
       <div className="flex items-center mb-4">
-        <img src={reviewAuthor.profileImg} alt={reviewAuthor.name} className="w-16 h-16 rounded-full mr-4" />
         <div>
-          <h3 className="text-lg font-bold">{reviewAuthor.name}</h3>
-          <p className="text-gray-600">{reviewAuthor.city}, {reviewAuthor.state}</p>
+          <h3 className="text-lg font-bold">{service_title}</h3>
+          <span className="text-gray-600">By: {provider.name} - {provider.city}, {provider.state}</span>
         </div>
       </div>
       <div className="flex items-center mb-2">
@@ -59,4 +57,4 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ serviceID, consumerID, provider
   );
 };
 
-export default ReviewCard;
+export default ReviewCardConsumerSelf;
