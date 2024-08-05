@@ -41,7 +41,11 @@ const ServiceServices: React.FC = () => {
   const handleServiceClick = (service: Service) => {
     setSelectedService(service);
   };
-
+  const calculateAverageRating = (ratings: number[]): number => {
+    if (ratings.length === 0) return 0;
+    const sum = ratings.reduce((a, b) => a + b, 0);
+    return sum / ratings.length;
+  };
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Manage My Services</h2>
@@ -67,7 +71,7 @@ const ServiceServices: React.FC = () => {
                 category={service.category}
                 city={service.city}
                 providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
-                rating={5}
+                rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
                 onClick={() => handleServiceClick(service)}
               />
             ))}

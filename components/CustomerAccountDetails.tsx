@@ -1,43 +1,50 @@
 import { useEffect, useState } from 'react';
-import { databases} from '../lib/appwrite.config';
+import { databases } from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 import ChangePasswordForm from './UpdatePassword';
+import { ReviewCardProps } from '../types/appwrite.type';
 import UpdateProfileForm from './UpdateProfileForm';
+import ReviewCardConsumerSelf from './ReviewCardConsumerSelf';
+import { fetchReviewsForConsumer } from './DataReviewConsumerSelfView';
 
 const CustomerAccountDetails: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const [message, setMessage] = useState('');
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [activeSetting, setActiveSetting] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
 
-useEffect(() => {
-  const fetchProfile = async () => {
-    try {
-        // Retrieve the session information from local storage
-      const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
-      
-      if (!session || !session.userId) {
-        setMessage('No active session found. Please log in.');
-        return;
-      }
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
 
-      // Fetch user profile from the collection
-      const response = await databases.listDocuments(
+        if (!session || !session.userId) {
+          setMessage('No active session found. Please log in.');
+          return;
+        }
+
+        const response = await databases.listDocuments(
           process.env.DATABASE_ID!,
-          process.env.CONSUMER_COLLECTION_ID!, 
-        [ sdk.Query.equal('userId', session.userId)]
-      );
+          process.env.CONSUMER_COLLECTION_ID!,
+          [sdk.Query.equal('userId', session.userId)]
+        );
 
         if (response.documents.length > 0) {
-          setProfile(response.documents[0]);
+          const userProfile = response.documents[0];
+          setProfile(userProfile);
+          
+          // Fetch reviews using the document ID
+          const fetchedReviews = await fetchReviewsForConsumer(userProfile.$id);
+          setReviews(fetchedReviews);
         } else {
           setMessage('Profile not found.');
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching profile:', error);
         setMessage('Error fetching profile.');
-    }
-  };
+      }
+    };
 
     fetchProfile();
   }, []);
@@ -52,7 +59,7 @@ useEffect(() => {
   };
 
   return (
-<div className="bg-gray-100 rounded-lg p-6">
+    <div className="bg-gray-100 rounded-lg p-6">
       <div className="flex justify-between items-start mb-4 border-b border-gray-300 pb-4">
         <div className="flex items-center">
           <div className="w-40 h-40 flex items-center justify-center rounded-full">
@@ -91,7 +98,6 @@ useEffect(() => {
                   <UpdateProfileForm profile={profile} />
                 </div>
               )}
-              {console.log(profile.$id)}
             </div>
           )}
           <h3 className="my-4 cursor-pointer" onClick={() => toggleSection('currentBookings')}>
@@ -106,8 +112,11 @@ useEffect(() => {
             My Reviews
           </h3>
           {expandedSection === 'myReviews' && (
-            <div className="p-4 bg-white rounded shadow">
-              <p>My reviews content...</p>
+            <div className="mt-4">
+              <h3 className="text-2xl font-bold mb-4">Reviews</h3>
+              {reviews.map((review, index) => (
+                <ReviewCardConsumerSelf key={index} {...review} />
+              ))}
             </div>
           )}
         </div>
@@ -115,6 +124,5 @@ useEffect(() => {
     </div>
   );
 };
-export default CustomerAccountDetails;
 
-  
+export default CustomerAccountDetails;

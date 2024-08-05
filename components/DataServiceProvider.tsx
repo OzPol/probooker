@@ -30,7 +30,7 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
           providerId: doc.providerId,
           providerName: doc.serviceProvider,
           category: doc.category,
-          rating: doc.ratings,
+          ratings: doc.ratings,
           reviews:doc.reviews,
           address: doc.address,
           city:doc.city,

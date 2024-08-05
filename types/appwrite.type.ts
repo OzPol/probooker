@@ -37,7 +37,7 @@ export interface Service {
   price: number;
   providerId: string;
   providerName: string;
-  rating:number[];
+  ratings:number[];
   reviews:string[];
   category: string;
   city: string;
@@ -72,3 +72,13 @@ export interface Booking extends Models.Document {
   userId: string;
   cancellationReason: string | null;
 }
+
+export interface ReviewCardProps{
+  serviceID: string;
+  consumerID: string;
+  providerID: string;
+  review_text: string;
+  review_date: Date;
+  rating:number;
+  service_title?: string;
+} 
