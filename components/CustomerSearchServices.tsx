@@ -6,7 +6,12 @@ import { Service } from '../types/appwrite.type';
 import { fetchAllServices } from './DataServiceConsumer';
 import { FaSearch } from 'react-icons/fa';
 
-const CustomerSearchServices: React.FC = () => {
+// Define the prop type for CustomerSearchServices
+interface CustomerSearchServicesProps {
+  onServiceClick: React.Dispatch<React.SetStateAction<Service | null>>;
+}
+
+const CustomerSearchServices: React.FC<CustomerSearchServicesProps> = ({ onServiceClick }) => {
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -225,7 +230,10 @@ const CustomerSearchServices: React.FC = () => {
             providerIcon={'/assets/DefaultProviderProfile.jpeg'}
             rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
             imageUrl={service.imageUrl}
-            onClick={() => setSelectedService(service)} // Set the selected service on click
+            onClick={() => { 
+              setSelectedService(service); // Set the selected service on click
+              onServiceClick(service); // Notify the parent component of the selected service
+            }}
             onProviderClick={() => setSelectedProvider(service.providerId)} // Set the selected provider on click
           />
         ))}
