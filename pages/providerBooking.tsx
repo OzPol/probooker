@@ -29,7 +29,7 @@ const ProviderBooking = () => {
       <main className="w-full p-8 content-background">
         <h1 className="text-2xl font-bold mb-6">Manage Bookings</h1>
         <AvailabilityCalendar availableDates={availableDates} />
-        <BookingForm providerId={providerId as string} serviceId={serviceId as string} />
+        <BookingForm providerId={providerId as string} serviceId={serviceId as string} selectedDate={new Date()} />
         <button
           onClick={() => router.push('/serviceProfile')}
           className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// ./components/ServiceDetails.tsx
+import React, { useState, useEffect, useCallback } from 'react';
 import BookingForm from './BookingForm';
 import AvailabilityCalendar from './AvailabilityCalendar';
 import { Service, ReviewCardProps } from '../types/appwrite.type';
@@ -52,18 +53,27 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
     setIsReviewFormVisible(!isReviewFormVisible);
   };
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const fetchedReviews = await fetchReviewsForService(service.$id);
       setReviews(fetchedReviews);
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
-  };
+  }, [service.$id]);
 
   useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const fetchedReviews = await fetchReviewsForService(service.$id);
+        setReviews(fetchedReviews);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+  
     fetchReviews();
-  }, [service.$id]);
+  }, [service.$id, fetchReviews]);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);

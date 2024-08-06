@@ -88,6 +88,7 @@ export interface BookingCardProps {
 export interface BookingFormProps {
   providerId: string;
   serviceId: string;
+  selectedDate: Date;
 }
 
 export interface Availability extends Models.Document {

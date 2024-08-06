@@ -4,6 +4,7 @@
 // The page will display the availability of the provider and allow the user to select a date to book a service.
 // The page will also display a form for the user to input their information and book the service.
 // The page will also have a button to return to the customer profile page.
+// ./pages/customerBooking.tsx
 
 'use client'
 
@@ -17,6 +18,7 @@ const CustomerBooking = () => {
   const router = useRouter();
   const { providerId, serviceId } = router.query;
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchAvailability = async () => {
@@ -29,6 +31,10 @@ const CustomerBooking = () => {
     fetchAvailability();
   }, [providerId]);
 
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
   if (!providerId || !serviceId) {
     return <div>Loading...</div>; // Or handle the missing IDs appropriately
   }
@@ -37,8 +43,10 @@ const CustomerBooking = () => {
     <div className="flex min-h-screen customer-background">
       <main className="w-full p-8 content-background">
         <h1 className="text-2xl font-bold mb-6">Book a Service</h1>
-        <AvailabilityCalendar availableDates={availableDates} />
-        <BookingForm providerId={providerId as string} serviceId={serviceId as string} />
+        <AvailabilityCalendar availableDates={availableDates} onDateChange={handleDateChange} />
+        {selectedDate && (
+          <BookingForm providerId={providerId as string} serviceId={serviceId as string} selectedDate={selectedDate} />
+        )}
         <button
           onClick={() => router.push('/customerProfile')}
           className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
