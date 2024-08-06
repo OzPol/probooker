@@ -1,50 +1,21 @@
-// ./components/BookingForm.tsx
-// This component is used to create a booking for a service.
-// It contains a form to input booking details like date, time, address, etc.
-// It also contains a button to apply a coupon code and a button to submit the form.
-// The component uses the createBooking function from lib/booking.actions.ts to create a booking.
-// The component also uses the BookingSchema from lib/validation.ts to validate the booking data.
-// The component is used in the ServiceDetails component.
-
 import React, { useState, useEffect } from 'react';
 import { databases } from '../lib/appwrite.config';
 
 interface BookingFormProps {
   providerId: string;
   serviceId: string;
+  selectedDate: Date;
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId }) => {
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId, selectedDate }) => {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zipcode, setZipcode] = useState('');
-  const [servicePrice, setServicePrice] = useState(0);
   const [coupon, setCoupon] = useState('');
   const [discount, setDiscount] = useState(0);
 
-  useEffect(() => {
-    const fetchServiceDetails = async () => {
-      try {
-        const service = await databases.getDocument(
-          process.env.DATABASE_ID!,
-          process.env.SERVICE_COLLECTION_ID!,
-          serviceId
-        );
-        setServicePrice(service.price);
-      } catch (error) {
-        console.error('Error fetching service details:', error);
-      }
-    };
-
-    fetchServiceDetails();
-  }, [serviceId]);
-
   const handleCouponApply = async () => {
-    // Mocked discount for demo purposes
     if (coupon === '100OFF') {
       setDiscount(100);
     } else {
@@ -59,9 +30,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId }) => {
     const consumerId = session.userId;
 
     const formData = {
-      date,
-      startTime,
-      endTime,
+      date: selectedDate.toISOString(),
       consumerId,
       providerId,
       serviceId,
@@ -70,8 +39,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId }) => {
       city,
       state,
       zipcode,
-      servicePrice,
-      discount
+      discount,
     };
 
     try {
@@ -98,33 +66,12 @@ const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId }) => {
   return (
     <form onSubmit={handleSubmit} className="mt-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Date</label>
+        <label className="block text-sm font-medium text-gray-700">Selected Date</label>
         <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+          type="text"
+          value={selectedDate.toDateString()}
           className="mt-1 block w-1/2 sm:w-1/3 lg:w-1/4 border border-gray-300 rounded-md shadow-sm p-2"
-          required
-        />
-      </div>
-      <div className="mt-2">
-        <label className="block text-sm font-medium text-gray-700">Start Time</label>
-        <input
-          type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          className="mt-1 block w-1/2 sm:w-1/3 lg:w-1/4 border border-gray-300 rounded-md shadow-sm p-2"
-          required
-        />
-      </div>
-      <div className="mt-2">
-        <label className="block text-sm font-medium text-gray-700">End Time</label>
-        <input
-          type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          className="mt-1 block w-1/2 sm:w-1/3 lg:w-1/4 border border-gray-300 rounded-md shadow-sm p-2"
-          required
+          readOnly
         />
       </div>
       <div className="mt-2">

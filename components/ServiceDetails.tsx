@@ -38,12 +38,8 @@ const calculateAverageRating = (ratings: number[]): number => {
 };
 
 const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
-  const [availableDates, setAvailableDates] = useState<Date[]>([
-    // Mocked available dates
-    new Date('2024-07-25'),
-    new Date('2024-07-26'),
-    new Date('2024-07-27'),
-  ]);
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isBookingSectionVisible, setIsBookingSectionVisible] = useState(false);
   const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
   const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
@@ -68,6 +64,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   useEffect(() => {
     fetchReviews();
   }, [service.$id]);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
 
   return (
     <div>
@@ -103,8 +103,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
       {isBookingSectionVisible && (
         <div className="bg-gray-100 rounded-lg p-6 mt-4">
           <h2 className="text-2xl font-bold mb-4">Booking: {service.name}</h2>
-          <AvailabilityCalendar availableDates={availableDates} />
-          <BookingForm providerId={service.providerId} serviceId={service.$id} />
+          <AvailabilityCalendar availableDates={availableDates} onDateChange={handleDateChange} />
+          {selectedDate && (
+            <BookingForm providerId={service.providerId} serviceId={service.$id} selectedDate={selectedDate} />
+          )}
         </div>
       )}
 

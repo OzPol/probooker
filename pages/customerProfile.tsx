@@ -1,9 +1,5 @@
 // pages/customerProfile.tsx
 
-// This is the Customer Profile View Page 
-// A sidebard menu with links for actions and a main content area to display Services, search etc. 
-// This page is only accessible to logged in users.
-// pages/customerProfile.tsx
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import CustomerProfileOverview from '../components/CustomerProfileOverview';
@@ -61,7 +57,6 @@ const CustomerProfile = () => {
       return (
         <>
           <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />
-          <BookingForm providerId={selectedService.providerId} serviceId={selectedService.$id} />
         </>
       );
     }
