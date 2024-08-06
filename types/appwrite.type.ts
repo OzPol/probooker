@@ -20,7 +20,7 @@ export interface ServiceCardProps {
   description: string;
   price: number;
   providerName: string;
-  providerId: string;
+  providerID: string;
   category: string;
   city: string;
   providerIcon: string;
@@ -98,3 +98,13 @@ export interface Availability extends Models.Document {
   providerId: string;  // String type required
   serviceProvider: string; // String type required
 }
+
+export interface ReviewCardProps{
+  serviceID: string;
+  consumerID: string;
+  providerID: string;
+  review_text: string;
+  review_date: Date;
+  rating:number;
+  service_title?: string;
+} 

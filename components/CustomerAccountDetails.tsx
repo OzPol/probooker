@@ -59,19 +59,25 @@ const CustomerAccountDetails: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg p-6">
-      <div className="flex justify-between items-start mb-4 border-b border-gray-300 pb-4">
-        <div className="flex items-center">
-          <div className="w-40 h-40 flex items-center justify-center rounded-full">
-            <img className="w-32 h-32 rounded-full" src={profile?.profileImg} alt={profile?.name} />
-          </div>
-          <div className="mx-6">
-            <h2 className="font-bold text-lg">{profile?.name}</h2>
-            <p>{profile?.city}, {profile?.state}</p>
-            <p>ID: {profile?.userId}</p>
-            <p>Joined On: {profile?.createon?.substring(0, 10)}</p>
-            <p>User Type: {profile?.userType}</p>
-          </div>
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Account Details</h2>
+      {message && <p>{message}</p>}
+      {profile ? (
+        <div>
+       <div>
+          <h2>{profile.name}</h2>
+          <p>Email: {profile.email}</p>
+          <p>Phone: {profile.phone}</p>
+          <p>Address: {profile.address}</p>
+          <p>City: {profile.city}</p>
+          <p>State: {profile.state}</p>
+          <p>Zipcode: {profile.zipcode}</p>
+          <p>Create On: {profile.createon}</p>
+          <p>User Type: {profile.userType}</p>
+          <p>Profile Image: <img src={profile.profileImg} alt="Profile" /></p>
+          <p>Bookings: {profile.bookings.join(', ')}</p>
+          <p>User ID: {profile.userId}</p>
+          {/* Add other profile fields as needed */}
         </div>
         <div className="w-5/12 items-center justify-center mt-10">
           <h3 className=""><span className="label mt-1">Phone:</span>{profile?.phone}</h3>

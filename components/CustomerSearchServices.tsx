@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Service } from '../types/appwrite.type';
 import ServiceCard from './ServiceCard';
+import ServiceDetails from './ServiceDetails'; 
+import ProviderProfileForCustomer from './ProviderProfileForCustomer'; // Import the ProviderProfileForCustomer component
+import { Service } from '../types/appwrite.type';
 import { fetchAllServices } from './DataServiceConsumer';
+import { FaSearch } from 'react-icons/fa';
 
-const CustomerSearchServices: React.FC<{ onServiceClick: (service: Service) => void }> = ({ onServiceClick }) => {
+const CustomerSearchServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
+  const [filteredServices, setFilteredServices] = useState<Service[]>([]);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<any | null>(null); // track selected provider
+  const [searchBy, setSearchBy] = useState('title');
   const [filter, setFilter] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
@@ -127,7 +134,7 @@ const CustomerSearchServices: React.FC<{ onServiceClick: (service: Service) => v
   }
 
   return (
-    <div>
+    <div className="container mx-auto">
       <h2 className="text-2xl font-bold mb-4">Search Services</h2>
       <div className="flex flex-wrap items-center mb-4 space-x-2">
         <div className="flex items-center border rounded w-full sm:w-auto focus-within:ring-2 focus-within:ring-blue-500">

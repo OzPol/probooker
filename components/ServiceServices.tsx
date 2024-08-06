@@ -6,7 +6,7 @@ import ServiceDetailsProvider from './ServiceDetailsProvider';
 import ServiceCard from './ServiceCard';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
-import ServiceDetails from './ServiceDetails';
+// import ServiceDetails from './ServiceDetails';
 
 const ServiceServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
