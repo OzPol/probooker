@@ -36,6 +36,7 @@ const CustomerRegisterForm: React.FC = () => {
     try {
       const newUser = await users.create('unique()', formData.email, formData.phone, formData.password, formData.name);
       //await users.updatePhone(newUser.$id, formData.phone);
+      await users.updateLabels(newUser.$id, ["Consumer"]);
 
       await databases.createDocument(
         process.env.DATABASE_ID!,
@@ -51,7 +52,8 @@ const CustomerRegisterForm: React.FC = () => {
           state: formData.state,
           zipcode: formData.zipcode,
           profileImg: formData.profileImg,
-          userType:"Consumer"
+          userType:"Consumer",
+          createon:new Date().toISOString()
         }
       );
 

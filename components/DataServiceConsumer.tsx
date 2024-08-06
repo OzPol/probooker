@@ -16,14 +16,18 @@ export const fetchAllServices = async (): Promise<Service[]> => {
         .map((doc: any) => ({
           $id: doc.$id,
           name: doc.title,
+          summary:doc.summary,
           description: doc.description,
           price: doc.price,
           providerId: doc.providerId,
           providerName: doc.serviceProvider,
           category: doc.category,
+          ratings: doc.ratings,
+          reviews:doc.reviews,
           address: doc.address,
           city:doc.city,
           zipcode:doc.zipcode,
+          imageUrl:doc.imageUrl,
         }));
     } catch (error) {
       console.error('Error fetching services:', error);

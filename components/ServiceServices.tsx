@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CreateServiceForm from './ServiceCreateForm';
+import ServiceDetailsProvider from './ServiceDetailsProvider'; 
 import ServiceCard from './ServiceCard';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
@@ -38,6 +39,14 @@ const ServiceServices: React.FC = () => {
     setSelectedService(service);
   };
 
+  const handleBack = () => {
+    setSelectedService(null);
+  };
+  const calculateAverageRating = (ratings: number[]): number => {
+    if (ratings.length === 0) return 0;
+    const sum = ratings.reduce((a, b) => a + b, 0);
+    return sum / ratings.length;
+  };
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Manage My Services</h2>
@@ -50,16 +59,21 @@ const ServiceServices: React.FC = () => {
       />
       {!selectedService ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1">
             {filteredServices.map(service => (
               <ServiceCard
                 key={service.$id}
                 title={service.name}
+                summary={service.summary}
                 description={service.description}
                 price={service.price}
                 providerName={service.providerName}
-                providerId={service.providerId}
+                providerID=''
                 category={service.category}
+                city={service.city}
+                providerIcon={'/assets/DefaultProviderProfile.jpeg'}
+                rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
+                imageUrl={service.imageUrl}
                 onClick={() => handleServiceClick(service)}
               />
             ))}
@@ -77,10 +91,11 @@ const ServiceServices: React.FC = () => {
           )}
         </>
       ) : (
-        <ServiceDetails service={selectedService} onBack={() => setSelectedService(null)} />
+        <ServiceDetailsProvider service={selectedService} onBack={handleBack} />
       )}
     </div>
   );
 };
 
 export default ServiceServices;
+

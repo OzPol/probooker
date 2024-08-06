@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { databases } from '../lib/appwrite.config';
+import { databases, storage} from '../lib/appwrite.config';
 import * as sdk from 'node-appwrite';
 
 const CreateServiceForm: React.FC = () => {
   const [sessionData, setSessionData] = useState<any>(null);
   const [providerId, setProviderId] = useState('');
   const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [serviceProvider, setServiceProvider] = useState('');
@@ -15,6 +16,9 @@ const CreateServiceForm: React.FC = () => {
   const [jobsCompleted] = useState<number>(0);
   const [reviews] = useState<string[]>([]);
   const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [zipcode, setZip] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
   const router = useRouter();
 
@@ -41,6 +45,9 @@ const CreateServiceForm: React.FC = () => {
       if (response.documents.length > 0) {
         const provider = response.documents[0];
         setAddress(provider.address + ', ' + provider.city+', '+provider.state+', '+provider.zipcode); 
+        setCity(provider.city);
+        setZip(provider.zipcode);
+        setServiceProvider(provider.name);
       } else {
         setMessage('Provider address not found.');
       }
@@ -54,6 +61,16 @@ const CreateServiceForm: React.FC = () => {
     e.preventDefault();
 
     try {
+      let imageUrl = '';
+      if (imageFile) {
+        const response = await storage.createFile(
+          process.env.NEXT_PUBLIC_BUCKET_ID!,
+          'unique()',
+          imageFile,
+        );
+        imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${process.env.NEXT_PUBLIC_BUCKET_ID!}/files/${response.$id}/view?project=${process.env.PROJECT_ID}&mode=admin`;
+      }
+
       // Creating new service document in Appwrite
       const newService = await databases.createDocument(
         process.env.DATABASE_ID!,
@@ -61,6 +78,7 @@ const CreateServiceForm: React.FC = () => {
         'unique()',
         {
           title,
+          summary,
           description,
           price,
           serviceProvider,
@@ -70,6 +88,9 @@ const CreateServiceForm: React.FC = () => {
           reviews,
           providerId,
           address,
+          city,
+          zipcode,
+          imageUrl
         }
       );
 
@@ -84,29 +105,18 @@ const CreateServiceForm: React.FC = () => {
 
   const clearFormFields = () => {
     setTitle('');
+    setSummary('');
     setDescription('');
     setPrice(undefined);
     setServiceProvider('');
     setCategory('');
+    setImageFile(null); // Clear image file
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-4">Create New Service</h3>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-        <div className="flex flex-col">
-          <label htmlFor="serviceProvider" className="font-semibold">
-            <span className="text-red-500">*</span> Provider Name :
-          </label>
-          <input
-            type="text"
-            id="serviceProvider"
-            value={serviceProvider}
-            onChange={(e) => setServiceProvider(e.target.value)}
-            required
-            className="border border-gray-300 rounded p-2 mt-1"
-          />
-        </div>
         <div className="flex flex-col">
           <label htmlFor="title" className="font-semibold">
             <span className="text-red-500">*</span> Service Title :
@@ -118,6 +128,15 @@ const CreateServiceForm: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
             className="border border-gray-300 rounded p-2 mt-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="summary" className="font-semibold">Summary :</label>
+          <textarea
+            id="summary"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            className="border h-12 border-gray-300 rounded p-2 mt-1"
           />
         </div>
         <div className="flex flex-col">
@@ -149,6 +168,20 @@ const CreateServiceForm: React.FC = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             required
+            className="border border-gray-300 rounded p-2 mt-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="image" className="font-semibold">Service Image :</label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setImageFile(e.target.files[0]);
+              }
+            }}
             className="border border-gray-300 rounded p-2 mt-1"
           />
         </div>

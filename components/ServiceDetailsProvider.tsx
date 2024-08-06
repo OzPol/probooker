@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import BookingForm from './BookingForm';
 import AvailabilityCalendar from './AvailabilityCalendar';
 import { Service, ReviewCardProps } from '../types/appwrite.type';
 import ReviewCard from './ReviewCard';
-import ReviewForm from './ReviewForm';
 import { fetchReviewsForService } from './DataReviewConsumerView';
 
 interface ServiceDetailsProps {
   service: Service;
   onBack: () => void;
 }
-
 const renderStars = (rating: number) => {
   const stars = [];
   for (let i = 0; i < 5; i++) {
@@ -30,14 +27,13 @@ const renderStars = (rating: number) => {
   }
   return stars;
 };
-
 const calculateAverageRating = (ratings: number[]): number => {
   if (ratings.length === 0) return 0;
   const sum = ratings.reduce((a, b) => a + b, 0);
   return sum / ratings.length;
 };
 
-const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
+const ServiceDetailsProvider: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   const [availableDates, setAvailableDates] = useState<Date[]>([
     // Mocked available dates
     new Date('2024-07-25'),
@@ -45,28 +41,19 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
     new Date('2024-07-27'),
   ]);
   const [isBookingSectionVisible, setIsBookingSectionVisible] = useState(false);
-  const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
   const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
 
   const toggleBookingSection = () => {
     setIsBookingSectionVisible(!isBookingSectionVisible);
   };
 
-  const toggleReviewForm = () => {
-    setIsReviewFormVisible(!isReviewFormVisible);
-  };
-
-  const fetchReviews = async () => {
-    try {
+  useEffect(() => {
+    const getReviews = async () => {
       const fetchedReviews = await fetchReviewsForService(service.$id);
       setReviews(fetchedReviews);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-  };
+    };
 
-  useEffect(() => {
-    fetchReviews();
+    getReviews();
   }, [service.$id]);
 
   return (
@@ -86,44 +73,21 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
         <button 
           onClick={toggleBookingSection} 
           className={`mt-4 py-2 px-4 rounded ${isBookingSectionVisible ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}>
-          {isBookingSectionVisible ? 'Hide Booking' : 'Book'}
-        </button>
-        <button 
-          onClick={toggleReviewForm} 
-          className="mt-4 py-2 px-4 bg-blue-500 text-white rounded">
-          {isReviewFormVisible ? 'Cancel Review' : 'Write a Review'}
-        </button>
-        <button
-          onClick={fetchReviews}
-          className="mt-4 py-2 px-4 font-bold bg-gray-500 text-white rounded">
-          ↻
+          {isBookingSectionVisible ? 'Hide Calendar' : 'Calendar'}
         </button>
       </div>
 
       {isBookingSectionVisible && (
         <div className="bg-gray-100 rounded-lg p-6 mt-4">
-          <h2 className="text-2xl font-bold mb-4">Booking: {service.name}</h2>
           <AvailabilityCalendar availableDates={availableDates} />
-          <BookingForm />
-        </div>
-      )}
-
-      {isReviewFormVisible && (
-        <div className="bg-gray-100 rounded-lg p-6 mt-4">
-          <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
-          <ReviewForm serviceID={service.$id} providerID={service.providerId} serviceTitle={service.name} />
         </div>
       )}
 
       <div className="mt-4">
         <h3 className="text-2xl font-bold mb-4">Reviews</h3>
-        {reviews.length > 0 ? (
-          reviews.map((review, index) => (
-            <ReviewCard key={index} {...review} />
-          ))
-        ) : (
-          <p>No reviews found.</p>
-        )}
+        {reviews.map((review, index) => (
+          <ReviewCard key={index} {...review} />
+        ))}
       </div>
 
       <button onClick={onBack} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Back to Search</button>
@@ -131,4 +95,4 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   );
 };
 
-export default ServiceDetails;
+export default ServiceDetailsProvider;
