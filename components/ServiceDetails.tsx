@@ -1,4 +1,5 @@
 // ./components/ServiceDetails.tsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import BookingForm from './BookingForm';
 import AvailabilityCalendar from './AvailabilityCalendar';
@@ -6,6 +7,7 @@ import { Service, ReviewCardProps } from '../types/appwrite.type';
 import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 import { fetchReviewsForService } from './DataReviewConsumerView';
+import { useRouter } from 'next/router';
 
 interface ServiceDetailsProps {
   service: Service;
@@ -44,6 +46,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   const [isBookingSectionVisible, setIsBookingSectionVisible] = useState(false);
   const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
   const [reviews, setReviews] = useState<ReviewCardProps[]>([]);
+  const router = useRouter();
 
   const toggleBookingSection = () => {
     setIsBookingSectionVisible(!isBookingSectionVisible);
@@ -63,20 +66,31 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
   }, [service.$id]);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const fetchedReviews = await fetchReviewsForService(service.$id);
-        setReviews(fetchedReviews);
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-      }
-    };
-  
     fetchReviews();
   }, [service.$id, fetchReviews]);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
+  };
+
+  const handleFormSubmit = async (formData: any) => {
+    try {
+      const response = await fetch('/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        router.push('/customerProfile#bookings');
+      } else {
+        console.error('Failed to create booking.');
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+    }
   };
 
   return (
@@ -115,7 +129,12 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
           <h2 className="text-2xl font-bold mb-4">Booking: {service.name}</h2>
           <AvailabilityCalendar availableDates={availableDates} onDateChange={handleDateChange} />
           {selectedDate && (
-            <BookingForm providerId={service.providerId} serviceId={service.$id} selectedDate={selectedDate} />
+            <BookingForm
+              providerId={service.providerId}
+              serviceId={service.$id}
+              selectedDate={selectedDate}
+              onSubmit={handleFormSubmit}
+            />
           )}
         </div>
       )}

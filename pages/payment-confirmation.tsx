@@ -1,12 +1,4 @@
 // pages/payment-confirmation.tsx
-// This is the Payment Confirmation Page
-// A page to display the payment confirmation details
-// This page is only accessible to logged in users.
-
-// pages/payment-confirmation.tsx
-// This is the Payment Confirmation Page
-// A page to display the payment confirmation details
-// This page is only accessible to logged in users.
 
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -49,10 +41,10 @@ const PaymentConfirmation = () => {
         {/* Remove the amount display */}
         {/* <p>Amount: ${bookingDetails.servicePrice - bookingDetails.discount}</p> */}
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/customerProfile#bookings')}
           className="mt-4 bg-green-500 text-white py-2 px-4 rounded"
         >
-          Back to Home
+          Back to Profile
         </button>
       </main>
     </div>
@@ -60,4 +52,3 @@ const PaymentConfirmation = () => {
 };
 
 export default PaymentConfirmation;
-

@@ -35,6 +35,27 @@ const CustomerBooking = () => {
     setSelectedDate(date);
   };
 
+  const handleBookingSubmit = async (formData: any) => {
+    try {
+      const response = await fetch('/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        router.push('/customerProfile?view=bookings');
+      } else {
+        console.error('Failed to create booking.');
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+    }
+  };
+
   if (!providerId || !serviceId) {
     return <div>Loading...</div>; // Or handle the missing IDs appropriately
   }
@@ -45,7 +66,12 @@ const CustomerBooking = () => {
         <h1 className="text-2xl font-bold mb-6">Book a Service</h1>
         <AvailabilityCalendar availableDates={availableDates} onDateChange={handleDateChange} />
         {selectedDate && (
-          <BookingForm providerId={providerId as string} serviceId={serviceId as string} selectedDate={selectedDate} />
+          <BookingForm
+            providerId={providerId as string}
+            serviceId={serviceId as string}
+            selectedDate={selectedDate}
+            onSubmit={handleBookingSubmit}
+          />
         )}
         <button
           onClick={() => router.push('/customerProfile')}

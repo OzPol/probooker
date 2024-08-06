@@ -89,6 +89,7 @@ export interface BookingFormProps {
   providerId: string;
   serviceId: string;
   selectedDate: Date;
+  onSubmit: (formData: any) => Promise<void>;
 }
 
 export interface Availability extends Models.Document {

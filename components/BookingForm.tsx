@@ -1,15 +1,11 @@
 // ./components/BookingForm.tsx
+
 import React, { useState, useEffect } from 'react';
 import { databases } from '../lib/appwrite.config';
+import { BookingFormProps } from '../types/appwrite.type';
 import { useRouter } from 'next/router';
 
-interface BookingFormProps {
-  providerId: string;
-  serviceId: string;
-  selectedDate: Date;
-}
-
-const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId, selectedDate }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ providerId, serviceId, selectedDate, onSubmit }) => {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
