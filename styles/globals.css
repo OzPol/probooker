@@ -81,13 +81,6 @@ main {
   background-repeat: no-repeat;
 }
 
-.provider-background-login{
-  background-image: url('/assets/turqoXL.jpg');
-  background-size: cover;
-  background-position: right;
-  background-repeat: no-repeat;
-}
-
 /* Main content background */
 .content-background {
   position: relative;
@@ -133,17 +126,4 @@ main {
 }
 .h-84{
   height: 21rem;
-}
-/*
-.content-background {
-  @apply bg-white bg-opacity-10;
-}
-*/
-
-/* Sticky footer style */
-footer {
-  @apply bg-gray-800 text-white py-4 mt-8;
-  text-align: center;
-  position: relative;
-  width: 100%;
 }
