@@ -13,7 +13,6 @@ const Footer: React.FC = () => {
     let shiftPressed = false;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Detect if Ctrl or Shift are pressed
       if (e.key === 'Control') {
         ctrlPressed = true;
       }
@@ -23,47 +22,42 @@ const Footer: React.FC = () => {
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      // When both Ctrl and Shift are released, start listening for "admin"
       if (ctrlPressed && shiftPressed) {
-        setListeningForAdmin(true); // Set flag to start listening for "admin"
-        setInputSequence(''); // Reset input sequence
+        setListeningForAdmin(true);
+        setInputSequence('');
         ctrlPressed = false;
         shiftPressed = false;
 
-        // Set a timer to stop listening if no input in 5 seconds
         if (timer) clearTimeout(timer);
         setTimer(
           setTimeout(() => {
-            setListeningForAdmin(false); // Stop listening after 5 seconds
-            setInputSequence(''); // Reset sequence
+            setListeningForAdmin(false);
+            setInputSequence('');
           }, 5000)
         );
       }
     };
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Only proceed if we're in the input mode
       if (listeningForAdmin) {
         const newSequence = inputSequence + e.key.toLowerCase();
 
-        // Check if the input sequence matches "admin"
         if (newSequence === 'admin') {
           setShowLink(true);
-          setInputSequence(''); // Reset sequence after success
-          setListeningForAdmin(false); // Stop listening
+          setInputSequence('');
+          setListeningForAdmin(false);
 
-          // Set a timer to hide the link after 5 seconds
           if (timer) clearTimeout(timer);
           setTimer(
             setTimeout(() => {
-              setShowLink(false); // Hide the link after 5 seconds
+              setShowLink(false);
             }, 5000)
           );
         } else if ('admin'.startsWith(newSequence)) {
-          setInputSequence(newSequence); // Update sequence
+          setInputSequence(newSequence);
         } else {
-          setInputSequence(''); // Reset sequence on wrong input
-          setListeningForAdmin(false); // Stop listening if incorrect
+          setInputSequence('');
+          setListeningForAdmin(false);
         }
       }
     };
@@ -76,7 +70,7 @@ const Footer: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('keypress', handleKeyPress);
-      if (timer) clearTimeout(timer); // Clean up timeout on unmount
+      if (timer) clearTimeout(timer);
     };
   }, [inputSequence, listeningForAdmin, timer]);
 
@@ -90,7 +84,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer>
+    <footer className="footer">
       <div className="footer-content">
         <p>© 2024 ProBooker</p>
         {showLink && (
@@ -101,13 +95,21 @@ const Footer: React.FC = () => {
       </div>
       <AdminLoginModal show={showModal} onClose={closeModal} />
       <style jsx>{`
+        .footer {
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          background: #f8f9fa;
+          border-top: 1px solid #e9ecef;
+          padding: 20px;
+          text-align: center;
+        }
         .footer-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 20px;
-          background: #f8f9fa;
-          border-top: 1px solid #e9ecef;
+          max-width: 1200px;
+          margin: 0 auto;
         }
         a {
           color: #0070f3;
