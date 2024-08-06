@@ -25,6 +25,7 @@ export interface ServiceCardProps {
   city: string;
   providerIcon: string;
   rating:number;
+  imageUrl:string;
   onClick?: () => void;
   onViewProfile?: () => void; // Optional prop for viewing profile
   onProviderClick?: () => void; // prop for provider click
@@ -42,6 +43,7 @@ export interface Service {
   category: string;
   city: string;
   zipcode:string;
+  imageUrl:string;
 }
 export interface Provider extends Models.Document {
   userId: string;

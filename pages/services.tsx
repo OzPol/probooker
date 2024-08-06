@@ -221,8 +221,9 @@ const Services: React.FC = () => {
             providerID=''
             category={service.category}
             city={service.city}
-            providerIcon={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}
+            providerIcon={'/assets/DefaultProviderProfile.jpeg'}
             rating={parseFloat(calculateAverageRating(service.ratings).toFixed(1))}
+            imageUrl={service.imageUrl}
             //onClick={() => setSelectedService(service)} // Set the selected service on click
             //onProviderClick={() => setSelectedProvider(service)} // Set the selected provider on click
           />
