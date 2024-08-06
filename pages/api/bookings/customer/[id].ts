@@ -1,8 +1,8 @@
 // This API endpoint is used to fetch all bookings of a customer by customer id
-// ./pages/api/bookings/customer/[id].ts
-
+// pages/api/bookings/customer/[id].ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { databases } from '../../../../lib/appwrite.config';
+import * as sdk from 'node-appwrite';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const response = await databases.listDocuments(
         process.env.DATABASE_ID!,
         process.env.BOOKINGS_COLLECTION_ID!,
-        [`customerId=${id}`]
+        [sdk.Query.equal('consumerId', id as string)]
       );
       res.status(200).json(response);
     } catch (error) {

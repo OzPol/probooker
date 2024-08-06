@@ -8,6 +8,7 @@
 // It uses the appwrite sdk to update the availability in the database
 
 // ./pages/api/bookings/create.ts
+// ./pages/api/bookings/create.ts
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { databases } from '../../../lib/appwrite.config';
@@ -15,7 +16,7 @@ import { databases } from '../../../lib/appwrite.config';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const { date, consumerId, providerId, serviceId, status, address, city, state, zipcode } = req.body;
+      const { date, consumerId, providerId, serviceId, address, city, state, zipcode } = req.body;
 
       // Create a new booking document in Appwrite
       const newBooking = await databases.createDocument(
@@ -27,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           providerId,
           serviceId,
           date,
-          status,
+          status: 'confirmed',  // Set status to 'confirmed'
           address,
           city,
           state,
