@@ -104,7 +104,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
         <div className="bg-gray-100 rounded-lg p-6 mt-4">
           <h2 className="text-2xl font-bold mb-4">Booking: {service.name}</h2>
           <AvailabilityCalendar availableDates={availableDates} />
-          <BookingForm />
+          <BookingForm providerId={service.providerId} serviceId={service.$id} />
         </div>
       )}
 
