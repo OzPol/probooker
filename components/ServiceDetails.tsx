@@ -10,6 +10,7 @@ interface ServiceDetailsProps {
   service: Service;
   onBack: () => void;
 }
+
 const renderStars = (rating: number) => {
   const stars = [];
   for (let i = 0; i < 5; i++) {
@@ -29,6 +30,7 @@ const renderStars = (rating: number) => {
   }
   return stars;
 };
+
 const calculateAverageRating = (ratings: number[]): number => {
   if (ratings.length === 0) return 0;
   const sum = ratings.reduce((a, b) => a + b, 0);
@@ -54,13 +56,17 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
     setIsReviewFormVisible(!isReviewFormVisible);
   };
 
-  useEffect(() => {
-    const getReviews = async () => {
+  const fetchReviews = async () => {
+    try {
       const fetchedReviews = await fetchReviewsForService(service.$id);
       setReviews(fetchedReviews);
-    };
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
 
-    getReviews();
+  useEffect(() => {
+    fetchReviews();
   }, [service.$id]);
 
   return (
@@ -87,6 +93,11 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
           className="mt-4 py-2 px-4 bg-blue-500 text-white rounded">
           {isReviewFormVisible ? 'Cancel Review' : 'Write a Review'}
         </button>
+        <button
+          onClick={fetchReviews}
+          className="mt-4 py-2 px-4 font-bold bg-gray-500 text-white rounded">
+          ↻
+        </button>
       </div>
 
       {isBookingSectionVisible && (
@@ -100,15 +111,19 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onBack }) => {
       {isReviewFormVisible && (
         <div className="bg-gray-100 rounded-lg p-6 mt-4">
           <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
-          <ReviewForm serviceID={service.$id} providerID={service.providerId} serviceTitle={service.name}/>
+          <ReviewForm serviceID={service.$id} providerID={service.providerId} serviceTitle={service.name} />
         </div>
       )}
 
       <div className="mt-4">
         <h3 className="text-2xl font-bold mb-4">Reviews</h3>
-        {reviews.map((review, index) => (
-          <ReviewCard key={index} {...review} />
-        ))}
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <ReviewCard key={index} {...review} />
+          ))
+        ) : (
+          <p>No reviews found.</p>
+        )}
       </div>
 
       <button onClick={onBack} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Back to Search</button>
