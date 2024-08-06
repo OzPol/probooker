@@ -35,6 +35,7 @@ export const fetchAndFilterServices = async (): Promise<Service[]> => {
           address: doc.address,
           city:doc.city,
           zipcode:doc.zipcode,
+          imageUrl:doc.imageUrl,
         }));
     } catch (error) {
       console.error('Error fetching services:', error);

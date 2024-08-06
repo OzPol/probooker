@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center homepage-background">
+    <div className="min-h-[81vh] flex flex-col justify-center items-center homepage-background">
       <Head>
         <title>ProBooker</title>
         <meta name="description" content="ProBooker Service Marketplace" />

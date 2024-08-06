@@ -50,7 +50,7 @@ const CustomerProfile = () => {
     }
 
     if (selectedProvider) {
-      return <ProviderProfileForCustomer provider={selectedProvider} onBack={() => setSelectedProvider(null)} />;
+      return <ProviderProfileForCustomer providerId={selectedProvider} onBack={() => setSelectedProvider(null)} />;
     }
 
     switch (activeTab) {

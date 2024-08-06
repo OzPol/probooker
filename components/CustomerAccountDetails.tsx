@@ -68,8 +68,8 @@ const CustomerAccountDetails: React.FC = () => {
           <div className="mx-6">
             <h2 className="font-bold text-lg">{profile?.name}</h2>
             <p>{profile?.city}, {profile?.state}</p>
-            <p>Stars (Rating): {profile?.rating}</p>
-            <p>Joined On: {profile?.createdAt?.substring(0, 10)}</p>
+            <p>ID: {profile?.userId}</p>
+            <p>Joined On: {profile?.createon?.substring(0, 10)}</p>
             <p>User Type: {profile?.userType}</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ const CustomerAccountDetails: React.FC = () => {
             </div>
           )}
           <h3 className="my-4 cursor-pointer" onClick={() => toggleSection('myReviews')}>
-            My Reviews
+            Reviews I Wrote
           </h3>
           {expandedSection === 'myReviews' && (
             <div className="mt-4">

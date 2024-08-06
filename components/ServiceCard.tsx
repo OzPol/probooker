@@ -1,7 +1,7 @@
 import React from 'react';
 import { ServiceCardProps } from '../types/appwrite.type';
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, price, providerName, providerID, category, city, providerIcon, rating, onClick, onViewProfile, onProviderClick }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, price, providerName, providerID, category, city, providerIcon, rating, imageUrl, onClick, onViewProfile, onProviderClick }) => {
   return (
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden m-2 p-2 flex flex-col h-84 cursor-pointer">
       <div className="flex justify-between mb-1" onClick={onClick}>
@@ -13,7 +13,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, summary, description, 
         </div>
       </div>
       <div className="mb-1" onClick={onClick}>
-        <img src="https://img.freepik.com/premium-photo/male-hands-typing-computer-keyboard-service-concept_220873-10436.jpg" alt={title} className="w-full h-40 object-cover" />
+        <img src={imageUrl} alt={title} className="w-full h-40 object-cover" />
       </div>
       <div className="mb-1 flex-grow" onClick={onClick}>
         <p className="text-gray-700 line-clamp-2">{summary}</p>
