@@ -129,14 +129,6 @@ const ProviderProfile = () => {
                 Manage Availability
               </button>
             </li>
-            <li>
-              <button
-                onClick={handleLogout}
-                className="w-full text-left py-2 px-4 mb-2 rounded bg-red-500 text-white"
-              >
-                Logout
-              </button>
-            </li>
           </ul>
         </nav>
       </aside>
