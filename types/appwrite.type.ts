@@ -47,32 +47,58 @@ export interface Service {
 }
 export interface Provider extends Models.Document {
   userId: string;
-  name:string;
-  email:string;
-  phone:string;
-  address:string;
-  city:string;
-  state:string;
-  zipcode:string;
-  createdAt:Date;
-  bookings:string[];
-  ratings:Int8Array;
-  userType:'Provider';
-  unavailablete:string[];
-  services:string[];
-  profileImge:string;
+  name: string;
+  email: string;
+  phone: string;
+  bookings: string[];
+  address: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  createdAt: Date;
+  ratings: Int8Array;
+  userType: 'Provider';
+  unavailableDates: string[];
+  availableDates: string [] // an array of Json strings { date: string; startTime: string; endTime: string }
+  services: string[];
+  profileImge: string;
+  credits: number;
+  // availability: Availability[];
 }
 
-
 export interface Booking extends Models.Document {
-  consumer: Consumer;
-  schedule: Date;
-  status: Status;
-  primaryPhysician: string;
-  reason: string;
-  note: string;
-  userId: string;
-  cancellationReason: string | null;
+  bookingId: string;
+  consumerId: string;
+  providerId: string;
+  serviceId: string;
+  date: Date;
+  status: string;
+  address: string;
+  city: string;
+  state: string;
+  zipcode: string;
+}
+
+export interface BookingCardProps {
+  booking: Booking;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+export interface BookingFormProps {
+  providerId: string;
+  serviceId: string;
+  selectedDate: Date;
+  onSubmit: (formData: any) => Promise<void>;
+}
+
+export interface Availability extends Models.Document {
+  date: string; // ISO string format required
+  startTime: string; // "HH:mm" format required
+  endTime: string; // "HH:mm" format required
+  recurring: boolean; // Boolean type not required, and default False
+  providerId: string;  // String type required
+  serviceProvider: string; // String type required
 }
 
 export interface ReviewCardProps{
