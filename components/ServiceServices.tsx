@@ -1,9 +1,12 @@
+// components/ServiceServices.tsx
+
 import React, { useEffect, useState } from 'react';
 import CreateServiceForm from './ServiceCreateForm';
 import ServiceDetailsProvider from './ServiceDetailsProvider'; 
 import ServiceCard from './ServiceCard';
 import { Service } from '../types/appwrite.type';
 import { fetchAndFilterServices } from './DataServiceProvider';
+// import ServiceDetails from './ServiceDetails';
 
 const ServiceServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -95,3 +98,4 @@ const ServiceServices: React.FC = () => {
 };
 
 export default ServiceServices;
+

@@ -11,21 +11,26 @@ import { logout } from '../lib/authUtils';
 const Header: React.FC = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
 
   const checkAuth = async () => {
     try {
       // Retrieve session info from local storage
       const session = JSON.parse(localStorage.getItem('appwriteSession') || '{}');
-      if (session && session.userId) {
+      const type = localStorage.getItem('userType');
+      if (session && session.userId && type) {
         setIsLoggedIn(true);
+        setUserType(type);
         console.log('Logged in.');
       } else {
         setIsLoggedIn(false);
+        setUserType(null);
         console.log('Not logged in.');
       }
     } catch (error) {
       console.error('Error checking login status', error);
       setIsLoggedIn(false);
+      setUserType(null);
     }
   };
 
@@ -43,10 +48,17 @@ const Header: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
-    setIsLoggedIn(false);
-    router.push('/');
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      setUserType(null);
+      router.push('/');
+    } catch (error) {
+      console.error('Error logging out', error);
+    }
   };
+
+  const dashboardLink = userType === 'Customer' ? '/customerProfile' : '/serviceProfile';
 
   return (
     <header className="flex justify-between items-center bg-blue-500 p-4 w-full">
@@ -69,6 +81,9 @@ const Header: React.FC = () => {
           </>
         ) : (
           <>
+            <Link href={dashboardLink} legacyBehavior>
+              <a className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100">Dashboard</a>
+            </Link>
             <button
               className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100"
               onClick={handleLogout}

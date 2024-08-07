@@ -1,21 +1,30 @@
-// ./components/AvailabilityCalendar.tsx
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-const AvailabilityCalendar = ({ availableDates }: { availableDates: Date[] }) => {
+interface AvailabilityCalendarProps {
+  availableDates: Date[];
+  onDateChange?: (date: Date) => void;
+  isProvider?: boolean;
+}
+
+const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ availableDates, onDateChange, isProvider }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if (availableDates.length > 0) {
+      setSelectedDate(availableDates[0]);
+    }
+  }, [availableDates]);
 
   const isAvailable = (date: Date) => {
     return availableDates.some(availableDate => availableDate.toDateString() === date.toDateString());
   };
 
-  const handleDateChange: CalendarProps['onChange'] = (date, event) => {
-    if (Array.isArray(date)) {
-      setSelectedDate(date[0]);
-    } else {
+  const handleDateChange: CalendarProps['onChange'] = (date) => {
+    if (date instanceof Date) {
       setSelectedDate(date);
+      if (onDateChange) onDateChange(date);
     }
   };
 
